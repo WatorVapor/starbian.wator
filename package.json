@@ -1,0 +1,23 @@
+{
+  "name": "wator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WatorVapor/starbian.wator.git"
+  },
+  "keywords": [
+    "iot",
+    "wator"
+  ],
+  "author": "wator vapor",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WatorVapor/starbian.wator/issues"
+  },
+  "homepage": "https://github.com/WatorVapor/starbian.wator#readme"
+}

@@ -28,10 +28,10 @@ class StarBian {
         this.pubkey = rsu.readFile('.keys/pub.pem');
         console.log('this.pubkey=<',this.pubkey,'.');
       } else {
-        reCreatePubKey();
+        this.reCreatePubKey();
       }
     } else {
-      createKeyPair();
+      this.createKeyPair();
     }
   }
   /**

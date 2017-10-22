@@ -80,9 +80,9 @@ class StarBian {
   createKeyPair() {
     var rsaKeypair = rs.KEYUTIL.generateKeypair("RSA", 2048);
     //console.log('rsaKeypair=<',rsaKeypair,'>');
-    var jwkPrv = rs.KEYUTIL.getJWKFromKey(rsaKeypair.prvKeyObj);
+    var jwkPrv = rs.KEYUTIL.getPEM(rsaKeypair.prvKeyObj);
     console.log('jwkPrv=<',jwkPrv,'>');
-    var jwkPub =  rs.KEYUTIL.getJWKFromKey(rsaKeypair.pubKeyObj);
+    var jwkPub =  rs.KEYUTIL.getPEM(rsaKeypair.pubKeyObj);
     console.log('jwkPub=<',jwkPub,'>');
   }
   /**

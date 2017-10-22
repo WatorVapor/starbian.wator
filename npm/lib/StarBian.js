@@ -18,9 +18,21 @@ class StarBian {
    *
    */
   constructor () {
-    fs.mkdirSync('.keys/');
-    this.prvkey = rsu.readFile('.keys/prv.pem');
-    console.log('this.prvkey=<',this.prvkey,'.');
+    if(!fs.existsSync('.keys/')) {
+      fs.mkdirSync('.keys/');
+    }
+    if(fs.existsSync('.keys/prv.pem')) {
+      this.prvkey = rsu.readFile('.keys/prv.pem');
+      console.log('this.prvkey=<',this.prvkey,'.');
+      if(fs.existsSync('.keys/pub.pem')) {
+        this.pubkey = rsu.readFile('.keys/pub.pem');
+        console.log('this.pubkey=<',this.pubkey,'.');
+      } else {
+        reCreatePubKey();
+      }
+    } else {
+      createKeyPair();
+    }
   }
   /**
    * get private key.
@@ -56,6 +68,22 @@ class StarBian {
    * @param {Function} callback 
    */
   subscribe(callback) {
+  }
+  /**
+   * create key pair.
+   *
+   * @param {Function} callback 
+   * @private
+   */
+  createKeyPair() {
+  }
+  /**
+   * recreate public key.
+   *
+   * @param {Function} callback 
+   * @private
+   */
+  reCreatePubKey() {
   }
 }
 

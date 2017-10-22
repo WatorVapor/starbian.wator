@@ -80,7 +80,7 @@ class StarBian {
   createKeyPair() {
     var rsaKeypair = rs.KEYUTIL.generateKeypair("RSA", 2048);
     console.log('rsaKeypair=<',rsaKeypair,'>');
-    this.prvkey = rs.KEYUTIL.getPEM(rsaKeypair.prvKeyObj);
+    this.prvkey = rs.KEYUTIL.getPEM(rsaKeypair.prvKeyObj,'PKCS8PRV');
     console.log('this.prvkey=<',this.prvkey,'>');
     this.pubkey =  rs.KEYUTIL.getPEM(rsaKeypair.pubKeyObj);
     console.log('this.pubkey=<',this.pubkey,'>');

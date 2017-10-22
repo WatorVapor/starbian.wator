@@ -79,11 +79,11 @@ class StarBian {
    */
   createKeyPair() {
     var rsaKeypair = rs.KEYUTIL.generateKeypair("RSA", 2048);
-    //console.log('rsaKeypair=<',rsaKeypair,'>');
-    var jwkPrv = rs.KEYUTIL.getPEM(rsaKeypair.prvKeyObj);
-    console.log('jwkPrv=<',jwkPrv,'>');
-    var jwkPub =  rs.KEYUTIL.getPEM(rsaKeypair.pubKeyObj);
-    console.log('jwkPub=<',jwkPub,'>');
+    console.log('rsaKeypair=<',rsaKeypair,'>');
+    this.prvkey = rs.KEYUTIL.getPEM(rsaKeypair.prvKeyObj);
+    console.log('this.prvkey=<',this.prvkey,'>');
+    this.pubkey =  rs.KEYUTIL.getPEM(rsaKeypair.pubKeyObj);
+    console.log('this.pubkey=<',this.pubkey,'>');
   }
   /**
    * recreate public key.

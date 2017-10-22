@@ -91,7 +91,7 @@ class StarBian {
     console.log('msg =<',msg,'>');
     var msgEnc = rs.KJUR.crypto.Cipher.encrypt(msg, this.pubObj);
     console.log('msgEnc =<',msgEnc,'>');
-    this.clientPub(this.channel,msgEnc);
+    this.clientPub.publish(this.channel,msgEnc);
   }
   /**
    * subscribe.

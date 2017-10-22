@@ -42,6 +42,10 @@ class StarBian {
     this.pubObj = rs.KEYUTIL.getKey(this.pubKeyStr);
     //console.log('this.priObj=<',this.priObj,'>');
     //console.log('this.pubObj=<',this.pubObj,'>');
+    
+    this.decryptObj = rs.KJUR.crypto.Cipher(this.priObj);
+    console.log('this.decryptObj=<',this.decryptObj,'>');
+    
     this.clientPub = redis.createClient({host:'www.wator.xyz'});
     this.clientPub.on('ready', function () {
       console.log('this.clientPub ready');
@@ -84,6 +88,8 @@ class StarBian {
    * @param {String} msg 
    */
   publish(msg) {
+    var msgEnc = rs.KJUR.crypto.Cipher.encrypt("aaa", this.pubObj);
+    console.log('msgEnc =<',msgEnc,'>');
   }
   /**
    * subscribe.
@@ -106,8 +112,10 @@ class StarBian {
       this.clientSub.on("message", function (channel, message) {
         console.log('channel =<',channel,'>');
         console.log('message =<',message,'>');
-        for(var i = 0;i < this.callback[i];.length;i++) {
+        var plainMsg = this.decrypt(message);
+        for(var i = 0;i < this.callback.length;i++) {
           var cb = this.callback[i];
+          cb(plainMsg);
         }
       });
       this.clientSub.subscribe(this.channel);
@@ -136,10 +144,19 @@ class StarBian {
   /**
    * recreate public key.
    *
-   * @param {Function} callback 
    * @private
    */
   reCreatePubKey() {
+  }
+  
+  /**
+   * decrypt public key.
+   *
+   * @param {String} msg 
+   * @private
+   */
+  decrypt(msg) {
+    //this.decryptObj
   }
 }
 

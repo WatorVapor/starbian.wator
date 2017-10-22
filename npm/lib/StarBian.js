@@ -99,6 +99,7 @@ class StarBian {
    * @param {Function} callback 
    */
   subscribe(callback) {
+    var self = this;
     if(this.channel) {
       this.callback.push(callback);
     } else {
@@ -114,9 +115,9 @@ class StarBian {
       this.clientSub.on("message", function (channel, message) {
         console.log('channel =<',channel,'>');
         console.log('message =<',message,'>');
-        var plainMsg = this.decrypt(message);
-        for(var i = 0;i < this.callback.length;i++) {
-          var cb = this.callback[i];
+        var plainMsg = self.decrypt(message);
+        for(var i = 0;i < self.callback.length;i++) {
+          var cb = self.callback[i];
           cb(plainMsg);
         }
       });
@@ -159,6 +160,7 @@ class StarBian {
    */
   decrypt(msg) {
     //this.decryptObj
+    console.log('msg=<',msg,'>');
   }
 }
 

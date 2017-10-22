@@ -17,6 +17,8 @@ class StarBian {
    *
    */
   constructor () {
+    this.prvkey = rsu.readFile('.keys/prv.pem');
+    console.log('this.prvkey=<',this.prvkey,'.');
   }
   /**
    * get private key.

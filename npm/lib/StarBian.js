@@ -19,7 +19,7 @@ class StarBian {
    *
    */
   constructor () {
-    console.log('rsu=<',rsu,'.');
+    //console.log('rsu=<',rsu,'.');
     if(!fs.existsSync('.keys/')) {
       fs.mkdirSync('.keys/');
     }
@@ -78,6 +78,8 @@ class StarBian {
    * @private
    */
   createKeyPair() {
+    var rsaKeypair =rs.KEYUTIL.generateKeypair("RSA", 2048);
+    console.log('rsaKeypair=<',rsaKeypair,'.');
   }
   /**
    * recreate public key.

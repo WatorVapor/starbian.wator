@@ -78,11 +78,11 @@ class StarBian {
    * @private
    */
   createKeyPair() {
-    var rsaKeypair =rs.KEYUTIL.generateKeypair("RSA", 2048);
+    var rsaKeypair = rs.KEYUTIL.generateKeypair("RSA", 2048);
     //console.log('rsaKeypair=<',rsaKeypair,'>');
-    var jwkPrv = KEYUTIL.getJWKFromKey(rsaKeypair.prvKeyObj);
+    var jwkPrv = rs.KEYUTIL.getJWKFromKey(rsaKeypair.prvKeyObj);
     console.log('jwkPrv=<',jwkPrv,'>');
-    var jwkPub =  KEYUTIL.getJWKFromKey(rsaKeypair.pubKeyObj);
+    var jwkPub =  rs.KEYUTIL.getJWKFromKey(rsaKeypair.pubKeyObj);
     console.log('jwkPub=<',jwkPub,'>');
   }
   /**

@@ -23,6 +23,9 @@ class StarBian {
     if(!fs.existsSync('.keys/')) {
       fs.mkdirSync('.keys/');
     }
+    if(!fs.existsSync('.channels/')) {
+      fs.mkdirSync('.channels/');
+    }
     if(fs.existsSync('.keys/prv.pem')) {
       this.prvKeyStr = rsu.readFile('.keys/prv.pem');
       //console.log('this.prvKeyStr=<',this.prvKeyStr,'>');

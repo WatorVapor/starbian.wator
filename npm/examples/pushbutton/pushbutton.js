@@ -1,26 +1,26 @@
 'use strict';
-const StarBian = require('..');
+const StarBian = require('../..');
 
-var gofuro = new StarBian();
-//console.log('gofuro=<',gofuro,'>');
+var pBtn = new StarBian();
+//console.log('pBtn=<',pBtn,'>');
 
-var priKey = gofuro.getPrivate();
+var priKey = pBtn.getPrivate();
 console.log('priKey=<',priKey,'>');
 
-var pubKey  = gofuro.getPublic();
+var pubKey  = pBtn.getPublic();
 console.log('pubKey=<',pubKey,'>');
 
-var authedKey  = gofuro.getAuthed();
+var authedKey  = pBtn.getAuthed();
 console.log('authedKey=<',authedKey,'>');
 
 
-gofuro.subscribe( function(msg) {
+pBtn.subscribe( function(msg) {
   console.log('msg=<',msg,'>');
 });
 
 
 setTimeout(function(){
-  gofuro.publish('ok hot hot run');
+  pBtn.publish('ok hot hot run');
 },2000);
 
 //console.log('gofuro=<',gofuro,'>');

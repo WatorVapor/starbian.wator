@@ -43,9 +43,15 @@ class StarBian {
       host:'www.wator.xyz',
       port:6379
     });
+    this.clientPub.on('error', function (err) {
+      console.log('this.clientPub err=<',this.err,'.');
+    });
     this.clientSub = redis.createClient({
       host:'www.wator.xyz',
       port:6379
+    });
+    this.clientSub.on('error', function (err) {
+      console.log('this.clientSub err=<',this.err,'.');
     });
   }
   /**

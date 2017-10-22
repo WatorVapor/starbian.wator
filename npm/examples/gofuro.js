@@ -4,14 +4,14 @@ const StarBian = require('..');
 var gofuro = new StarBian();
 console.log('gofuro=<',gofuro,'>');
 
-var private = gofuro.getPrivate();
-console.log('private=<',private,'>');
+var priKey = gofuro.getPrivate();
+console.log('priKey=<',priKey,'>');
 
-var public  = gofuro.getPublic();
-console.log('public=<',public,'>');
+var pubKey  = gofuro.getPublic();
+console.log('pubKey=<',pubKey,'>');
 
-var authed  = gofuro.getAuthed();
-console.log('authed=<',authed,'>');
+var authedKey  = gofuro.getAuthed();
+console.log('authedKey=<',authedKey,'>');
 
 
 gofuro.subscribe( function(msg) {

@@ -39,6 +39,14 @@ class StarBian {
     this.pubObj = rs.KEYUTIL.getKey(this.pubKeyStr);
     //console.log('this.priObj=<',this.priObj,'.');
     //console.log('this.pubObj=<',this.pubObj,'.');
+    this.clientPub = redis.createClient({
+      host:'www.wator.xyz',
+      port:6379
+    });
+    this.clientSub = redis.createClient({
+      host:'www.wator.xyz',
+      port:6379
+    });
   }
   /**
    * get private key.

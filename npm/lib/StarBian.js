@@ -25,10 +25,10 @@ class StarBian {
     }
     if(fs.existsSync('.keys/prv.pem')) {
       this.prvKeyStr = rsu.readFile('.keys/prv.pem');
-      console.log('this.prvKeyStr=<',this.prvKeyStr,'.');
+      //console.log('this.prvKeyStr=<',this.prvKeyStr,'.');
       if(fs.existsSync('.keys/pub.pem')) {
         this.pubKeyStr = rsu.readFile('.keys/pub.pem');
-        console.log('this.pubKeyStr=<',this.pubKeyStr,'.');
+        //console.log('this.pubKeyStr=<',this.pubKeyStr,'.');
       } else {
         this.reCreatePubKey();
       }
@@ -37,22 +37,22 @@ class StarBian {
     }
     this.priObj = rs.KEYUTIL.getKey(this.prvKeyStr);
     this.pubObj = rs.KEYUTIL.getKey(this.pubKeyStr);
-    console.log('this.priObj=<',this.priObj,'.');
-    console.log('this.pubObj=<',this.pubObj,'.');
+    //console.log('this.priObj=<',this.priObj,'.');
+    //console.log('this.pubObj=<',this.pubObj,'.');
   }
   /**
    * get private key.
    *
    */
   getPrivate () {
-    return '';
+    return this.prvKeyStr;
   }
   /**
    * get public key.
    *
    */
   getPublic () {
-    return '';
+    return this.pubKeyStr;
   }
   /**
    * get authed public key.

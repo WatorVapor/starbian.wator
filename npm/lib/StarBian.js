@@ -113,8 +113,8 @@ class StarBian {
         console.log('count =<',count,'>');
       });
       this.clientSub.on("message", function (channel, message) {
-        console.log('clientSub messagechannel =<',channel,'>');
-        console.log('message =<',message,'>');
+        console.log('clientSub on message:: channel =<',channel,'>');
+        console.log('clientSub on message:: message =<',message,'>');
         var plainMsg = self.decrypt(message);
         for(var i = 0;i < self.callback.length;i++) {
           var cb = self.callback[i];

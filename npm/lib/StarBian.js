@@ -88,10 +88,10 @@ class StarBian {
     console.log('this.prvKeyStr=<',this.prvKeyStr,'>');
     this.pubKeyStr =  rs.KEYUTIL.getPEM(rsaKeypair.pubKeyObj);
     console.log('this.pubKeyStr=<',this.pubKeyStr,'>');
-    fs.writeFileSync('.keys/prv.pem', this.prvKeyStr, function(error){
+    fs.writeFileSync('.keys/prv.pem', this.prvKeyStr, {encoding: 'utf-8'}, function(error){
       console.log('error=<',error,'>');
     });
-    fs.writeFileSync('.keys/pub.pem', this.pubKeyStr, function(error){
+    fs.writeFileSync('.keys/pub.pem', this.pubKeyStr, {encoding: 'utf-8'}, function(error){
       console.log('error=<',error,'>');
     });
   }

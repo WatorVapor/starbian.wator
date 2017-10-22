@@ -19,6 +19,7 @@ class StarBian {
    *
    */
   constructor () {
+    console.log('rsu=<',rsu,'.');
     if(!fs.existsSync('.keys/')) {
       fs.mkdirSync('.keys/');
     }

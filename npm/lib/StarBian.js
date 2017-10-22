@@ -40,10 +40,16 @@ class StarBian {
     //console.log('this.priObj=<',this.priObj,'>');
     //console.log('this.pubObj=<',this.pubObj,'>');
     this.clientPub = redis.createClient({host:'www.wator.xyz'});
+    this.clientPub.on('ready', function (evt) {
+      console.log('this.clientPub evt=<',evt,'>');
+    });
     this.clientPub.on('error', function (err) {
       console.log('this.clientPub err=<',err,'>');
     });
     this.clientSub = redis.createClient({host:'www.wator.xyz'});
+    this.clientSub.on('ready', function (evt) {
+      console.log('this.clientSub evt=<',evt,'>');
+    });
     this.clientSub.on('error', function (err) {
       console.log('this.clientSub err=<',err,'>');
     });

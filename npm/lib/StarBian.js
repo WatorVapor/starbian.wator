@@ -104,7 +104,7 @@ class StarBian {
       this.callback = []
       this.callback.push(callback);
 
-      this.channel = rs.KJUR.crypto.digestString(this.pubKeyStr);
+      this.channel = rs.KJUR.crypto.Util.sha256(this.pubKeyStr);
       console.log('this.channel =<',this.channel,'>');
       this.clientSub.on("subscribe", function (channel, count) {
         console.log('channel =<',channel,'>');

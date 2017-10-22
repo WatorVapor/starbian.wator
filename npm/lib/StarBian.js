@@ -23,18 +23,21 @@ class StarBian {
    *
    */
   getPrivate () {
+    return '';
   }
   /**
    * get public key.
    *
    */
   getPublic () {
+    return '';
   }
   /**
    * get authed public key.
    *
    */
   getAuthed () {
+    return [''];
   }
   /**
    * publish a messege.

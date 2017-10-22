@@ -6,9 +6,10 @@
 
 'use strict';
 
-var rs = require('jsrsasign');
-var rsu = require('jsrsasign-util');
-var redis = require("redis");
+const rs = require('jsrsasign');
+const rsu = require('jsrsasign-util');
+const redis = require("redis");
+const fs = require('fs');
 
 
 class StarBian {
@@ -17,6 +18,7 @@ class StarBian {
    *
    */
   constructor () {
+    fs.mkdirSync('.keys/');
     this.prvkey = rsu.readFile('.keys/prv.pem');
     console.log('this.prvkey=<',this.prvkey,'.');
   }

@@ -6,8 +6,8 @@
 
 'use strict';
 
-var jsr = require('jsrsasign');
-var jsrUtil = require('jsrsasign-util');
+var rs = require('jsrsasign');
+var rsu = require('jsrsasign-util');
 var redis = require("redis");
 
 

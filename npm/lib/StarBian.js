@@ -91,7 +91,7 @@ class StarBian {
     console.log('msg =<',msg,'>');
     var msgEnc = rs.KJUR.crypto.Cipher.encrypt(msg, this.pubObj);
     console.log('msgEnc =<',msgEnc,'>');
-    var sign = this.priObj.sign(msgEnc, 'SHA256withRSA');
+    var sign = this.priObj.sign(msgEnc, 'sha256');
     var pubObj = {
       enc:msgEnc,
       sign:sign

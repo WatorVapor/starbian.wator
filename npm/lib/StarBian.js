@@ -8,7 +8,7 @@
 
 var jsr = require('jsrsasign');
 var jsrUtil = require('jsrsasign-util');
-var redis = require("redis"),
+var redis = require("redis");
 
 
 class StarBian {

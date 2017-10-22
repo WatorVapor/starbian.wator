@@ -24,17 +24,21 @@ class StarBian {
       fs.mkdirSync('.keys/');
     }
     if(fs.existsSync('.keys/prv.pem')) {
-      this.prvkey = rsu.readFile('.keys/prv.pem');
-      console.log('this.prvkey=<',this.prvkey,'.');
+      this.prvKeyStr = rsu.readFile('.keys/prv.pem');
+      console.log('this.prvKeyStr=<',this.prvKeyStr,'.');
       if(fs.existsSync('.keys/pub.pem')) {
-        this.pubkey = rsu.readFile('.keys/pub.pem');
-        console.log('this.pubkey=<',this.pubkey,'.');
+        this.pubKeyStr = rsu.readFile('.keys/pub.pem');
+        console.log('this.pubKeyStr=<',this.pubKeyStr,'.');
       } else {
         this.reCreatePubKey();
       }
     } else {
       this.createKeyPair();
     }
+    this.priObj = rs.KEYUTIL.getKey(this.prvKeyStr);
+    this.pubObj = rs.KEYUTIL.getKey(this.pubKeyStr);
+    console.log('this.priObj=<',this.priObj,'.');
+    console.log('this.pubObj=<',this.pubObj,'.');
   }
   /**
    * get private key.
@@ -79,11 +83,17 @@ class StarBian {
    */
   createKeyPair() {
     var rsaKeypair = rs.KEYUTIL.generateKeypair("RSA", 2048);
-    console.log('rsaKeypair=<',rsaKeypair,'>');
-    this.prvkey = rs.KEYUTIL.getPEM(rsaKeypair.prvKeyObj,'PKCS8PRV');
-    console.log('this.prvkey=<',this.prvkey,'>');
-    this.pubkey =  rs.KEYUTIL.getPEM(rsaKeypair.pubKeyObj);
-    console.log('this.pubkey=<',this.pubkey,'>');
+    //console.log('rsaKeypair=<',rsaKeypair,'>');
+    this.prvKeyStr = rs.KEYUTIL.getPEM(rsaKeypair.prvKeyObj,'PKCS8PRV');
+    console.log('this.prvKeyStr=<',this.prvKeyStr,'>');
+    this.pubKeyStr =  rs.KEYUTIL.getPEM(rsaKeypair.pubKeyObj);
+    console.log('this.pubKeyStr=<',this.pubKeyStr,'>');
+    fs.writeFileSync('.keys/prv.pem', this.prvKeyStr, function(error){
+      console.log('error=<',error,'>');
+    });
+    fs.writeFileSync('.keys/pub.pem', this.pubKeyStr, function(error){
+      console.log('error=<',error,'>');
+    });
   }
   /**
    * recreate public key.

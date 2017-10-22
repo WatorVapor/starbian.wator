@@ -8,10 +8,7 @@
 
 const rs = require('jsrsasign');
 const rsu = require('jsrsasign-util');
-
 var crypto = require('crypto');
-var rsaKeygen = require('rsa-keygen');
-
 const redis = require("redis");
 const fs = require('fs');
 

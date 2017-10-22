@@ -5,8 +5,11 @@
  */
 
 'use strict';
+/*
 var jsr = require('jsrsasign');
 var jsrUtil = require('jsrsasign-util');
+var redis = require("redis"),
+*/
 
 class StarBian {
   /**

@@ -48,10 +48,10 @@ class StarBian {
     });
     this.clientSub = redis.createClient({host:'www.wator.xyz'});
     this.clientSub.on('ready', function (evt) {
-      console.log('this.clientSub evt=<',evt,'>');
+      console.log('this.clientSub ready');
     });
     this.clientSub.on('error', function (err) {
-      console.log('this.clientSub err=<',err,'>');
+      console.log('this.clientSub ready>');
     });
   }
   /**

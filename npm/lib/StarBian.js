@@ -91,6 +91,27 @@ class StarBian {
    * @param {Function} callback 
    */
   subscribe(callback) {
+    if(this.channel) {
+      this.callback.push(callback);
+    } else {
+      this.callback = []
+      this.callback.push(callback);
+
+      this.channel = rs.KJUR.crypto.digestString(this.pubKeyStr);
+      console.log('this.channel =<',this.channel,'>');
+      this.clientSub.on("subscribe", function (channel, count) {
+        console.log('channel =<',channel,'>');
+        console.log('count =<',count,'>');
+      });
+      this.clientSub.on("message", function (channel, message) {
+        console.log('channel =<',channel,'>');
+        console.log('message =<',message,'>');
+        for(var i = 0;i < this.callback[i];.length;i++) {
+          var cb = this.callback[i];
+        }
+      });
+      this.clientSub.subscribe(this.channel);
+    }
   }
   /**
    * create key pair.

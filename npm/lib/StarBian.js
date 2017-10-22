@@ -91,7 +91,12 @@ class StarBian {
     console.log('msg =<',msg,'>');
     var msgEnc = rs.KJUR.crypto.Cipher.encrypt(msg, this.pubObj);
     console.log('msgEnc =<',msgEnc,'>');
-    this.clientPub.publish(this.channel,msgEnc);
+    var sign = this.priObj.sign(msgEnc, 'SHA256withRSA');
+    var pubObj = {
+      enc:msgEnc,
+      sign:sign
+    };
+    this.clientPub.publish(this.channel,JSON.stringify(pubObj));
   }
   /**
    * subscribe.
@@ -161,7 +166,8 @@ class StarBian {
   decrypt(msg) {
     //this.decryptObj
     console.log('decrypt::msg=<',msg,'>');
-    var plainMsg = rs.KJUR.crypto.Cipher.decrypt(msg,this.priObj);
+    var msgJson = JSON.parse(msg);
+    var plainMsg = rs.KJUR.crypto.Cipher.decrypt(msgJson.enc,this.priObj);
     console.log('decrypt::plainMsg=<',plainMsg,'>');
     return plainMsg;
   }

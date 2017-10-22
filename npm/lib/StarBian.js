@@ -88,7 +88,8 @@ class StarBian {
    * @param {String} msg 
    */
   publish(msg) {
-    var msgEnc = rs.KJUR.crypto.Cipher.encrypt("aaa", this.pubObj);
+    console.log('msg =<',msg,'>');
+    var msgEnc = rs.KJUR.crypto.Cipher.encrypt(msg, this.pubObj);
     console.log('msgEnc =<',msgEnc,'>');
   }
   /**

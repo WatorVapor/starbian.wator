@@ -5,4 +5,48 @@
  */
 
 'use strict';
+var jsr = require('jsrsasign');
+var jsrUtil = require('jsrsasign-util');
 
+class StarBian {
+  /**
+   * Create a new `StarBian`.
+   *
+   */
+  constructor () {
+  }
+  /**
+   * get private key.
+   *
+   */
+  getPrivate () {
+  }
+  /**
+   * get public key.
+   *
+   */
+  getPublic () {
+  }
+  /**
+   * get authed public key.
+   *
+   */
+  getAuthed () {
+  }
+  /**
+   * publish a messege.
+   *
+   * @param {String} msg 
+   */
+  publish(msg) {
+  }
+  /**
+   * subscribe.
+   *
+   * @param {Function} callback 
+   */
+  subscribe(callback) {
+  }
+}
+
+module.exports = StarBian;

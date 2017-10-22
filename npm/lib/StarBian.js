@@ -163,6 +163,7 @@ class StarBian {
     console.log('decrypt::msg=<',msg,'>');
     var plainMsg = rs.KJUR.crypto.Cipher.decrypt(msg,this.priObj);
     console.log('decrypt::plainMsg=<',plainMsg,'>');
+    return plainMsg;
   }
 }
 

@@ -9,3 +9,14 @@ const StarBian = require('starbian');
 
 var wsProxy = new StarBian();
 //console.log('wsProxy=<',wsProxy,'>');
+
+const WebSocket = require('ws');
+ 
+const wss = new WebSocket.Server({host:'127.0.0.1', port: 19080 });
+ 
+wss.on('connection', function connection(ws) {
+  console.log('ws=<', ws,'>');
+  ws.on('message', function incoming(message) {
+    console.log('received: %s', message);
+  });
+});

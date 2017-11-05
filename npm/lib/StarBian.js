@@ -113,19 +113,19 @@ class StarBian {
    * @param {Function} callback 
    */
   subscribe(callback) {
-    var self = this;
     if(this.channel) {
       this.callback.push(callback);
     } else {
       this.callback = []
       this.callback.push(callback);
-
-      this.channel = rs.KJUR.crypto.Util.sha256(this.pubKeyStr);
+      var pubkeyStrTrim = this.pubKeyStr.trim();
+      this.channel = rs.KJUR.crypto.Util.sha256(pubkeyStrTrim);
       console.log('this.channel =<',this.channel,'>');
       this.clientSub.on("subscribe", function (channel, count) {
         console.log('channel =<',channel,'>');
         console.log('count =<',count,'>');
       });
+      var self = this;
       this.clientSub.on("message", function (channel, message) {
         console.log('clientSub on message:: channel =<',channel,'>');
         console.log('clientSub on message:: message =<',message,'>');

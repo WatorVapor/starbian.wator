@@ -22,6 +22,7 @@ wss.on('connection', function connection(ws) {
       var jsonMsg = JSON.parse(message);
       console.log('jsonMsg=<', jsonMsg,'>');
       if(jsonMsg && jsonMsg.channel) {
+       wsProxy.passthrough(jsonMsg.channel,message);
       }
     } catch(e){
       console.log('e=<', e,'>');

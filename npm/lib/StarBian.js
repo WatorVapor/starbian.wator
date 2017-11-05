@@ -121,6 +121,10 @@ class StarBian {
       var pubkeyStrTrim = this.pubKeyStr.trim();
       console.log('pubkeyStrTrim =<',pubkeyStrTrim,'>');
       this.channel = rs.KJUR.crypto.Util.sha256(pubkeyStrTrim);
+      
+      var testSha = rs.KJUR.crypto.Util.sha256('abc');
+      console.log('testSha=<',testSha,'>');
+      
       console.log('this.channel =<',this.channel,'>');
       this.clientSub.on("subscribe", function (channel, count) {
         console.log('channel =<',channel,'>');

@@ -119,7 +119,10 @@ class StarBian {
       this.callback = []
       this.callback.push(callback);
       var pubkeyStrTrim = this.pubKeyStr.trim();
+      pubkeyStrTrim = pubkeyStrTrim.replace("\n","");
+      pubkeyStrTrim = pubkeyStrTrim.replace("\r","");
       console.log('pubkeyStrTrim =<',pubkeyStrTrim,'>');
+      
       this.channel = rs.KJUR.crypto.Util.sha256(pubkeyStrTrim);
       
       var testSha = rs.KJUR.crypto.Util.sha256('abc');

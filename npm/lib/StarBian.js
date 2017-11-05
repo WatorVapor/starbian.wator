@@ -99,6 +99,15 @@ class StarBian {
     this.clientPub.publish(this.channel,JSON.stringify(pubObj));
   }
   /**
+   * pass through a messege.
+   *
+   * @param {String} msg 
+   */
+  passthrough(channel,msg) {
+    console.log('msg =<',msg,'>');
+    this.clientPub.publish(channel,msg);
+  }
+  /**
    * subscribe.
    *
    * @param {Function} callback 

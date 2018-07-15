@@ -29,3 +29,10 @@ wss.on('connection', function connection(ws) {
     }
   });
 });
+
+const StarBianP2p  = require('./star_bian_p2p.js');
+
+let p2p = new StarBianP2p();
+p2p.onReady = () => {
+};
+

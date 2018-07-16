@@ -32,8 +32,10 @@ const interval = setInterval(function ping() {
 }, 30000);
 
 
-wss.on('connection', function (ws) {
+wss.on('connection', function (ws,req) {
   //console.log('ws=<', ws,'>');
+  const ip = req.connection.remoteAddress;
+  console.log('ip=<',ip,'>');
   ws.isAlive = true;
   ws.on('pong', heartbeat);
   ws.on('message', function (message) {

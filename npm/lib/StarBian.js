@@ -47,6 +47,7 @@ class StarBian {
       self._subChannels();
       this.onReady();
     };
+    this.chCB = {};
   }
   /**
    * get private key.
@@ -102,9 +103,16 @@ class StarBian {
   /**
    * subscribe.
    *
+   * @param {String} channel 
    * @param {Function} callback 
    */
-  subscribe(callback) {
+  subscribe(channel,callback) {
+    console.log('channel =<',channel,'>');
+    if(this.chCB[channel]) {
+      this.chCB[channel].push(callback);
+    } else {
+      this.chCB[channel] = [];
+    }
   }
   
   
@@ -191,16 +199,25 @@ class StarBian {
    * @private
    */
   _onP2PMsg(channel,msg) {
-    console.log('_onP2PMsg::channel=<',channel,'>');
-    console.log('_onP2PMsg::msg=<',msg,'>');
+    //console.log('_onP2PMsg::channel=<',channel,'>');
+    //console.log('_onP2PMsg::msg=<',msg,'>');
     
     let d = new SHA3.SHA3Hash();
     let signOrig = Buffer.from(msg.enc).toString('base64');
     d.update(signOrig);
     let signHash = d.digest('hex');
     let pubKey = ec.keyFromPublic(channel, 'hex');
-    let verify = pubKey.verify(signHash + '.ng', msg.sign);
-    console.log('_onP2PMsg::verify=<',verify,'>');
+    let verify = pubKey.verify(signHash,msg.sign);
+    //console.log('_onP2PMsg::verify=<',verify,'>');
+    if(verify) {
+      let cbs = this.chCB[channel];
+      for(let i = 0 ; i < cbs.length;i++) {
+        let cb = cbs[i];
+        if(typeof cb === 'function') {
+          cb(msg);
+        }
+      }
+    }
   }
   
 }

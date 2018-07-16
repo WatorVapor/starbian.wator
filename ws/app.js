@@ -55,6 +55,12 @@ wss.on('connection', function (ws,req) {
       console.log('e=<', e,'>');
     }
   });
+  
+  ws.on('close', function (evt) {
+    console.log('ws=<', ws,'>');
+  });
+
+
 });
 
  function onStarBianMsg(channel,msg) {

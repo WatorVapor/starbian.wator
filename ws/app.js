@@ -7,22 +7,28 @@
 'use strict';
 const StarBian = require('starbian');
 
-var wsProxy = new StarBian();
+const wsProxy = new StarBian();
 //console.log('wsProxy=<',wsProxy,'>');
 
 const WebSocket = require('ws');
  
 const wss = new WebSocket.Server({host:'127.0.0.1', port: 19080 });
+
+let wsClients = {};
  
-wss.on('connection', function connection(ws) {
+wss.on('connection', function (ws) {
   //console.log('ws=<', ws,'>');
-  ws.on('message', function incoming(message) {
+  ws.on('message', function (message) {
     console.log('received: message=<', message,'>');
     try {
       var jsonMsg = JSON.parse(message);
       console.log('jsonMsg=<', jsonMsg,'>');
-      if(jsonMsg && jsonMsg.channel) {
-       wsProxy.passthrough(jsonMsg.channel,message);
+      if(jsonMsg && jsonMsg.channel && jsonMsg.msg) {
+       wsProxy.passthrough(jsonMsg.channel,jsonMsg.msg);
+      }
+      if(jsonMsg && jsonMsg.channel && jsonMsg.subscribe) {
+       wsProxy.subscribe(jsonMsg.channel,onStarBianMsg);
+       wsClients[jsonMsg.channel] = ws;
       }
     } catch(e){
       console.log('e=<', e,'>');
@@ -30,10 +36,8 @@ wss.on('connection', function connection(ws) {
   });
 });
 
-/*
-const StarBianP2p  = require('./star_bian_p2p.js');
-
-let p2p = new StarBianP2p();
-p2p.onReady = () => {
-};
-*/
+onStarBianMsg  = (channel,msg) => {
+  console.log('channel=<',channel,'>');
+  console.log('msg=<',msg,'>');
+  console.log('wsClients=<',wsClients,'>');
+}

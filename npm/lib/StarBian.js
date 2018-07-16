@@ -123,7 +123,8 @@ class StarBian {
     this.pubHex = pub;
     let prv = key.getPrivate('hex');
     this.prvHex = prv;
-    let saveKey = JSON.stringify(this.key,null, 2);
+    let save = {prv:this.prvHex,pub:this.pubHex};
+    let saveKey = JSON.stringify(save,null, 2);
     fs.writeFileSync(this.keyPath_,saveKey);
   }
 
@@ -134,7 +135,7 @@ class StarBian {
    */
   _loadKeyPair() {
     let keyJson = fs.readFileSync(this.keyPath_, 'utf8');
-    this.key = ec.keyFromPrivate(keyJson,'jwk');
+    this.key = ec.keyFromPrivate(keyJson.prv,'hex');
     console.log('_loadKeyPair::this.key=<',this.key,'>');
   }
 

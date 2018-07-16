@@ -11,6 +11,8 @@ const crypto = require('crypto');
 const EC = require('elliptic').ec;
 const ec = new EC('p256');
 
+const p2p = require('./star_bian_p2p');
+
 
 class StarBian {
   /**

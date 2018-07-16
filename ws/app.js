@@ -60,6 +60,7 @@ wss.on('connection', function (ws,req) {
   
   ws.on('close', function (evt) {
     console.log('close ws.key=<', ws.key,'>');
+    removeWSClients(ws.key);
   });
 
 
@@ -68,5 +69,21 @@ wss.on('connection', function (ws,req) {
  function onStarBianMsg(channel,msg) {
   console.log('channel=<',channel,'>');
   console.log('msg=<',msg,'>');
+  console.log('wsClients=<',wsClients,'>');
+}
+
+function removeWSClients(key) {
+  console.log('key=<',key,'>');
+  console.log('wsClients=<',wsClients,'>');
+  let indexWS = Object.key(wsClients);
+  for(let i =0;i < indexWS.length;i++) {
+    let wsChannels = indexWS[i];
+    let wsc = wsClients[wsChannels];
+    if(wsc && wsc.key) {
+      if(wsc.key === key) {
+        delete wsClients[wsChannels];
+      }
+    }
+  }
   console.log('wsClients=<',wsClients,'>');
 }

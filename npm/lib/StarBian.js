@@ -29,7 +29,6 @@ class StarBian {
       this._createKeyPair();
     }
     this._loadKeyPair();
-    this.p2p = new StarBianP2p();
     //console.log('StarBian constructor:this.p2p=<',this.p2p,'>');
     this.channelPath_ = 'channels.json';
     if(fs.existsSync(this.channelPath_)) {
@@ -42,6 +41,10 @@ class StarBian {
       let saveChannel = JSON.stringify(this.channel,null, 2);
       fs.writeFileSync(this.channelPath_,saveChannel);
     }
+    this.p2p = new StarBianP2p();
+    this.p2p.onReady = () => {
+      this.onReady();
+    };
   }
   /**
    * get private key.

@@ -19,8 +19,10 @@ gofuro.subscribe( function(msg) {
 });
 
 
+/*
 setTimeout(function(){
   gofuro.publish('ok hot hot run');
 },2000);
+*/
 
 //console.log('gofuro=<',gofuro,'>');

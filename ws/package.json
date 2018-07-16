@@ -1,2 +1,5 @@
 {
+  "dependencies": {
+    "starbian": "0.0.2"
+  }
 }

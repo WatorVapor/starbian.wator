@@ -33,7 +33,8 @@ class StarBian {
     //console.log('StarBian constructor:this.p2p=<',this.p2p,'>');
     this.channelPath_ = 'channels.json';
     if(fs.existsSync(this.channelPath_)) {
-      this.channel = require(this.channelPath_);
+      let channelStr = fs.readFileSync(this.channelPath_, 'utf8');
+      this.channel = JSON.parse(channelStr);
     } else {
       this.channel = {};
       this.channel.myself = this.pubHex;

@@ -18,6 +18,9 @@ pBtn.subscribe( function(msg) {
   console.log('msg=<',msg,'>');
 });
 
+pBtn.onReady = ()=> {
+  pBtn.publish('ok hot hot run');
+}; 
 /*
 setTimeout(function(){
   pBtn.publish('ok hot hot run');

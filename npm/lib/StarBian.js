@@ -41,7 +41,9 @@ class StarBian {
       fs.writeFileSync(this.channelPath_,saveChannel);
     }
     this.p2p = new StarBianP2p();
+    let self = this;
     this.p2p.onReady = () => {
+      self._subChannels();
       this.onReady();
     };
   }
@@ -164,6 +166,29 @@ class StarBian {
     this.pubKeyStr = this.pubHex;
   }
 
+  /**
+   * suscribe channels.
+   *
+   * @private
+   */
+  _subChannels() {
+    let self = this;
+    for(let i = 0; i < this.channel.authed.length;i++) {
+      let channel = this.channel.authed[i];
+      this.p2p.in(channel,(msg) => {self._onP2PMsg(channel,msg)});
+    }
+  }
+  /**
+   * on channel msg.
+   *
+   * @param {String} msg 
+   * @private
+   */
+  _onP2PMsg(channel,msg) {
+    console.log('_onP2PMsg::channel=<',channel,'>');
+    console.log('_onP2PMsg::msg=<',msg,'>');
+  }
+  
 }
 
 module.exports = StarBian;

@@ -36,7 +36,7 @@ wss.on('connection', function (ws) {
   });
 });
 
-onStarBianMsg  = (channel,msg) => {
+onStarBianMsg  = function(channel,msg) {
   console.log('channel=<',channel,'>');
   console.log('msg=<',msg,'>');
   console.log('wsClients=<',wsClients,'>');

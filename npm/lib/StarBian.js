@@ -45,7 +45,9 @@ class StarBian {
     let self = this;
     this.p2p.onReady = () => {
       self._subChannels();
-      this.onReady();
+      if(typeof this.onReady === 'function') {
+        this.onReady();
+      }
     };
     this.chCB = {};
   }

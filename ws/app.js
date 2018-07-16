@@ -33,7 +33,7 @@ const interval = setInterval(function ping() {
 
 
 wss.on('connection', function (ws) {
-  console.log('ws=<', ws,'>');
+  //console.log('ws=<', ws,'>');
   ws.isAlive = true;
   ws.on('pong', heartbeat);
   ws.on('message', function (message) {

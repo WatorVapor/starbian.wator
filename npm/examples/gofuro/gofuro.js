@@ -18,6 +18,9 @@ gofuro.subscribe( function(msg) {
   console.log('msg=<',msg,'>');
 });
 
+gofuro.onReady = ()=> {
+  gofuro.publish('ok hot hot run');
+};
 
 /*
 setTimeout(function(){

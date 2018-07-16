@@ -20,7 +20,7 @@ gofuro.subscribe( function(msg) {
 
 gofuro.onReady = ()=> {
   setTimeout(function(){
-    pBtn.publish('ok hot hot run');
+    gofuro.publish('ok hot hot run');
   },20000);
 };
 

@@ -37,6 +37,7 @@ wss.on('connection', function (ws,req) {
   //console.log('ws=<', ws,'>');
   //const ip = req.connection.remoteAddress;
   const ip = req.headers['x-real-ip'].split(/\s*,\s*/)[0];
+  ws.key = req.headers['sec-websocket-key'];
   console.log('ip=<',ip,'>');
   ws.isAlive = true;
   ws.on('pong', heartbeat);
@@ -58,7 +59,7 @@ wss.on('connection', function (ws,req) {
   });
   
   ws.on('close', function (evt) {
-    console.log('close ws=<', ws,'>');
+    console.log('close ws.key=<', ws.key,'>');
   });
 
 

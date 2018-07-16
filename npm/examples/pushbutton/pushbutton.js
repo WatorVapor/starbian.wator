@@ -19,12 +19,9 @@ pBtn.subscribe( function(msg) {
 });
 
 pBtn.onReady = ()=> {
-  pBtn.publish('ok hot hot run');
+  setTimeout(function(){
+    pBtn.publish('ok hot hot run');
+  },20000);
 }; 
-/*
-setTimeout(function(){
-  pBtn.publish('ok hot hot run');
-},2000);
-*/
 
 //console.log('gofuro=<',gofuro,'>');

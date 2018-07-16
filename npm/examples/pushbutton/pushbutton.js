@@ -18,9 +18,10 @@ pBtn.subscribe( function(msg) {
   console.log('msg=<',msg,'>');
 });
 
-
+/*
 setTimeout(function(){
   pBtn.publish('ok hot hot run');
 },2000);
+*/
 
 //console.log('gofuro=<',gofuro,'>');

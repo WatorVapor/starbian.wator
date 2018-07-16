@@ -14,7 +14,9 @@ var authedKey  = pBtn.getAuthed();
 console.log('authedKey=<',authedKey,'>');
 
 
-pBtn.subscribe( function(msg) {
+let listenChannel = authedKey[0];
+pBtn.subscribe(listenChannel,(channel,msg) =>{
+  console.log('channel=<',channel,'>');
   console.log('msg=<',msg,'>');
 });
 

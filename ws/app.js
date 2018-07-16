@@ -33,6 +33,7 @@ const interval = setInterval(function ping() {
 
 
 wss.on('connection', function (ws,req) {
+  console.log('req.headers=<',req.headers,'>');
   //console.log('ws=<', ws,'>');
   //const ip = req.connection.remoteAddress;
   const ip = req.headers['x-real-ip'].split(/\s*,\s*/)[0];

@@ -85,7 +85,7 @@ class StarBian {
     let sign = this.key.sign(signHash, 'sha256');
     let signature = sign.toDER('hex').toString('base64');
     let pubObj = {
-      enc:msg,
+      enc:msgEnc,
       sign:signature
     };
     this.p2p.out(this.channel.myself ,pubObj);
@@ -193,6 +193,14 @@ class StarBian {
   _onP2PMsg(channel,msg) {
     console.log('_onP2PMsg::channel=<',channel,'>');
     console.log('_onP2PMsg::msg=<',msg,'>');
+    
+    let d = new SHA3.SHA3Hash();
+    let signOrig = Buffer.from(msg.enc).toString('base64');
+    d.update(signOrig);
+    let signHash = d.digest('hex');
+    let pubKey = ec.keyFromPublic(channel, 'hex');
+    let verify = pubKey.verify(signHash, msg.sign);
+    console.log('_onP2PMsg::verify=<',verify,'>');
   }
   
 }

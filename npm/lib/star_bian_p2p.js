@@ -10,8 +10,8 @@ dNowTag.update(nowTag.toISOString());
 const pubsubRepos = bs58.encode(dNowTag.digest('hex'));
 console.log('pubsubRepos=<',pubsubRepos,'>');
 
-const IPFS_CONF_EXT = {
-  repo: '.ipfs_pubsub_room_data_' + pubsubRepos,
+const IPFS_CONF = {
+  repo: '.ipfs_pubsub_room_data',
   EXPERIMENTAL: {
     pubsub: true
   },
@@ -33,7 +33,7 @@ module.exports = class StarBianP2p {
     this.number = bs58.encode(number);
     console.log('this.number=<',this.number,'>');
     try {
-      this.ipfs = new IPFS(IPFS_CONF_EXT);
+      this.ipfs = new IPFS(IPFS_CONF);
     } catch(e) {
       console.error('e=<',e,'>');
     }

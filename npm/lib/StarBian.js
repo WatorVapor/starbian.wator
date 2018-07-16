@@ -6,11 +6,10 @@
 
 'use strict';
 
-const rs = require('jsrsasign');
-const rsu = require('jsrsasign-util');
-var crypto = require('crypto');
-const redis = require("redis");
 const fs = require('fs');
+const crypto = require('crypto');
+const EC = require('elliptic').ec;
+const ec = new EC('p256');
 
 
 class StarBian {
@@ -26,40 +25,12 @@ class StarBian {
     if(!fs.existsSync('.channels/')) {
       fs.mkdirSync('.channels/');
     }
-    if(fs.existsSync('.keys/prv.pem')) {
-      this.prvKeyStr = rsu.readFile('.keys/prv.pem');
-      //console.log('this.prvKeyStr=<',this.prvKeyStr,'>');
-      if(fs.existsSync('.keys/pub.pem')) {
-        this.pubKeyStr = rsu.readFile('.keys/pub.pem');
-        //console.log('this.pubKeyStr=<',this.pubKeyStr,'>');
-      } else {
-        this.reCreatePubKey();
-      }
+    this.keyPath_ = '.keys/key.json';
+    if(fs.existsSync(this.keyPath_)) {
+      this._loadKeyPair();
     } else {
-      this.createKeyPair();
+      this._createKeyPair();
     }
-    this.priObj = rs.KEYUTIL.getKey(this.prvKeyStr);
-    this.pubObj = rs.KEYUTIL.getKey(this.pubKeyStr);
-    //console.log('this.priObj=<',this.priObj,'>');
-    //console.log('this.pubObj=<',this.pubObj,'>');
-    
-    this.decryptObj = rs.KJUR.crypto.Cipher(this.priObj);
-    console.log('this.decryptObj=<',this.decryptObj,'>');
-    
-    this.clientPub = redis.createClient({host:'www.wator.xyz'});
-    this.clientPub.on('ready', function () {
-      console.log('this.clientPub ready');
-    });
-    this.clientPub.on('error', function (err) {
-      console.log('this.clientPub err=<',err,'>');
-    });
-    this.clientSub = redis.createClient({host:'www.wator.xyz'});
-    this.clientSub.on('ready', function () {
-      console.log('this.clientSub ready');
-    });
-    this.clientSub.on('error', function (err) {
-      console.log('this.clientSub err=<',err,'>');
-    });
   }
   /**
    * get private key.
@@ -96,7 +67,6 @@ class StarBian {
       enc:msgEnc,
       sign:sign
     };
-    this.clientPub.publish(this.channel,JSON.stringify(pubObj));
   }
   /**
    * pass through a messege.
@@ -105,7 +75,6 @@ class StarBian {
    */
   passthrough(channel,msg) {
     console.log('msg =<',msg,'>');
-    this.clientPub.publish(channel,msg);
   }
   /**
    * subscribe.
@@ -113,59 +82,11 @@ class StarBian {
    * @param {Function} callback 
    */
   subscribe(callback) {
-    if(this.channel) {
-      this.callback.push(callback);
-    } else {
-      this.callback = []
-      this.callback.push(callback);
-      var pubkeyStrTrim = this.pubKeyStr.trim();
-      pubkeyStrTrim = pubkeyStrTrim.replace(/\n/g,"");
-      pubkeyStrTrim = pubkeyStrTrim.replace(/\r/g,"");
-      console.log('pubkeyStrTrim =<',pubkeyStrTrim,'>');
-      
-      this.channel = rs.KJUR.crypto.Util.sha256(pubkeyStrTrim);
-      
-      var testSha = rs.KJUR.crypto.Util.sha256('abc');
-      console.log('testSha=<',testSha,'>');
-      
-      console.log('this.channel =<',this.channel,'>');
-      this.clientSub.on("subscribe", function (channel, count) {
-        console.log('channel =<',channel,'>');
-        console.log('count =<',count,'>');
-      });
-      var self = this;
-      this.clientSub.on("message", function (channel, message) {
-        console.log('clientSub on message:: channel =<',channel,'>');
-        console.log('clientSub on message:: message =<',message,'>');
-        var plainMsg = self.decrypt(message);
-        for(var i = 0;i < self.callback.length;i++) {
-          var cb = self.callback[i];
-          cb(plainMsg);
-        }
-      });
-      this.clientSub.subscribe(this.channel);
-    }
   }
-  /**
-   * create key pair.
-   *
-   * @param {Function} callback 
-   * @private
-   */
-  createKeyPair() {
-    var rsaKeypair = rs.KEYUTIL.generateKeypair("RSA", 2048);
-    //console.log('rsaKeypair=<',rsaKeypair,'>');
-    this.prvKeyStr = rs.KEYUTIL.getPEM(rsaKeypair.prvKeyObj,'PKCS8PRV');
-    console.log('this.prvKeyStr=<',this.prvKeyStr,'>');
-    this.pubKeyStr =  rs.KEYUTIL.getPEM(rsaKeypair.pubKeyObj);
-    console.log('this.pubKeyStr=<',this.pubKeyStr,'>');
-    fs.writeFileSync('.keys/prv.pem', this.prvKeyStr, {encoding: 'utf-8'}, function(error){
-      console.log('error=<',error,'>');
-    });
-    fs.writeFileSync('.keys/pub.pem', this.pubKeyStr, {encoding: 'utf-8'}, function(error){
-      console.log('error=<',error,'>');
-    });
-  }
+  
+  
+  
+  
   /**
    * recreate public key.
    *
@@ -188,6 +109,35 @@ class StarBian {
     console.log('decrypt::plainMsg=<',plainMsg,'>');
     return plainMsg;
   }
+
+  /**
+   * create key pair.
+   *
+   * @private
+   */
+  _createKeyPair() {
+    let key = ec.genKeyPair();
+    this.key = key;
+    console.log('_createKeyPair::this.key=<',this.key,'>');
+    let pub = key.getPublic('hex');
+    this.pubHex = pub;
+    let prv = key.getPrivate('hex');
+    this.prvHex = prv;
+    let saveKey = JSON.stringify(this.key,null, 2);
+    fs.writeFileSync(this.keyPath_,saveKey);
+  }
+
+  /**
+   * load key pair.
+   *
+   * @private
+   */
+  _loadKeyPair() {
+    let keyJson = fs.readFileSync(this.keyPath_, 'utf8');
+    this.key = ec.keyFromPrivate(keyJson,'jwk');
+    console.log('_loadKeyPair::this.key=<',this.key,'>');
+  }
+
 }
 
 module.exports = StarBian;

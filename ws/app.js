@@ -17,7 +17,7 @@ const wss = new WebSocket.Server({host:'127.0.0.1', port: 19080 });
 let wsClients = {};
  
 wss.on('connection', function (ws) {
-  //console.log('ws=<', ws,'>');
+  console.log('ws=<', ws,'>');
   ws.on('message', function (message) {
     console.log('received: message=<', message,'>');
     try {

@@ -199,7 +199,7 @@ class StarBian {
     d.update(signOrig);
     let signHash = d.digest('hex');
     let pubKey = ec.keyFromPublic(channel, 'hex');
-    let verify = pubKey.verify(signHash, msg.sign);
+    let verify = pubKey.verify(signHash + '.ng', msg.sign);
     console.log('_onP2PMsg::verify=<',verify,'>');
   }
   

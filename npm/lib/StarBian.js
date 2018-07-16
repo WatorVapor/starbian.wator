@@ -75,13 +75,16 @@ class StarBian {
    */
   publish(msg) {
     console.log('msg =<',msg,'>');
-    /*
-    var msgEnc = rs.KJUR.crypto.Cipher.encrypt(msg, this.pubObj);
+    let msgEnc = JSON.stringify(msg);
     console.log('msgEnc =<',msgEnc,'>');
-    var sign = this.priObj.sign(msgEnc, 'sha256');
-    */
+    let d = new SHA3.SHA3Hash();
+    let signOrig = Buffer.from(msgEnc).toString('base64');
+    d.update(signOrig);
+    let signHash = d.digest('hex');
+    let sign = this.key.sign(signHash, 'sha256');
     let pubObj = {
-      enc:msg
+      enc:msg,
+      sign:sign
     };
     this.p2p.out(this.channel.myself ,pubObj);
   }

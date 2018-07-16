@@ -37,7 +37,7 @@ class StarBian {
     } else {
       this.channel = {};
       this.channel.myself = this.pubHex;
-      this.channel.authed = {};
+      this.channel.authed = [];
       let saveChannel = JSON.stringify(this.channel,null, 2);
       fs.writeFileSync(this.channelPath_,saveChannel);
     }
@@ -137,7 +137,7 @@ class StarBian {
     let saveKey = JSON.stringify(save,null, 2);
     fs.writeFileSync(this.keyPath_,saveKey);
     this.channel.myself = this.pubHex;
-    this.channel.authed = {};
+    this.channel.authed = [];
     let saveChannel = JSON.stringify(this.channel,null, 2);
     fs.writeFileSync(this.channelPath_,saveChannel);
   }

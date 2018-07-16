@@ -134,7 +134,8 @@ class StarBian {
    * @private
    */
   _loadKeyPair() {
-    let keyJson = fs.readFileSync(this.keyPath_, 'utf8');
+    let keyStr = fs.readFileSync(this.keyPath_, 'utf8');
+    let keyJson = JSON.parse(keyStr);
     this.key = ec.keyFromPrivate(keyJson.prv,'hex');
     console.log('_loadKeyPair::this.key=<',this.key,'>');
   }

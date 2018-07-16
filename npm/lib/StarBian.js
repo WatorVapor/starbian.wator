@@ -211,10 +211,12 @@ class StarBian {
     //console.log('_onP2PMsg::verify=<',verify,'>');
     if(verify) {
       let cbs = this.chCB[channel];
-      for(let i = 0 ; i < cbs.length;i++) {
-        let cb = cbs[i];
-        if(typeof cb === 'function') {
-          cb(msg);
+      if(cbs) {
+        for(let i = 0 ; i < cbs.length;i++) {
+          let cb = cbs[i];
+          if(typeof cb === 'function') {
+            cb(msg);
+          }
         }
       }
     }

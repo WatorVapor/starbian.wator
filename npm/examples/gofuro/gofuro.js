@@ -19,7 +19,9 @@ gofuro.subscribe( function(msg) {
 });
 
 gofuro.onReady = ()=> {
-  gofuro.publish('ok hot hot run');
+  setTimeout(function(){
+    pBtn.publish('ok hot hot run');
+  },20000);
 };
 
 /*

@@ -33,7 +33,7 @@ class StarBian {
     }
     this._loadKeyPair();
     this.p2p = new StarBianP2p();
-    console.log('StarBian constructor:this.p2p=<',this.p2p,'>');
+    //console.log('StarBian constructor:this.p2p=<',this.p2p,'>');
   }
   /**
    * get private key.

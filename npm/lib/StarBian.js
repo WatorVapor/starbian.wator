@@ -34,6 +34,10 @@ class StarBian {
     this.channelPath_ = 'channels.json';
     if(fs.existsSync(this.channelPath_)) {
       this.channel = require(this.channelPath_);
+    } else {
+      this.channel.myself = this.pubHex;
+      let saveChannel = JSON.stringify(this.channel,null, 2);
+      fs.writeFileSync(this.channelPath_,saveChannel);
     }
   }
   /**

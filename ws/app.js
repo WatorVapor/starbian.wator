@@ -33,12 +33,12 @@ const interval = setInterval(function ping() {
 
 
 wss.on('connection', function (ws,req) {
-  console.log('req.headers=<',req.headers,'>');
+  //console.log('req.headers=<',req.headers,'>');
   //console.log('ws=<', ws,'>');
   //const ip = req.connection.remoteAddress;
   const ip = req.headers['x-real-ip'].split(/\s*,\s*/)[0];
   ws.key = req.headers['sec-websocket-key'];
-  console.log('ip=<',ip,'>');
+  //console.log('ip=<',ip,'>');
   ws.isAlive = true;
   ws.on('pong', heartbeat);
   ws.on('message', function (message) {
@@ -73,8 +73,8 @@ wss.on('connection', function (ws,req) {
 }
 
 function removeWSClients(key) {
-  console.log('key=<',key,'>');
-  console.log('wsClients=<',wsClients,'>');
+  //console.log('key=<',key,'>');
+  //console.log('wsClients=<',wsClients,'>');
   let indexWS = Object.keys(wsClients);
   for(let i =0;i < indexWS.length;i++) {
     let wsChannels = indexWS[i];
@@ -85,5 +85,5 @@ function removeWSClients(key) {
       }
     }
   }
-  console.log('wsClients=<',wsClients,'>');
+  //console.log('wsClients=<',wsClients,'>');
 }

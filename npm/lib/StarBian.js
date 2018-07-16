@@ -138,6 +138,8 @@ class StarBian {
     let keyJson = JSON.parse(keyStr);
     this.key = ec.keyFromPrivate(keyJson.prv,'hex');
     console.log('_loadKeyPair::this.key=<',this.key,'>');
+    this.pubHex = this.key.getPublic('hex');;
+    console.log('_loadKeyPair::this.key=<',this.key,'>');
   }
 
 }

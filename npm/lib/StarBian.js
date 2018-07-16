@@ -24,9 +24,6 @@ class StarBian {
     if(!fs.existsSync('.keys/')) {
       fs.mkdirSync('.keys/');
     }
-    if(!fs.existsSync('.channels/')) {
-      fs.mkdirSync('.channels/');
-    }
     this.keyPath_ = '.keys/key.json';
     if(!fs.existsSync(this.keyPath_)) {
       this._createKeyPair();
@@ -34,6 +31,10 @@ class StarBian {
     this._loadKeyPair();
     this.p2p = new StarBianP2p();
     //console.log('StarBian constructor:this.p2p=<',this.p2p,'>');
+    this.channelPath_ = 'channels.json';
+    if(fs.existsSync(this.channelPath_)) {
+      this.channel = require(this.channelPath_);
+    }
   }
   /**
    * get private key.
@@ -129,6 +130,9 @@ class StarBian {
     let save = {prv:this.prvHex,pub:this.pubHex};
     let saveKey = JSON.stringify(save,null, 2);
     fs.writeFileSync(this.keyPath_,saveKey);
+    this.channel.myself = this.pubHex;
+    let saveChannel = JSON.stringify(this.channel,null, 2);
+    fs.writeFileSync(this.channelPath_,saveChannel);
   }
 
   /**

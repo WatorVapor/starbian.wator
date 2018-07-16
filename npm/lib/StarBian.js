@@ -74,6 +74,7 @@ class StarBian {
    */
   publish(msg) {
     console.log('msg =<',msg,'>');
+    /*
     var msgEnc = rs.KJUR.crypto.Cipher.encrypt(msg, this.pubObj);
     console.log('msgEnc =<',msgEnc,'>');
     var sign = this.priObj.sign(msgEnc, 'sha256');
@@ -81,6 +82,7 @@ class StarBian {
       enc:msgEnc,
       sign:sign
     };
+    */
   }
   /**
    * pass through a messege.

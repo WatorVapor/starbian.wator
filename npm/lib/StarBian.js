@@ -83,9 +83,10 @@ class StarBian {
     d.update(signOrig);
     let signHash = d.digest('hex');
     let sign = this.key.sign(signHash, 'sha256');
+    let signature = sign.toDER('hex').toString('base64');
     let pubObj = {
       enc:msg,
-      sign:sign
+      sign:signature
     };
     this.p2p.out(this.channel.myself ,pubObj);
   }

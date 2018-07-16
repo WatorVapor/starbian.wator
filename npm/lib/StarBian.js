@@ -61,7 +61,7 @@ class StarBian {
    *
    */
   getAuthed () {
-    return [''];
+    return this.channel.authed;
   }
   /**
    * publish a messege.

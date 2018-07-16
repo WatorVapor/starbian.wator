@@ -107,11 +107,11 @@ class StarBian {
    * @param {Function} callback 
    */
   subscribe(channel,callback) {
-    console.log('channel =<',channel,'>');
+    console.log('subscribe channel =<',channel,'>');
     if(this.chCB[channel]) {
       this.chCB[channel].push(callback);
     } else {
-      this.chCB[channel] = [];
+      this.chCB[channel] = [callback];
     }
   }
   

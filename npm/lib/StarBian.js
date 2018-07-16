@@ -26,11 +26,10 @@ class StarBian {
       fs.mkdirSync('.channels/');
     }
     this.keyPath_ = '.keys/key.json';
-    if(fs.existsSync(this.keyPath_)) {
-      this._loadKeyPair();
-    } else {
+    if(!fs.existsSync(this.keyPath_)) {
       this._createKeyPair();
     }
+    this._loadKeyPair();
   }
   /**
    * get private key.
@@ -138,8 +137,11 @@ class StarBian {
     let keyJson = JSON.parse(keyStr);
     this.key = ec.keyFromPrivate(keyJson.prv,'hex');
     console.log('_loadKeyPair::this.key=<',this.key,'>');
+    this.prvHex = this.key.getPrivate('hex');
     this.pubHex = this.key.getPublic('hex');;
     console.log('_loadKeyPair::this.key=<',this.key,'>');
+    this.prvKeyStr = this.prvHex;
+    this.pubKeyStr = this.pubHex;
   }
 
 }

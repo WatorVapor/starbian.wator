@@ -11,6 +11,20 @@ const pubsubRepos = bs58.encode(dNowTag.digest('hex'));
 console.log('pubsubRepos=<',pubsubRepos,'>');
 
 const IPFS_CONF = {
+  repo: '.ipfs_pubsub_room_data',
+  EXPERIMENTAL: {
+    pubsub: true
+  },
+  config: {
+    Addresses: {
+      Swarm: [
+        '/dns4/ws-star.discovery.libp2p.io/tcp/443/wss/p2p-websocket-star'
+      ]
+    }
+  }
+};
+
+const IPFS_CONF_EXT = {
   repo: '.ipfs_pubsub_room_data_' + pubsubRepos,
   EXPERIMENTAL: {
     pubsub: true
@@ -32,7 +46,12 @@ module.exports = class StarBianP2p {
     let number = d.digest('hex');
     this.number = bs58.encode(number);
     console.log('this.number=<',this.number,'>');
-    this.ipfs = new IPFS(IPFS_CONF);
+    try {
+      this.ipfs = new IPFS(IPFS_CONF);
+    } catch(e) {
+      console.error('e=<',e,'>');
+      this.ipfs = new IPFS(IPFS_CONF_EXT);
+    }
     let self = this;
     this.ipfs.on('ready', () => {
       self._onInit();

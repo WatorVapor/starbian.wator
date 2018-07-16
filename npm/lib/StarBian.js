@@ -157,6 +157,7 @@ class StarBian {
     let save = {prv:this.prvHex,pub:this.pubHex};
     let saveKey = JSON.stringify(save,null, 2);
     fs.writeFileSync(this.keyPath_,saveKey);
+    this.channel = {};
     this.channel.myself = this.pubHex;
     this.channel.authed = [];
     let saveChannel = JSON.stringify(this.channel,null, 2);

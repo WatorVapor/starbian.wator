@@ -75,7 +75,7 @@ wss.on('connection', function (ws,req) {
 function removeWSClients(key) {
   console.log('key=<',key,'>');
   console.log('wsClients=<',wsClients,'>');
-  let indexWS = Object.key(wsClients);
+  let indexWS = Object.keys(wsClients);
   for(let i =0;i < indexWS.length;i++) {
     let wsChannels = indexWS[i];
     let wsc = wsClients[wsChannels];

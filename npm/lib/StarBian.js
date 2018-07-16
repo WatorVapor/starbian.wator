@@ -11,7 +11,7 @@ const crypto = require('crypto');
 const EC = require('elliptic').ec;
 const ec = new EC('p256');
 
-const p2p = require('./star_bian_p2p');
+const P2P = require('./star_bian_p2p');
 
 
 class StarBian {
@@ -32,6 +32,7 @@ class StarBian {
       this._createKeyPair();
     }
     this._loadKeyPair();
+    this.p2p = new P2P();
   }
   /**
    * get private key.

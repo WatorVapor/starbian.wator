@@ -117,7 +117,7 @@ class StarBian {
   _createKeyPair() {
     let key = ec.genKeyPair();
     this.key = key;
-    console.log('_createKeyPair::this.key=<',this.key,'>');
+    //console.log('_createKeyPair::this.key=<',this.key,'>');
     let pub = key.getPublic('hex');
     this.pubHex = pub;
     let prv = key.getPrivate('hex');
@@ -136,10 +136,10 @@ class StarBian {
     let keyStr = fs.readFileSync(this.keyPath_, 'utf8');
     let keyJson = JSON.parse(keyStr);
     this.key = ec.keyFromPrivate(keyJson.prv,'hex');
-    console.log('_loadKeyPair::this.key=<',this.key,'>');
+    //console.log('_loadKeyPair::this.key=<',this.key,'>');
     this.prvHex = this.key.getPrivate('hex');
     this.pubHex = this.key.getPublic('hex');;
-    console.log('_loadKeyPair::this.key=<',this.key,'>');
+    //console.log('_loadKeyPair::this.key=<',this.key,'>');
     this.prvKeyStr = this.prvHex;
     this.pubKeyStr = this.pubHex;
   }

@@ -57,7 +57,7 @@ wss.on('connection', function (ws,req) {
   });
   
   ws.on('close', function (evt) {
-    console.log('ws=<', ws,'>');
+    console.log('close ws=<', ws,'>');
   });
 
 

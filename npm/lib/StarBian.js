@@ -215,7 +215,7 @@ class StarBian {
         for(let i = 0 ; i < cbs.length;i++) {
           let cb = cbs[i];
           if(typeof cb === 'function') {
-            cb(msg);
+            cb(channel,msg);
           }
         }
       }

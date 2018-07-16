@@ -79,11 +79,11 @@ class StarBian {
     var msgEnc = rs.KJUR.crypto.Cipher.encrypt(msg, this.pubObj);
     console.log('msgEnc =<',msgEnc,'>');
     var sign = this.priObj.sign(msgEnc, 'sha256');
-    var pubObj = {
-      enc:msgEnc,
-      sign:sign
-    };
     */
+    let pubObj = {
+      enc:msg
+    };
+    this.p2p.out(this.channel.myself ,pubObj);
   }
   /**
    * pass through a messege.
@@ -92,6 +92,7 @@ class StarBian {
    */
   passthrough(channel,msg) {
     console.log('msg =<',msg,'>');
+    this.p2p.out(channel ,msg);
   }
   /**
    * subscribe.

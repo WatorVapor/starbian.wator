@@ -23,6 +23,6 @@ pt.subscribe(channelPub,(channel,msg) =>{
 
 pt.onReady = ()=> {
   setTimeout(function(){
-    pt.passthrough(channelPub,'pass through!!!');
+    pt.passthrough(channelPub,{msg:'pass through!!!'});
   },20000);
 };

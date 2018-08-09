@@ -70,7 +70,7 @@ function onStarBianMsg(msg,channel,peer) {
       channel:channel,
       msg:msg
     };
-    ws.send(JSON.stringify(sentMsg));
+    client.send(JSON.stringify(sentMsg));
   }
 }
 

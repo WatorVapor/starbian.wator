@@ -100,7 +100,7 @@ class StarBian {
    * @param {String} msg 
    */
   passthrough(channel,msg) {
-    console.log('msg =<',msg,'>');
+    //console.log('passthrough:msg =<',msg,'>');
     this.p2p.out(channel ,msg);
   }
   /**

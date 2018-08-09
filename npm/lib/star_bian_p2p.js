@@ -93,8 +93,9 @@ module.exports = class StarBianP2p {
     if(jsonData && jsonData.channel) {
       let cb = this._cb[jsonData.channel];
       if(typeof(cb) === 'function') {
+        let channel = jsonData.channel;
         delete jsonData.channel;
-        cb(jsonData,msg.from);
+        cb(jsonData,channel,msg.from);
       } else {
         //console.log('onRoomMessage::jsonData=<',jsonData,'>');
       }

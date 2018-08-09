@@ -3,34 +3,29 @@
  * Copyright(c) 2017 Wato Vapor <watovapor@gmail.com>
  * MIT Licensed
  */
-
 'use strict';
 const StarBian = require('starbian');
-
 const wsProxy = new StarBian();
 //console.log('wsProxy=<',wsProxy,'>');
-
 const WebSocket = require('ws');
- 
 const wss = new WebSocket.Server({host:'127.0.0.1', port: 19080 });
-
 let wsClients = {};
 
-
-function noop() {};
+function noop() {
+};
 function heartbeat() {
   this.isAlive = true;
 }
 
 const interval = setInterval(function ping() {
   wss.clients.forEach(function each(ws) {
-    if (ws.isAlive === false) return ws.terminate();
-
+    if (ws.isAlive === false) {
+      return ws.terminate();
+    }
     ws.isAlive = false;
     ws.ping(noop);
   });
 }, 30000);
-
 
 wss.on('connection', function (ws,req) {
   //console.log('req.headers=<',req.headers,'>');
@@ -57,19 +52,20 @@ wss.on('connection', function (ws,req) {
       console.log('e=<', e,'>');
     }
   });
-  
   ws.on('close', function (evt) {
     console.log('close ws.key=<', ws.key,'>');
     removeWSClients(ws.key);
   });
-
-
 });
 
- function onStarBianMsg(channel,msg) {
-  console.log('channel=<',channel,'>');
-  console.log('msg=<',msg,'>');
-  console.log('wsClients=<',wsClients,'>');
+function onStarBianMsg(channel,msg) {
+  console.log('onStarBianMsg:channel=<',channel,'>');
+  console.log('onStarBianMsg:msg=<',msg,'>');
+  console.log('onStarBianMsg:wsClients=<',wsClients,'>');
+  let client = wsClientschannel[channel];
+  console.log('onStarBianMsg:client=<',client,'>');
+  if(client) {
+  }
 }
 
 function removeWSClients(key) {

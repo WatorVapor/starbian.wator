@@ -44,7 +44,7 @@ class StarBian {
     this.p2p = new StarBianP2p();
     let self = this;
     this.p2p.onReady = () => {
-      self._subChannels();
+      self._subManagedChannels();
       if(typeof this.onReady === 'function') {
         this.onReady();
       }
@@ -185,7 +185,7 @@ class StarBian {
    *
    * @private
    */
-  _subChannels() {
+  _subManagedChannels() {
     let self = this;
     for(let i = 0; i < this.channel.authed.length;i++) {
       let channel = this.channel.authed[i];

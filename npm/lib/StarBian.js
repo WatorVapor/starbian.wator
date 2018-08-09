@@ -93,6 +93,7 @@ class StarBian {
     };
     this.p2p.out(this.channel.myself ,pubObj);
   }
+  
   /**
    * pass through a messege.
    *
@@ -110,11 +111,7 @@ class StarBian {
    */
   subscribe(channel,callback) {
     console.log('subscribe channel =<',channel,'>');
-    if(this.chCB[channel]) {
-      this.chCB[channel].push(callback);
-    } else {
-      this.chCB[channel] = [callback];
-    }
+    this.p2p.in(channel ,callback);
   }
   
   

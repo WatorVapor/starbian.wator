@@ -86,22 +86,18 @@ module.exports = class StarBianP2p {
     });
   }
   _onRoomMessage(msg) {
-    console.log('onRoomMessage::this.peer=<',this.peer,'>');
-    if(msg.from !== this.peer) {
-      //console.log('onRoomMessage::msg=<',msg,'>');
-      let jsonData = JSON.parse(msg.data.toString('utf8'));
-      //console.log('onRoomMessage::jsonData=<',jsonData,'>');
-      if(jsonData && jsonData.channel) {
-        let cb = this._cb[jsonData.channel];
-        if(typeof(cb) === 'function') {
-          delete jsonData.channel;
-          cb(jsonData,msg.from);
-        } else {
-          //console.log('onRoomMessage::jsonData=<',jsonData,'>');
-        }
+    //console.log('onRoomMessage::this.peer=<',this.peer,'>');
+    //console.log('onRoomMessage::msg=<',msg,'>');
+    let jsonData = JSON.parse(msg.data.toString('utf8'));
+    //console.log('onRoomMessage::jsonData=<',jsonData,'>');
+    if(jsonData && jsonData.channel) {
+      let cb = this._cb[jsonData.channel];
+      if(typeof(cb) === 'function') {
+        delete jsonData.channel;
+        cb(jsonData,msg.from);
+      } else {
+        //console.log('onRoomMessage::jsonData=<',jsonData,'>');
       }
-    } else {
-      //console.log('onRoomMessage::ignore loopback msg !!!!!!!!!!!!!!');
     }
   }
 };

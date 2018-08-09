@@ -16,9 +16,10 @@ console.log('authedKey=<',authedKey,'>');
 
 const channelPub = '1111111';
 
-pt.subscribe(channelPub,(channel,msg) =>{
-  console.log('pt.subscribe channel=<',channel,'>');
+pt.subscribe(channelPub,(msg,channel,peer) =>{
   console.log('pt.subscribe msg=<',msg,'>');
+  console.log('pt.subscribe channel=<',channel,'>');
+  console.log('pt.subscribe peer=<',peer,'>');
 });
 
 pt.onReady = ()=> {

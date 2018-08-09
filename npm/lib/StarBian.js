@@ -199,8 +199,8 @@ class StarBian {
    * @private
    */
   _onP2PMsg(channel,msg) {
-    console.log('_onP2PMsg::channel=<',channel,'>');
-    console.log('_onP2PMsg::msg=<',msg,'>');
+    //console.log('_onP2PMsg::channel=<',channel,'>');
+    //console.log('_onP2PMsg::msg=<',msg,'>');
     
     let d = new SHA3.SHA3Hash();
     let signOrig = Buffer.from(msg.enc).toString('base64');

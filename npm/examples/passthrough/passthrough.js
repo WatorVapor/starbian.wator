@@ -25,4 +25,10 @@ pt.onReady = ()=> {
   setTimeout(function(){
     pt.passthrough(channelPub,{msg:'pass through!!!'});
   },2000);
+  setTimeout(function(){
+    pt.passthrough(channelPub,{msg:'pass through!!!222'});
+  },4000);
+  setTimeout(function(){
+    pt.passthrough(channelPub,{msg:'pass through!!!333'});
+  },6000);
 };

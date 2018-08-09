@@ -62,8 +62,8 @@ function onStarBianMsg(msg,channel,peer) {
   console.log('onStarBianMsg:msg=<',msg,'>');
   console.log('onStarBianMsg:channel=<',channel,'>');
   console.log('onStarBianMsg:peer=<',peer,'>');
-  console.log('onStarBianMsg:wsClients=<',wsClients,'>');
-  let client = wsClientschannel[channel];
+  //console.log('onStarBianMsg:wsClients=<',wsClients,'>');
+  let client = wsClients[channel];
   console.log('onStarBianMsg:client=<',client,'>');
   if(client) {
     let sentMsg = {

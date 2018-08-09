@@ -65,6 +65,11 @@ function onStarBianMsg(channel,msg) {
   let client = wsClientschannel[channel];
   console.log('onStarBianMsg:client=<',client,'>');
   if(client) {
+    let sentMsg = {
+      channel:channel,
+      msg:msg
+    };
+    ws.send(JSON.stringify(sentMsg));
   }
 }
 

@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "starbian": "0.0.6",
+    "starbian": "^0.0.7",
     "ws": "^5.2.2"
   }
 }

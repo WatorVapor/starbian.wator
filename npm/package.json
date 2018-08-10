@@ -1,6 +1,6 @@
 {
   "name": "starbian",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "wator star edge",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,7 @@
   "dependencies": {
     "bs58": "^4.0.1",
     "elliptic": "^6.4.1",
-    "ipfs": "^0.30.1",
+    "ipfs": "^0.31.4",
     "ipfs-pubsub-room": "^1.4.0",
     "sha3": "^1.2.2"
   },

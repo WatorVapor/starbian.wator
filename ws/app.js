@@ -6,6 +6,9 @@
 'use strict';
 const StarBian = require('starbian');
 const wsProxy = new StarBian();
+const crypto = require('crypto');
+const EC = require('elliptic').ec;
+const ec = new EC('p256');
 //console.log('wsProxy=<',wsProxy,'>');
 const WebSocket = require('ws');
 const wss = new WebSocket.Server({host:'127.0.0.1', port: 19080 });
@@ -41,12 +44,11 @@ wss.on('connection', function (ws,req) {
     try {
       let jsonMsg = JSON.parse(message);
       console.log('jsonMsg=<', jsonMsg,'>');
-      if(jsonMsg && jsonMsg.channel && jsonMsg.msg) {
-        wsProxy.passthrough(jsonMsg.channel,jsonMsg.msg);
-      }
-      if(jsonMsg && jsonMsg.channel && jsonMsg.subscribe) {
-        wsProxy.subscribe(jsonMsg.channel,onStarBianMsg);
-        wsClients[jsonMsg.channel] = ws;
+      if(jsonMsg && verifyAuth(jsonMsg.auth)) {
+        onAuthedMsg(jsonMsg,ws);
+      } else {
+        console.log('not authed jsonMsg=<', jsonMsg,'>');
+        return;
       }
     } catch(e){
       console.log('e=<', e,'>');
@@ -88,4 +90,20 @@ function removeWSClients(key) {
     }
   }
   //console.log('wsClients=<',wsClients,'>');
+}
+
+function onAuthedMsg(jsonMsg,ws) {
+  if(verifyAuth(jsonMsg)) {
+    if(jsonMsg.channel && jsonMsg.msg) {
+      wsProxy.passthrough(jsonMsg.channel,jsonMsg.msg);
+    }
+    if(jsonMsg.channel && jsonMsg.subscribe) {
+      wsProxy.subscribe(jsonMsg.channel,onStarBianMsg);
+      wsClients[jsonMsg.channel] = ws;
+    }
+  }
+}
+function verifyAuth(auth) {
+  console.log('verifyAuth auth=<',auth,'>');
+  return false;
 }

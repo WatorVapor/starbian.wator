@@ -40,7 +40,7 @@ wss.on('connection', function (ws,req) {
   ws.isAlive = true;
   ws.on('pong', heartbeat);
   ws.on('message', function (message) {
-    console.log('received: message=<', message,'>');
+    //console.log('received: message=<', message,'>');
     try {
       let jsonMsg = JSON.parse(message);
       console.log('jsonMsg=<', jsonMsg,'>');
@@ -93,17 +93,17 @@ function removeWSClients(key) {
 }
 
 function onAuthedMsg(jsonMsg,ws) {
-  if(verifyAuth(jsonMsg)) {
-    if(jsonMsg.channel && jsonMsg.msg) {
-      wsProxy.passthrough(jsonMsg.channel,jsonMsg.msg);
-    }
-    if(jsonMsg.channel && jsonMsg.subscribe) {
-      wsProxy.subscribe(jsonMsg.channel,onStarBianMsg);
-      wsClients[jsonMsg.channel] = ws;
-    }
+  if(jsonMsg.channel && jsonMsg.msg) {
+    wsProxy.passthrough(jsonMsg.channel,jsonMsg.msg);
+  }
+  if(jsonMsg.channel && jsonMsg.subscribe) {
+    wsProxy.subscribe(jsonMsg.channel,onStarBianMsg);
+    wsClients[jsonMsg.channel] = ws;
   }
 }
 function verifyAuth(auth) {
   console.log('verifyAuth auth=<',auth,'>');
+  let pubKey = ec.keyFromPublic(auth.pubKey, 'hex');
+  console.log('verifyAuth pubKey=<',pubKey,'>');
   return false;
 }

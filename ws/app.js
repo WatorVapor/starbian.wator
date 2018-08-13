@@ -93,12 +93,15 @@ function removeWSClients(key) {
 }
 
 function onAuthedMsg(jsonMsg,ws) {
-  if(jsonMsg.channel && jsonMsg.msg) {
-    wsProxy.passthrough(jsonMsg.channel,jsonMsg);
-  }
   if(jsonMsg.channel && jsonMsg.subscribe) {
     wsProxy.subscribe(jsonMsg.channel,onStarBianMsg);
     wsClients[jsonMsg.channel] = ws;
+  }
+  if(jsonMsg.channel && jsonMsg.ecdh) {
+    wsProxy.passthrough(jsonMsg.channel,jsonMsg);
+  }
+  if(jsonMsg.channel && jsonMsg.msg) {
+    wsProxy.passthrough(jsonMsg.channel,jsonMsg);
   }
 }
 function verifyAuth(auth) {

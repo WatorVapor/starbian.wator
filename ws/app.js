@@ -114,8 +114,11 @@ function verifyAuth(auth) {
     console.log('verifyAuth auth.enc=<',auth.enc,'>');
     if(auth.enc === 'hex') {
       //sign = new Signature(sign,'hex');
-      let signBuff = Buffer.from(auth.sign, 'hex')
-      console.log('verifyAuth signBuff=<',signBuff,'>');
+      sign = {
+        r:auth.sign.substr(0,64),
+        s:auth.sign.substr(64,64)
+      };
+      console.log('verifyAuth sign=<',sign.length,'>');
     }
     let verify = pubKey.verify(auth.hash,sign);
     console.log('verifyAuth verify=<',verify,'>');

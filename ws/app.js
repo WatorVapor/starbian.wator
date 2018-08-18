@@ -115,8 +115,8 @@ function verifyAuth(auth) {
     if(auth.enc === 'hex') {
       //sign = new Signature(sign,'hex');
       sign = {
-        r:auth.sign.substr(0,64),
-        s:auth.sign.substr(64,64)
+        s:auth.sign.substr(0,64),
+        r:auth.sign.substr(64,64)
       };
       console.log('verifyAuth sign=<',sign,'>');
     }

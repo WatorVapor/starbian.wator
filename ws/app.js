@@ -118,7 +118,7 @@ function verifyAuth(auth) {
         r:auth.sign.substr(0,64),
         s:auth.sign.substr(64,64)
       };
-      console.log('verifyAuth sign=<',sign.length,'>');
+      console.log('verifyAuth sign=<',sign,'>');
     }
     let verify = pubKey.verify(auth.hash,sign);
     console.log('verifyAuth verify=<',verify,'>');

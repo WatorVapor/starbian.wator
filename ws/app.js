@@ -107,7 +107,6 @@ function onAuthedMsg(jsonMsg,ws) {
 function verifyAuth(auth) {
   console.log('verifyAuth auth=<',auth,'>');
   if(auth) {
-    /*
     let pubKey = ec.keyFromPublic(auth.pubKey, 'hex');
     console.log('verifyAuth pubKey=<',pubKey,'>');
     let sign = auth.sign;
@@ -117,7 +116,6 @@ function verifyAuth(auth) {
     let verify = pubKey.verify(auth.hash,sign);
     console.log('verifyAuth verify=<',verify,'>');
     return verify;
-    */
     return true;
   } else {
     return false;

@@ -112,7 +112,7 @@ function verifyAuth(auth) {
     let sign = auth.sign;
     console.log('verifyAuth auth.enc=<',auth.enc,'>');
     if(auth.enc === 'hex') {
-      sign = new Signature(sign,'hex');
+      sign = new EC.Signature(sign,'hex');
       console.log('verifyAuth sign=<',sign,'>');
     }
     let verify = pubKey.verify(auth.hash,sign);

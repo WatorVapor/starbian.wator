@@ -43,7 +43,7 @@ wss.on('connection', function (ws,req) {
     //console.log('received: message=<', message,'>');
     try {
       let jsonMsg = JSON.parse(message);
-      console.log('jsonMsg=<', jsonMsg,'>');
+      //console.log('jsonMsg=<', jsonMsg,'>');
       if(jsonMsg && verifyAuth(jsonMsg.auth)) {
         onAuthedMsg(jsonMsg,ws);
       } else {
@@ -110,6 +110,7 @@ function verifyAuth(auth) {
     let pubKey = ec.keyFromPublic(auth.pubKey, 'hex');
     console.log('verifyAuth pubKey=<',pubKey,'>');
     let sign = auth.sign;
+    console.log('verifyAuth auth.enc=<',auth.enc,'>');
     if(auth.enc === 'hex') {
       sign = new Signature(sign,'hex');
       console.log('verifyAuth sign=<',sign,'>');

@@ -13,6 +13,7 @@ const ec = new EC('p256');
 //console.log('wsProxy=<',wsProxy,'>');
 const WebSocket = require('ws');
 const rs = require('jsrsasign');
+const rsu = require('jsrsasign-util');
 const wss = new WebSocket.Server({host:'127.0.0.1', port: 19080 });
 let wsClients = {};
 

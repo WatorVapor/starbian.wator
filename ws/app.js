@@ -8,6 +8,7 @@ const StarBian = require('starbian');
 const wsProxy = new StarBian();
 const crypto = require('crypto');
 const EC = require('elliptic').ec;
+const Signature = require('elliptic').Signature;
 const ec = new EC('p256');
 //console.log('wsProxy=<',wsProxy,'>');
 const WebSocket = require('ws');
@@ -112,7 +113,7 @@ function verifyAuth(auth) {
     let sign = auth.sign;
     console.log('verifyAuth auth.enc=<',auth.enc,'>');
     if(auth.enc === 'hex') {
-      sign = new EC.Signature(sign,'hex');
+      sign = new Signature(sign,'hex');
       console.log('verifyAuth sign=<',sign,'>');
     }
     let verify = pubKey.verify(auth.hash,sign);

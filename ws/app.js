@@ -156,11 +156,19 @@ function verifyAuth(auth) {
       console.log('verifyAuth sign=<',sign,'>');
     }
     */
+    let signEngine = new KJUR.crypto.Signature({alg: 'SHA256withECDSA'});
+    signEngine.init({xy: pubKey, curve: 'secp256r1'});
+    signEngine.updateString(auth.hash);
+    let result = signEngine.verify(auth.sign);
+    console.log('verifyAuth result=<',result,'>');
+
+    /*
     let ecVerify = new KJUR.crypto.ECDSA({'curve': 'secp256r1'});
     let verify = ecVerify.verifyHex(auth.hash,auth.sign,auth.pubKey);
     //let verify = pubKey.verify(auth.hash,auth.sign);
     console.log('verifyAuth verify=<',verify,'>');
     return verify;
+    */
     return true;
   } else {
     return false;

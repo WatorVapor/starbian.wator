@@ -159,6 +159,7 @@ function verifyAuth(auth) {
     let signEngine = new rs.KJUR.crypto.Signature({alg: 'SHA256withECDSA'});
     signEngine.init({xy: pubKey, curve: 'secp256r1'});
     signEngine.updateString(auth.hash);
+    console.log('verifyAuth signEngine=<',signEngine,'>');
     let result = signEngine.verify(auth.sign);
     console.log('verifyAuth result=<',result,'>');
 

@@ -136,6 +136,8 @@ function verifyAuth(auth) {
 function verifyAuth(auth) {
   console.log('verifyAuth auth=<',auth,'>');
   if(auth) {
+    console.log('verifyAuth rs=<',rs,'>');
+    console.log('verifyAuth rsu=<',rsu,'>');
     let pubKey = rsu.getKey(auth.key);
     console.log('verifyAuth pubKey=<',pubKey,'>');
     let sign = auth.sign;

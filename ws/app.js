@@ -134,7 +134,7 @@ function verifyAuth(auth) {
 */
 
 function verifyAuth(auth) {
-  console.log('verifyAuth auth=<',auth,'>');
+  //console.log('verifyAuth auth=<',auth,'>');
   if(auth) {
     let pubKey = rs.KEYUTIL.getKey(auth.pubKey);
     //console.log('verifyAuth pubKey=<',pubKey,'>');

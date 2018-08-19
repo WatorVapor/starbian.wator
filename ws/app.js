@@ -157,7 +157,7 @@ function verifyAuth(auth) {
     }
     */
     let ecVerify = new KJUR.crypto.ECDSA({'curve': 'secp256r1'});
-    let verify = ecVerify.verifyHex(auth.hash,auth.sign,auth.pubKey;
+    let verify = ecVerify.verifyHex(auth.hash,auth.sign,auth.pubKey);
     //let verify = pubKey.verify(auth.hash,auth.sign);
     console.log('verifyAuth verify=<',verify,'>');
     return verify;

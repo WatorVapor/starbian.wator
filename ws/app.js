@@ -144,6 +144,7 @@ function verifyAuth(auth) {
     
     let pubKey = rs.KEYUTIL.getKey(auth.pubKey);
     console.log('verifyAuth pubKey=<',pubKey,'>');
+    /*
     let sign = auth.sign;
     console.log('verifyAuth auth.enc=<',auth.enc,'>');
     if(auth.enc === 'hex') {
@@ -154,6 +155,7 @@ function verifyAuth(auth) {
       };
       console.log('verifyAuth sign=<',sign,'>');
     }
+    */
     let verify = pubKey.verifyHex(auth.hash,auth.sign);
     console.log('verifyAuth verify=<',verify,'>');
     return verify;

@@ -107,6 +107,7 @@ function onAuthedMsg(jsonMsg,ws) {
     wsProxy.passthrough(jsonMsg.channel,jsonMsg);
   }
 }
+/*
 function verifyAuth(auth) {
   console.log('verifyAuth auth=<',auth,'>');
   if(auth) {
@@ -130,3 +131,29 @@ function verifyAuth(auth) {
     return false;
   }
 }
+*/
+
+function verifyAuth(auth) {
+  console.log('verifyAuth auth=<',auth,'>');
+  if(auth) {
+    let pubKey = rsu.getKey(auth.key);
+    console.log('verifyAuth pubKey=<',pubKey,'>');
+    let sign = auth.sign;
+    console.log('verifyAuth auth.enc=<',auth.enc,'>');
+    if(auth.enc === 'hex') {
+      //sign = new Signature(sign,'hex');
+      sign = {
+        s:auth.sign.substr(0,64),
+        r:auth.sign.substr(64,64)
+      };
+      console.log('verifyAuth sign=<',sign,'>');
+    }
+    let verify = pubKey.verifyHex(auth.hash,auth.sign);
+    console.log('verifyAuth verify=<',verify,'>');
+    return verify;
+    return true;
+  } else {
+    return false;
+  }
+}
+

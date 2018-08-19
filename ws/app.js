@@ -156,7 +156,8 @@ function verifyAuth(auth) {
       console.log('verifyAuth sign=<',sign,'>');
     }
     */
-    let verify = pubKey.verifyHex(auth.hash,auth.sign);
+    //let verify = pubKey.verifyHex(auth.hash,auth.sign);
+    let verify = pubKey.verify(auth.hash,auth.sign);
     console.log('verifyAuth verify=<',verify,'>');
     return verify;
     return true;

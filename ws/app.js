@@ -138,10 +138,11 @@ function verifyAuth(auth) {
   if(auth) {
     //console.log('verifyAuth rs=<',rs,'>');
     //console.log('verifyAuth rsu=<',rsu,'>');
-    let pubKeyEC = ec.keyFromPublic(auth.pubKey, 'hex');
-    let pubKeyjwk = pubKeyEC.getPublic('jwk');
-    console.log('verifyAuth pubKeyjwk=<',pubKeyjwk,'>');
-    let pubKey = rs.KEYUTIL.getKey(pubKeyjwk);
+    //let pubKeyEC = ec.keyFromPublic(auth.pubKey, 'hex');
+    //let pubKeyjwk = pubKeyEC.getPublic('jwk');
+    //console.log('verifyAuth pubKeyjwk=<',pubKeyjwk,'>');
+    
+    let pubKey = rs.KEYUTIL.getKey(auth.pubKey);
     console.log('verifyAuth pubKey=<',pubKey,'>');
     let sign = auth.sign;
     console.log('verifyAuth auth.enc=<',auth.enc,'>');

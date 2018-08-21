@@ -96,15 +96,13 @@ function removeWSClients(key) {
 }
 
 function onAuthedMsg(jsonMsg,ws) {
-  if(jsonMsg.channel && jsonMsg.subscribe) {
-    wsProxy.subscribe(jsonMsg.channel,onStarBianMsg);
-    wsClients[jsonMsg.channel] = ws;
-  } else if(jsonMsg.channel && jsonMsg.ecdh) {
-    wsProxy.passthrough(jsonMsg.channel,jsonMsg);
-  } else if(jsonMsg.channel && jsonMsg.msg) {
-    wsProxy.passthrough(jsonMsg.channel,jsonMsg);
-  } else if(jsonMsg.channel && jsonMsg.encrypt) {
-    wsProxy.passthrough(jsonMsg.channel,jsonMsg);
+  if(jsonMsg.channel) {
+    if(jsonMsg.subscribe) {
+      wsProxy.subscribe(jsonMsg.channel,onStarBianMsg);
+      wsClients[jsonMsg.channel] = ws;
+    } else {
+      wsProxy.passthrough(jsonMsg.channel,jsonMsg);
+    }
   } else {
     console.log('onAuthedMsg jsonMsg=<',jsonMsg,'>');
   }

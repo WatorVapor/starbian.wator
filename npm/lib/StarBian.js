@@ -203,26 +203,6 @@ class StarBian {
     if(msg.ecdh) {
       this._doExchangeKey(msg.ecdh);
     }
-    /*
-    let d = new SHA3.SHA3Hash();
-    let signOrig = Buffer.from(msg.enc).toString('base64');
-    d.update(signOrig);
-    let signHash = d.digest('hex');
-    let pubKey = ec.keyFromPublic(channel, 'hex');
-    let verify = pubKey.verify(signHash,msg.sign);
-    //console.log('_onP2PMsg::verify=<',verify,'>');
-    if(verify) {
-      let cbs = this.chCB[channel];
-      if(cbs) {
-        for(let i = 0 ; i < cbs.length;i++) {
-          let cb = cbs[i];
-          if(typeof cb === 'function') {
-            cb(channel,msg);
-          }
-        }
-      }
-    }
-    */
   }
 
   _verifyAuth(auth) {
@@ -249,6 +229,9 @@ class StarBian {
   }
   _doExchangeKey(ecdh) {
     console.log('_doExchangeKey ecdh=<',ecdh,'>');
+    let remotePubKey = rs.KEYUTIL.getKey(ecdh.key);
+    console.log('_doExchangeKey remotePubKey=<',remotePubKey,'>');
+    
     console.log('_doExchangeKey this.ecdhKey=<',this.ecdhKey,'>');
     console.log('_doExchangeKey this.ecdhKeyPub=<',this.ecdhKeyPub,'>');
     console.log('_doExchangeKey this.ecdhKeyPubHex=<',this.ecdhKeyPubHex,'>');

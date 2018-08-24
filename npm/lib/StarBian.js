@@ -12,7 +12,7 @@ const EC = require('elliptic').ec;
 const ec = new EC('p256');
 const SHA3  = require('sha3');
 const rs = require('jsrsasign');
-#const rsu = require('jsrsasign-util');
+//const rsu = require('jsrsasign-util');
 const StarBianP2p = require('./star_bian_p2p');
 
 

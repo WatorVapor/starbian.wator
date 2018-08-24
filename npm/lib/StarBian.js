@@ -41,6 +41,10 @@ class StarBian {
       let saveChannel = JSON.stringify(this.channel,null, 2);
       fs.writeFileSync(this.channelPath_,saveChannel);
     }
+    this.ecdhKey = ec.genKeyPair();
+    this.ecdhKeyPub = this.ecdhKey.getPublic('jwk');
+    this.ecdhKeyPubHex = this.ecdhKey.getPublic('hex');
+    
     this.p2p = new StarBianP2p();
     let self = this;
     this.p2p.onReady = () => {
@@ -245,6 +249,9 @@ class StarBian {
   }
   _doExchangeKey(ecdh) {
     console.log('_doExchangeKey ecdh=<',ecdh,'>');
+    console.log('_doExchangeKey this.ecdhKey=<',this.ecdhKey,'>');
+    console.log('_doExchangeKey this.ecdhKeyPub=<',this.ecdhKeyPub,'>');
+    console.log('_doExchangeKey this.ecdhKeyPubHex=<',this.ecdhKeyPubHex,'>');
   }
   
 }

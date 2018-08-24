@@ -45,7 +45,7 @@ class StarBian {
     this.ecdhKey = crypto.createECDH('secp256k1');
     this.ecdhKey.generateKeys();
     console.log('this.ecdhKey =<',this.ecdhKey,'>');
-    this.ecdhKeyPub = this.ecdhKey.getPublicKey('jwk');
+    //this.ecdhKeyPub = this.ecdhKey.getPublicKey('jwk');
     this.ecdhKeyPubHex = this.ecdhKey.getPublicKey('hex');
     
     this.p2p = new StarBianP2p();

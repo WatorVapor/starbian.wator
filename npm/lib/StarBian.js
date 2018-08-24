@@ -199,10 +199,14 @@ class StarBian {
    * @private
    */
   _onP2PMsg(channel,msg) {
-    console.log('_onP2PMsg::channel=<',channel,'>');
-    console.log('_onP2PMsg::msg=<',msg,'>');
+    //console.log('_onP2PMsg::channel=<',channel,'>');
+    //console.log('_onP2PMsg::msg=<',msg,'>');
     let authed = this._verifyAuth(msg.auth);
     console.log('_onP2PMsg::authed=<',authed,'>');
+    if(!authed) {
+      console.log('not authed _onP2PMsg::channel=<',channel,'>');
+      console.log('not authed _onP2PMsg::msg=<',msg,'>');
+    }
     /*
     let d = new SHA3.SHA3Hash();
     let signOrig = Buffer.from(msg.enc).toString('base64');
@@ -228,6 +232,9 @@ class StarBian {
   _verifyAuth(auth) {
     //console.log('verifyAuth auth=<',auth,'>');
     if(auth) {
+      let indexAuthed = this.channel.authed.indexOf(auth.pubKeyHex);
+      console.log('_verifyAuth indexAuthed=<',indexAuthed,'>');
+
       let pubKey = rs.KEYUTIL.getKey(auth.pubKey);
       //console.log('verifyAuth pubKey=<',pubKey,'>');
       let signEngine = new rs.KJUR.crypto.Signature({alg: 'SHA256withECDSA'});

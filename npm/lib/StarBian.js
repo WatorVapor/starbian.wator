@@ -234,6 +234,9 @@ class StarBian {
     if(auth) {
       let indexAuthed = this.channel.authed.indexOf(auth.pubKeyHex);
       console.log('_verifyAuth indexAuthed=<',indexAuthed,'>');
+      if(indexAuthed === -1) {
+        return false;
+      }
 
       let pubKey = rs.KEYUTIL.getKey(auth.pubKey);
       //console.log('verifyAuth pubKey=<',pubKey,'>');

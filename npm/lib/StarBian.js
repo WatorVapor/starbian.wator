@@ -44,9 +44,9 @@ class StarBian {
     this.p2p = new StarBianP2p();
     let self = this;
     this.p2p.onReady = () => {
-      self._subManagedChannels();
+      self.p2p.in(self.pubKeyStr,(msg) => {self._onP2PMsg(self.pubKeyStr,msg)});      
       if(typeof this.onReady === 'function') {
-        this.onReady();
+        self.onReady();
       }
     };
     this.chCB = {};
@@ -189,7 +189,6 @@ class StarBian {
     let self = this;
     for(let i = 0; i < this.channel.authed.length;i++) {
       let channel = this.channel.authed[i];
-      this.p2p.in(channel,(msg) => {self._onP2PMsg(channel,msg)});
     }
   }
   /**

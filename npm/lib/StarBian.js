@@ -41,9 +41,10 @@ class StarBian {
       let saveChannel = JSON.stringify(this.channel,null, 2);
       fs.writeFileSync(this.channelPath_,saveChannel);
     }
-    this.ecdhKey = ec.genKeyPair();
-    this.ecdhKeyPub = this.ecdhKey.getPublic('jwk');
-    this.ecdhKeyPubHex = this.ecdhKey.getPublic('hex');
+    let ecdh = crypto.createECDH('p256');
+    this.ecdhKey = ecdh.generateKeys();
+    this.ecdhKeyPub = this.ecdhKey.getPublicKey('jwk');
+    this.ecdhKeyPubHex = this.ecdhKey.getPublicKey('hex');
     
     this.p2p = new StarBianP2p();
     let self = this;

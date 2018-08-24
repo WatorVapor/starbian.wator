@@ -201,7 +201,7 @@ class StarBian {
   _onP2PMsg(channel,msg) {
     console.log('_onP2PMsg::channel=<',channel,'>');
     console.log('_onP2PMsg::msg=<',msg,'>');
-    let authed = this._verifyAuth();
+    let authed = this._verifyAuth(msg.auth);
     console.log('_onP2PMsg::authed=<',authed,'>');
     /*
     let d = new SHA3.SHA3Hash();

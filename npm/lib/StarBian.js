@@ -11,7 +11,8 @@ const crypto = require('crypto');
 const EC = require('elliptic').ec;
 const ec = new EC('p256');
 const SHA3  = require('sha3');
-
+const rs = require('jsrsasign');
+const rsu = require('jsrsasign-util');
 const StarBianP2p = require('./star_bian_p2p');
 
 
@@ -200,7 +201,9 @@ class StarBian {
   _onP2PMsg(channel,msg) {
     console.log('_onP2PMsg::channel=<',channel,'>');
     console.log('_onP2PMsg::msg=<',msg,'>');
-    
+    let authed = this._verifyAuth();
+    console.log('_onP2PMsg::authed=<',authed,'>');
+    /*
     let d = new SHA3.SHA3Hash();
     let signOrig = Buffer.from(msg.enc).toString('base64');
     d.update(signOrig);
@@ -219,7 +222,26 @@ class StarBian {
         }
       }
     }
+    */
   }
+
+  _verifyAuth(auth) {
+    //console.log('verifyAuth auth=<',auth,'>');
+    if(auth) {
+      let pubKey = rs.KEYUTIL.getKey(auth.pubKey);
+      //console.log('verifyAuth pubKey=<',pubKey,'>');
+      let signEngine = new rs.KJUR.crypto.Signature({alg: 'SHA256withECDSA'});
+      signEngine.init({xy: pubKey.pubKeyHex, curve: 'secp256r1'});
+      signEngine.updateString(auth.hash);
+      //console.log('verifyAuth signEngine=<',signEngine,'>');
+      let result = signEngine.verify(auth.sign);
+      //console.log('verifyAuth result=<',result,'>');
+      return result;
+    } else {
+      return false;
+    }
+  }
+  
   
 }
 

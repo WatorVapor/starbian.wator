@@ -12,7 +12,6 @@ const EC = require('elliptic').ec;
 const ec = new EC('p256');
 const SHA3  = require('sha3');
 const rs = require('jsrsasign');
-//const rsu = require('jsrsasign-util');
 const StarBianP2p = require('./star_bian_p2p');
 
 
@@ -182,17 +181,6 @@ class StarBian {
   }
 
   /**
-   * suscribe channels.
-   *
-   * @private
-   */
-  _subManagedChannels() {
-    let self = this;
-    for(let i = 0; i < this.channel.authed.length;i++) {
-      let channel = this.channel.authed[i];
-    }
-  }
-  /**
    * on channel msg.
    *
    * @param {String} msg 
@@ -209,7 +197,7 @@ class StarBian {
     }
     console.log('_onP2PMsg::msg=<',msg,'>');
     if(msg.ecdh) {
-      
+      this._doExchangeKey(msg.ecdh);
     }
     /*
     let d = new SHA3.SHA3Hash();
@@ -255,7 +243,9 @@ class StarBian {
       return false;
     }
   }
-  
+  _doExchangeKey(ecdh) {
+    console.log('_doExchangeKey ecdh=<',ecdh,'>');
+  }
   
 }
 

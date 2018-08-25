@@ -247,8 +247,8 @@ class StarBian {
     console.log('_doExchangeKey this.ECDHKeyPubJwk=<',this.ECDHKeyPubJwk,'>');
   }
 
-  _doExchangeKey(remotePubKey) {
-    console.log('_doExchangeKey remotePubKey=<' , remotePubKey , '>');
+  _onExchangeKey(remotePubKey) {
+    console.log('_onExchangeKey remotePubKey=<' , remotePubKey , '>');
     let self = this;
     webcrypto.subtle.deriveKey( 
       { name: 'ECDH', namedCurve: 'P-256', public: remotePubKey },
@@ -257,7 +257,7 @@ class StarBian {
       false,
       ['encrypt', 'decrypt']
     ).then(keyAES => {
-      console.log('_doExchangeKey keyAES=<' , keyAES , '>');
+      console.log('_onExchangeKey keyAES=<' , keyAES , '>');
       self.AESKey = keyAES;
     })
     .catch(function(err){

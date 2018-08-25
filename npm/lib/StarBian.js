@@ -194,10 +194,10 @@ class StarBian {
       ['sign']
     )
     .then(function(privateKey){
-      console.log('privateKey=<' , privateKey , '>');
+      console.log('_loadKeyPair privateKey=<' , privateKey , '>');
       webcrypto.subtle.exportKey('jwk',key)
       .then(function(keydata){
-        console.log('getPrvKey keydata=<' , keydata , '>');
+        console.log('_loadKeyPair keydata=<' , keydata , '>');
         self.rsPrvKey = rs.KEYUTIL.getKey(keydata);
       })
       .catch(function(err){

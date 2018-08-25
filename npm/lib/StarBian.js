@@ -206,6 +206,10 @@ class StarBian {
     let keyStr = fs.readFileSync(this.keyPath_, 'utf8');
     let keyJson = JSON.parse(keyStr);
     console.log('_loadKeyPair::keyJson=<',keyJson,'>');
+    this.rsPrvKey = rs.KEYUTIL.getKey(keyJson.prvKey);
+    this.prvHex = this.rsPrvKey.prvKeyHex;
+    this.rsPubKey = rs.KEYUTIL.getKey(keyJson.pubKey);
+    this.pubHex = this.rsPubKey.pubKeyHex;
     let self = this;
     webcrypto.subtle.importKey(
       'jwk',
@@ -220,8 +224,6 @@ class StarBian {
     .then(function(privateKey){
       console.log('_loadKeyPair:privateKey=<' , privateKey , '>');
       self.prvKey = privateKey;
-      self.rsPrvKey = rs.KEYUTIL.getKey(privateKey);
-      self.prvHex = self.rsPrvKey.prvKeyHex;
     })
     .catch(function(err){
       console.error(err);
@@ -239,8 +241,6 @@ class StarBian {
     .then(function(publicKey){
       console.log('_loadKeyPair:publicKey=<' , publicKey , '>');
       self.pubKey = publicKey;
-      self.rsPubKey = rs.KEYUTIL.getKey(publicKey);
-      self.pubHex = self.rsPubKey.pubKeyHex;
     })
     .catch(function(err){
       console.error(err);

@@ -13,6 +13,7 @@ const rs = require('jsrsasign');
 const WebCrypto = require("node-webcrypto-ossl");
 const webcrypto = new WebCrypto();
 const StarBianP2p = require('./star_bian_p2p');
+const ab2str = require('arraybuffer-to-string')
 
 
 function buf2hex(buf) {
@@ -440,8 +441,8 @@ class StarBian {
       ptUint8
     ).then(plainBuff => {
       console.log('_onEncryptMsg plainBuff=<' , plainBuff , '>');
-      //let plainText = new TextDecoder().decode(plainBuff);
-      //console.log('WATOR.decrypt plainText=<' , plainText , '>');
+      let plainText = ab2str(plainBuff);
+      console.log('_onEncryptMsg plainText=<' , plainText , '>');
       //let plainJson = JSON.parse(plainText);
       //console.log('WATOR.decrypt plainJson=<' , plainJson , '>');
       //cb(plainJson);

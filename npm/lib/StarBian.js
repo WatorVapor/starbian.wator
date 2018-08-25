@@ -432,6 +432,24 @@ class StarBian {
       name: 'AES-GCM',
       iv: hex2buf(msg.iv)
     };
+    const ptUint8 = hex2buf(msg.encrypt);
+    //console.log('_onEncryptMsg this.AESKey=<' , this.AESKey , '>');
+    webcrypto.subtle.decrypt( 
+      alg,
+      this.AESKey,
+      ptUint8
+    ).then(plainBuff => {
+      console.log('_onEncryptMsg plainBuff=<' , plainBuff , '>');
+      //let plainText = new TextDecoder().decode(plainBuff);
+      //console.log('WATOR.decrypt plainText=<' , plainText , '>');
+      //let plainJson = JSON.parse(plainText);
+      //console.log('WATOR.decrypt plainJson=<' , plainJson , '>');
+      //cb(plainJson);
+    })
+    .catch(function(err){
+      console.error(err);
+    });
+
     /*
     //console.log('_onEncryptMsg:encrypt=<',encrypt,'>');
     let self = this;

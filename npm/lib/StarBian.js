@@ -334,7 +334,7 @@ class StarBian {
         ecdh:ecdh
       };
       console.log('_tryExchangeKey sentMsg=<' , sentMsg , '>');
-      self.p2p.out(remotePubKeyHex,auth);
+      self.p2p.out(remotePubKeyHex,sentMsg);
     });
   }
 

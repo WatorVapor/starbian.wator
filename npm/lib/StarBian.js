@@ -8,8 +8,6 @@
 
 const fs = require('fs');
 const crypto = require('crypto');
-const EC = require('elliptic').ec;
-const ec = new EC('p256');
 const SHA3  = require('sha3');
 const rs = require('jsrsasign');
 const WebCrypto = require("node-webcrypto-ossl");
@@ -149,6 +147,32 @@ class StarBian {
    * @private
    */
   _createKeyPair() {
+    
+    webcrypto.subtle.generateKey(
+      {
+        name: 'ECDSA',
+        namedCurve: 'P-256',
+      },
+      true,
+      ['sign','verify']
+    )
+    .then(function(key){
+      console.log('_createKeyPair::key=<',key,'>');
+      webcrypto.subtle.exportKey('jwk',key)
+      .then(function(keydata){
+        console.log('savePrivKey keydata=<' , keydata , '>');
+        let keyStr = JSON.stringify(keydata);
+        console.log('savePrivKey keyStr=<' , keyStr , '>');
+        localStorage.setItem(KEY_NAME,keyStr);
+      })
+      .catch(function(err){
+        console.error(err);
+      });
+    })
+    .catch(function(err){
+      console.error(err);
+    });
+/*
     let key = ec.genKeyPair();
     this.key = key;
     //console.log('_createKeyPair::this.key=<',this.key,'>');
@@ -164,6 +188,7 @@ class StarBian {
     this.channel.authed = [];
     let saveChannel = JSON.stringify(this.channel,null, 2);
     fs.writeFileSync(this.channelPath_,saveChannel);
+*/
   }
 
   /**

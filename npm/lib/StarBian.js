@@ -424,7 +424,7 @@ class StarBian {
   };
 
   
-  _onEncryptMsg(encrypt,remotePubKeyHex) {
+  _onEncryptMsg(msg,remotePubKeyHex) {
     if(!this.AESKey) {
       return;
     }

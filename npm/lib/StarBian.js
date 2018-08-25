@@ -444,29 +444,12 @@ class StarBian {
       let plainText = ab2str(plainBuff);
       console.log('_onEncryptMsg plainText=<' , plainText , '>');
       let plainJson = JSON.parse(plainText);
-      console.log('WATOR.decrypt plainJson=<' , plainJson , '>');
+      console.log('_onEncryptMsg plainJson=<' , plainJson , '>');
       //cb(plainJson);
     })
     .catch(function(err){
       console.error(err);
     });
-
-    /*
-    //console.log('_onEncryptMsg:encrypt=<',encrypt,'>');
-    let self = this;
-    this.decrypt(encrypt,function(plainMsg) {
-      //console.log('_onEncryptMsg:typeof plainMsg=<',typeof plainMsg,'>');
-      if(plainMsg) {
-        if(typeof plainMsg === 'string') {
-          self.onGoodMessage_(JSON.parse(plainMsg));
-        } else {
-          self.onGoodMessage_(plainMsg);
-        }
-      } else {
-        console.log('_onEncryptMsg:plainMsg=<',plainMsg,'>');
-      }
-    });
-    */
   }
   
 }

@@ -387,8 +387,9 @@ class StarBian {
     let self = this;
     webcrypto.subtle.digest("SHA-256",Buffer.from(msg,'hex'))
     .then(function(buf) {
+      console.log('_signAuth buf=<' , buf , '>');
       let hash = buf.toString('hex');
-      //console.log('_signAuth hash=<' , hash , '>');
+      console.log('_signAuth hash=<' , hash , '>');
       let ecSign = new rs.KJUR.crypto.ECDSA({'curve': 'secp256r1'});
       //console.log('_signAuth ecSign=<' , ecSign , '>');
       //console.log('_signAuth self.rsPrvKey=<' , self.rsPrvKey , '>');

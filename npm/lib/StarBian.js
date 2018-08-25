@@ -148,8 +148,8 @@ class StarBian {
    * @private
    */
   _createKeyPair() {
-    
     let self = this;
+    let toBeSaved = {};
     webcrypto.subtle.generateKey(
       {
         name: 'ECDSA',
@@ -166,6 +166,11 @@ class StarBian {
         console.log('_createKeyPair privateKey keydata=<' , keydata , '>');
         self.rsPrvKey = rs.KEYUTIL.getKey(keydata);
         console.log('_createKeyPair privateKey self.rsPrvKey=<' , self.rsPrvKey , '>');
+        self.prvHex = self.rsPrvKey.prvKeyHex;
+        toBeSaved.prvKey = keydata;
+        if(toBeSaved.pubKey) {
+           fs.writeFileSync(this.keyPath_,toBeSaved);
+        }
       })
       .catch(function(err){
         console.error(err);
@@ -175,6 +180,11 @@ class StarBian {
         console.log('_createKeyPair publicKey keydata=<' , keydata , '>');
         self.rsPubKey = rs.KEYUTIL.getKey(keydata);
         console.log('_createKeyPair privateKey self.rsPubKey=<' , self.rsPubKey , '>');
+        self.pubHex = self.rsPubKey.pubKeyHex;
+        toBeSaved.pubKey = keydata;
+        if(toBeSaved.prvKey) {
+           fs.writeFileSync(this.keyPath_,toBeSaved);
+        }
       })
       .catch(function(err){
         console.error(err);

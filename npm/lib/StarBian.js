@@ -46,7 +46,7 @@ class StarBian {
     this.p2p = new StarBianP2p();
     let self = this;
     this.p2p.onReady = () => {
-      self.p2p.in(self.pubKeyStr,(msg) => {self._onP2PMsg(self.pubKeyStr,msg)});      
+      self.p2p.in(self.pubHex,(msg) => {self._onP2PMsg(self.pubHex,msg)});      
       if(typeof this.onReady === 'function') {
         self.onReady();
       }

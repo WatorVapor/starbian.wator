@@ -164,6 +164,7 @@ class StarBian {
       webcrypto.subtle.exportKey('jwk',key.privateKey)
       .then(function(keydata){
         console.log('_createKeyPair privateKey keydata=<' , keydata , '>');
+        self.prvKey = keydata;
         self.rsPrvKey = rs.KEYUTIL.getKey(keydata);
         console.log('_createKeyPair privateKey self.rsPrvKey=<' , self.rsPrvKey , '>');
         self.prvHex = self.rsPrvKey.prvKeyHex;
@@ -178,6 +179,7 @@ class StarBian {
       webcrypto.subtle.exportKey('jwk',key.publicKey)
       .then(function(keydata){
         console.log('_createKeyPair publicKey keydata=<' , keydata , '>');
+        self.pubKey = keydata;
         self.rsPubKey = rs.KEYUTIL.getKey(keydata);
         console.log('_createKeyPair privateKey self.rsPubKey=<' , self.rsPubKey , '>');
         self.pubHex = self.rsPubKey.pubKeyHex;
@@ -193,23 +195,6 @@ class StarBian {
     .catch(function(err){
       console.error(err);
     });
-/*
-    let key = ec.genKeyPair();
-    this.key = key;
-    //console.log('_createKeyPair::this.key=<',this.key,'>');
-    let pub = key.getPublic('hex');
-    this.pubHex = pub;
-    let prv = key.getPrivate('hex');
-    this.prvHex = prv;
-    let save = {prv:this.prvHex,pub:this.pubHex};
-    let saveKey = JSON.stringify(save,null, 2);
-    fs.writeFileSync(this.keyPath_,saveKey);
-    this.channel = {};
-    this.channel.myself = this.pubHex;
-    this.channel.authed = [];
-    let saveChannel = JSON.stringify(this.channel,null, 2);
-    fs.writeFileSync(this.channelPath_,saveChannel);
-*/
   }
 
   /**
@@ -220,18 +205,10 @@ class StarBian {
   _loadKeyPair() {
     let keyStr = fs.readFileSync(this.keyPath_, 'utf8');
     let keyJson = JSON.parse(keyStr);
-    this.key = ec.keyFromPrivate(keyJson.prv,'hex');
-    //console.log('_loadKeyPair::this.key=<',this.key,'>');
-    this.prvHex = this.key.getPrivate('hex');
-    this.pubHex = this.key.getPublic('hex');;
-    //console.log('_loadKeyPair::this.key=<',this.key,'>');
-    this.prvKeyStr = this.prvHex;
-    this.pubKeyStr = this.pubHex;
-    
-    let self = this;
+    console.log('_loadKeyPair::keyJson=<',keyJson,'>');
     webcrypto.subtle.importKey(
-      'raw',
-      this.prvHex,
+      'jwk',
+      keyJson.prvKey,
       {
         name: 'ECDSA',
         namedCurve: 'P-256', 
@@ -240,15 +217,29 @@ class StarBian {
       ['sign']
     )
     .then(function(privateKey){
-      console.log('_loadKeyPair privateKey=<' , privateKey , '>');
-      webcrypto.subtle.exportKey('jwk',privateKey)
-      .then(function(keydata){
-        console.log('_loadKeyPair keydata=<' , keydata , '>');
-        self.rsPrvKey = rs.KEYUTIL.getKey(keydata);
-      })
-      .catch(function(err){
-        console.error(err);
-      });
+      console.log('privateKey=<' , privateKey , '>');
+      self.prvKey = privateKey;
+      self.rsPrvKey = rs.KEYUTIL.getKey(privateKey);
+      self.prvHex = self.rsPrvKey.prvKeyHex;
+    })
+    .catch(function(err){
+      console.error(err);
+    });
+    webcrypto.subtle.importKey(
+      'jwk',
+      key,
+      {
+        name: 'ECDSA',
+        namedCurve: 'P-256', 
+      },
+      true, 
+      ['verify']
+    )
+    .then(function(publicKey){
+      console.log('publicKey=<' , publicKey , '>');
+      self.pubKey = publicKey;
+      self.rsPubKey = rs.KEYUTIL.getKey(publicKey);
+      self.pubHex = self.rsPubKey.pubKeyHex;
     })
     .catch(function(err){
       console.error(err);

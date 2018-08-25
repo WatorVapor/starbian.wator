@@ -182,7 +182,32 @@ class StarBian {
     this.prvKeyStr = this.prvHex;
     this.pubKeyStr = this.pubHex;
     
-    this.rsPrvKey = rs.KEYUTIL.getKey(this.key);
+    let self = this;
+    webcrypto.subtle.importKey(
+      'raw',
+      this.prvHex,
+      {
+        name: 'ECDSA',
+        namedCurve: 'P-256', 
+      },
+      true, 
+      ['sign']
+    )
+    .then(function(privateKey){
+      console.log('privateKey=<' , privateKey , '>');
+      webcrypto.subtle.exportKey('jwk',key)
+      .then(function(keydata){
+        console.log('getPrvKey keydata=<' , keydata , '>');
+        self.rsPrvKey = rs.KEYUTIL.getKey(keydata);
+      })
+      .catch(function(err){
+        console.error(err);
+      });
+    })
+    .catch(function(err){
+      console.error(err);
+    });
+
   }
 
   /**

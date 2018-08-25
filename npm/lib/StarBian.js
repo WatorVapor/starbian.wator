@@ -181,6 +181,8 @@ class StarBian {
     //console.log('_loadKeyPair::this.key=<',this.key,'>');
     this.prvKeyStr = this.prvHex;
     this.pubKeyStr = this.pubHex;
+    
+    this.rsPrvKey = rs.KEYUTIL.getKey(this.key);
   }
 
   /**
@@ -324,7 +326,7 @@ class StarBian {
       //console.log('_signAuth hash=<' , hash , '>');
       let ecSign = new rs.KJUR.crypto.ECDSA({'curve': 'secp256r1'});
       //console.log('_signAuth ecSign=<' , ecSign , '>');
-      //console.log('_signAuth WATOR.prvKeyHex=<' , WATOR.prvKeyHex , '>');
+      console.log('_signAuth self.rsPrvKey=<' , self.rsPrvKey , '>');
 
       let signEngine = new rs.KJUR.crypto.Signature({alg: 'SHA256withECDSA'});
       signEngine.init({d: self.rsPrvKey.prvKeyHex, curve: 'secp256r1'});

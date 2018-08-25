@@ -226,14 +226,43 @@ class StarBian {
       return false;
     }
   }
+  
   _doExchangeKey(ecdh) {
     console.log('_doExchangeKey ecdh=<',ecdh,'>');
-    let remotePubKey = rs.KEYUTIL.getKey(ecdh.key);
-    console.log('_doExchangeKey remotePubKey=<',remotePubKey,'>');
+    let self = this;
+    webcrypto.subtle.importKey(
+      'jwk',
+      ecdh.key,
+      { name: 'ECDH', namedCurve: 'P-256'},
+      false,
+      []
+    ).then(key => {
+      self._onExchangeKey(key);
+    })
+    .catch(function(err){
+      console.error(err);
+    });
     
-    console.log('_doExchangeKey this.ecdhKey=<',this.ecdhKey,'>');
-    console.log('_doExchangeKey this.ecdhKeyPub=<',this.ecdhKeyPub,'>');
-    console.log('_doExchangeKey this.ecdhKeyPubHex=<',this.ecdhKeyPubHex,'>');
+    console.log('_doExchangeKey this.ECDHKey=<',this.ECDHKey,'>');
+    console.log('_doExchangeKey this.ECDHKeyPubJwk=<',this.ECDHKeyPubJwk,'>');
+  }
+
+  _doExchangeKey(remotePubKey) {
+    console.log('_doExchangeKey remotePubKey=<' , remotePubKey , '>');
+    let self = this;
+    webcrypto.subtle.deriveKey( 
+      { name: 'ECDH', namedCurve: 'P-256', public: remotePubKey },
+      WATOR.ECDHKey.privateKey,
+      { name: 'AES-GCM', length: 128 },
+      false,
+      ['encrypt', 'decrypt']
+    ).then(keyAES => {
+      console.log('_doExchangeKey keyAES=<' , keyAES , '>');
+      self.AESKey = keyAES;
+    })
+    .catch(function(err){
+      console.error(err);
+    });
   }
 
   _createECDHKey () {

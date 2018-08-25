@@ -15,6 +15,11 @@ const webcrypto = new WebCrypto();
 const StarBianP2p = require('./star_bian_p2p');
 
 
+function buf2hex(buf) {
+  return Array.prototype.map.call(new Uint8Array(buf), x=>(('00'+x.toString(16)).slice(-2))).join('');
+}
+
+
 class StarBian {
   /**
    * Create a new `StarBian`.
@@ -388,7 +393,7 @@ class StarBian {
     webcrypto.subtle.digest("SHA-256",Buffer.from(msg,'hex'))
     .then(function(buf) {
       console.log('_signAuth buf=<' , buf , '>');
-      let hash = buf.toString('hex');
+      let hash = buf2hex(buf);
       console.log('_signAuth hash=<' , hash , '>');
       let ecSign = new rs.KJUR.crypto.ECDSA({'curve': 'secp256r1'});
       //console.log('_signAuth ecSign=<' , ecSign , '>');

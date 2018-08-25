@@ -252,7 +252,7 @@ class StarBian {
     let self = this;
     webcrypto.subtle.deriveKey( 
       { name: 'ECDH', namedCurve: 'P-256', public: remotePubKey },
-      WATOR.ECDHKey.privateKey,
+      self.ECDHKey.privateKey,
       { name: 'AES-GCM', length: 128 },
       false,
       ['encrypt', 'decrypt']

@@ -227,7 +227,7 @@ class StarBian {
     });
     webcrypto.subtle.importKey(
       'jwk',
-      key,
+      keyJson.pubKey,
       {
         name: 'ECDSA',
         namedCurve: 'P-256', 

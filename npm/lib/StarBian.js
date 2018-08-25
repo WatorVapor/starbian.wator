@@ -27,8 +27,9 @@ class StarBian {
     this.keyPath_ = '.keys/key.json';
     if(!fs.existsSync(this.keyPath_)) {
       this._createKeyPair();
+    } else {
+      this._loadKeyPair();
     }
-    this._loadKeyPair();
     //console.log('StarBian constructor:this.p2p=<',this.p2p,'>');
     this.channelPath_ = 'channels.json';
     if(fs.existsSync(this.channelPath_)) {

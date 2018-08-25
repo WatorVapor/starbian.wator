@@ -328,12 +328,12 @@ class StarBian {
     };
     let self = this;
     this._signAuth(JSON.stringify(ecdh),function(auth) {
-      console.log('_tryExchangeKey auth=<' , auth , '>');
       let sentMsg = {
         channel:remotePubKeyHex,
         auth:auth,
         ecdh:ecdh
       };
+      console.log('_tryExchangeKey sentMsg=<' , sentMsg , '>');
       self.p2p.out(remotePubKeyHex,auth);
     });
   }

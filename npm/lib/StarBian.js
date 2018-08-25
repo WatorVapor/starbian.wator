@@ -218,7 +218,7 @@ class StarBian {
       ['sign']
     )
     .then(function(privateKey){
-      console.log('privateKey=<' , privateKey , '>');
+      console.log('_loadKeyPair:privateKey=<' , privateKey , '>');
       self.prvKey = privateKey;
       self.rsPrvKey = rs.KEYUTIL.getKey(privateKey);
       self.prvHex = self.rsPrvKey.prvKeyHex;
@@ -237,7 +237,7 @@ class StarBian {
       ['verify']
     )
     .then(function(publicKey){
-      console.log('publicKey=<' , publicKey , '>');
+      console.log('_loadKeyPair:publicKey=<' , publicKey , '>');
       self.pubKey = publicKey;
       self.rsPubKey = rs.KEYUTIL.getKey(publicKey);
       self.pubHex = self.rsPubKey.pubKeyHex;

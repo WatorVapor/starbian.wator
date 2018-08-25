@@ -264,7 +264,7 @@ class StarBian {
     }
     console.log('_onP2PMsg::msg=<',msg,'>');
     if(msg.ecdh) {
-      this._doExchangeKey(msg.ecdh);
+      this._doExchangeKey(msg.ecdh,msg.auth.pubKeyHex);
     }
   }
 
@@ -291,10 +291,10 @@ class StarBian {
     }
   }
   
-  _doExchangeKey(ecdh) {
+  _doExchangeKey(ecdh,remotePubKeyHex) {
     console.log('_doExchangeKey ecdh=<',ecdh,'>');
     if(ecdh.type === 'request') {
-      this._tryExchangeKey('response');
+      this._tryExchangeKey('response',remotePubKeyHex);
     }
     let self = this;
     webcrypto.subtle.importKey(
@@ -312,6 +312,26 @@ class StarBian {
     
     console.log('_doExchangeKey this.ECDHKey=<',this.ECDHKey,'>');
     console.log('_doExchangeKey this.ECDHKeyPubJwk=<',this.ECDHKeyPubJwk,'>');
+  }
+  _tryExchangeKey(type,remotePubKeyHex) {
+    let ecdh = {
+      key:this.ECDHKeyPubJwk,
+      type:type,
+      ts:new Date()
+    };
+    let self = this;
+    this._signAuth(JSON.stringify(ecdh),function(auth) {
+      let sentMsg = {
+        channel:self.channel.myself,
+        auth:auth,
+        ecdh:ecdh
+      };
+      if(remotePubKeyHex) {
+        self.p2p.out(remotePubKeyHex,auth);
+      } else {
+        self.p2p.out(self.channel.myself,auth);
+      }
+    });
   }
 
   _onExchangeKey(remotePubKey) {
@@ -362,22 +382,6 @@ class StarBian {
     });
   }
 
-  _tryExchangeKey(type) {
-    let ecdh = {
-      key:this.ECDHKeyPubJwk,
-      type:type,
-      ts:new Date()
-    };
-    let self = this;
-    this._signAuth(JSON.stringify(ecdh),function(auth) {
-      let sentMsg = {
-        channel:self.channel.myself,
-        auth:auth,
-        ecdh:ecdh
-      };
-      self.p2p.out(self.channel.myself,auth);
-    });
-  }
 
   _signAuth(msg,cb) {
     //console.log('_signAuth msg=<' , msg , '>');

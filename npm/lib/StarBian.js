@@ -169,7 +169,7 @@ class StarBian {
         self.prvHex = self.rsPrvKey.prvKeyHex;
         toBeSaved.prvKey = keydata;
         if(toBeSaved.pubKey) {
-           fs.writeFileSync(this.keyPath_,toBeSaved);
+           fs.writeFileSync(self.keyPath_,toBeSaved);
         }
       })
       .catch(function(err){
@@ -183,7 +183,7 @@ class StarBian {
         self.pubHex = self.rsPubKey.pubKeyHex;
         toBeSaved.pubKey = keydata;
         if(toBeSaved.prvKey) {
-           fs.writeFileSync(this.keyPath_,toBeSaved);
+           fs.writeFileSync(self.keyPath_,toBeSaved);
         }
       })
       .catch(function(err){

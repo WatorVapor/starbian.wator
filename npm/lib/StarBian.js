@@ -43,13 +43,7 @@ class StarBian {
       let saveChannel = JSON.stringify(this.channel,null, 2);
       fs.writeFileSync(this.channelPath_,saveChannel);
     }
-    //let ecdh = crypto.createECDH('secp256k1');
-    this.ecdhKey = crypto.createECDH('secp256k1');
-    this.ecdhKey.generateKeys();
-    console.log('this.ecdhKey =<',this.ecdhKey,'>');
-    //this.ecdhKeyPub = this.ecdhKey.getPublicKey('jwk');
-    this.ecdhKeyPubHex = this.ecdhKey.getPublicKey('hex');
-    
+    this._createECDHKey();    
     this.p2p = new StarBianP2p();
     let self = this;
     this.p2p.onReady = () => {
@@ -240,6 +234,35 @@ class StarBian {
     console.log('_doExchangeKey this.ecdhKey=<',this.ecdhKey,'>');
     console.log('_doExchangeKey this.ecdhKeyPub=<',this.ecdhKeyPub,'>');
     console.log('_doExchangeKey this.ecdhKeyPubHex=<',this.ecdhKeyPubHex,'>');
+  }
+
+  _createECDHKey () {
+    let self =this;
+    webcrypto.subtle.generateKey(
+      {
+        name: 'ECDH',
+        namedCurve: 'P-256',
+      },
+      false,
+      ['deriveKey','deriveBits']
+    )
+    .then(function(key){
+      self.ECDHKey = key;
+      self._exportECDHPubKey(key.publicKey);
+    })
+    .catch(function(err){
+      console.error(err);
+    });
+  }
+  _exportECDHPubKey(pubKey) {
+    webcrypto.subtle.exportKey('jwk', pubKey)
+    .then(function(keydata){
+      console.log('_exportECDHPubKey keydata=<' , keydata , '>');
+      self.ECDHKeyPubJwk = keydata;
+    })
+    .catch(function(err){
+      console.error(err);
+    });
   }
   
 }

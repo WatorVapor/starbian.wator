@@ -18,7 +18,9 @@ const StarBianP2p = require('./star_bian_p2p');
 function buf2hex(buf) {
   return Array.prototype.map.call(new Uint8Array(buf), x=>(('00'+x.toString(16)).slice(-2))).join('');
 }
-
+function hex2buf(str) {
+  return Buffer.from(str,'hex');
+}
 
 class StarBian {
   /**
@@ -273,6 +275,9 @@ class StarBian {
     if(msg.ecdh) {
       this._doExchangeKey(msg.ecdh,msg.auth.pubKeyHex);
     }
+    if(msg.encrypt) {
+      this._onEncryptMsg(msg.encrypt,msg.auth.pubKeyHex);
+    }
   }
 
   _verifyAuth(auth) {
@@ -418,6 +423,33 @@ class StarBian {
     });
   };
 
+  
+  _onEncryptMsg(encrypt,remotePubKeyHex) {
+    if(!this.AESKey) {
+      return;
+    }
+    const alg = { 
+      name: 'AES-GCM',
+      iv: hex2buf(msg.iv)
+    };
+    /*
+    //console.log('_onEncryptMsg:encrypt=<',encrypt,'>');
+    let self = this;
+    this.decrypt(encrypt,function(plainMsg) {
+      //console.log('_onEncryptMsg:typeof plainMsg=<',typeof plainMsg,'>');
+      if(plainMsg) {
+        if(typeof plainMsg === 'string') {
+          self.onGoodMessage_(JSON.parse(plainMsg));
+        } else {
+          self.onGoodMessage_(plainMsg);
+        }
+      } else {
+        console.log('_onEncryptMsg:plainMsg=<',plainMsg,'>');
+      }
+    });
+    */
+  }
+  
 }
 
 module.exports = StarBian;

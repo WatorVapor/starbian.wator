@@ -255,6 +255,7 @@ class StarBian {
     });
   }
   _exportECDHPubKey(pubKey) {
+    let self = this;
     webcrypto.subtle.exportKey('jwk', pubKey)
     .then(function(keydata){
       console.log('_exportECDHPubKey keydata=<' , keydata , '>');

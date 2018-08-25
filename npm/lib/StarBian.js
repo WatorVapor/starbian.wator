@@ -321,16 +321,13 @@ class StarBian {
     };
     let self = this;
     this._signAuth(JSON.stringify(ecdh),function(auth) {
+      console.log('_tryExchangeKey auth=<' , auth , '>');
       let sentMsg = {
-        channel:self.channel.myself,
+        channel:remotePubKeyHex,
         auth:auth,
         ecdh:ecdh
       };
-      if(remotePubKeyHex) {
-        self.p2p.out(remotePubKeyHex,auth);
-      } else {
-        self.p2p.out(self.channel.myself,auth);
-      }
+      self.p2p.out(remotePubKeyHex,auth);
     });
   }
 
@@ -392,7 +389,7 @@ class StarBian {
       //console.log('_signAuth hash=<' , hash , '>');
       let ecSign = new rs.KJUR.crypto.ECDSA({'curve': 'secp256r1'});
       //console.log('_signAuth ecSign=<' , ecSign , '>');
-      console.log('_signAuth self.rsPrvKey=<' , self.rsPrvKey , '>');
+      //console.log('_signAuth self.rsPrvKey=<' , self.rsPrvKey , '>');
 
       let signEngine = new rs.KJUR.crypto.Signature({alg: 'SHA256withECDSA'});
       signEngine.init({d: self.rsPrvKey.prvKeyHex, curve: 'secp256r1'});

@@ -149,6 +149,7 @@ class StarBian {
    */
   _createKeyPair() {
     
+    let self = this;
     webcrypto.subtle.generateKey(
       {
         name: 'ECDSA',
@@ -159,20 +160,21 @@ class StarBian {
     )
     .then(function(key){
       console.log('_createKeyPair::key=<',key,'>');
+      self.key = key;
       webcrypto.subtle.exportKey('jwk',key.privateKey)
       .then(function(keydata){
-        console.log('privateKey keydata=<' , keydata , '>');
-        let keyStr = JSON.stringify(keydata);
-        console.log('privateKey keyStr=<' , keyStr , '>');
+        console.log('_createKeyPair privateKey keydata=<' , keydata , '>');
+        self.rsPrvKey = rs.KEYUTIL.getKey(keydata);
+        console.log('_createKeyPair privateKey self.rsPrvKey=<' , self.rsPrvKey , '>');
       })
       .catch(function(err){
         console.error(err);
       });
       webcrypto.subtle.exportKey('jwk',key.publicKey)
       .then(function(keydata){
-        console.log('publicKey keydata=<' , keydata , '>');
-        let keyStr = JSON.stringify(keydata);
-        console.log('publicKey keyStr=<' , keyStr , '>');
+        console.log('_createKeyPair publicKey keydata=<' , keydata , '>');
+        self.rsPubKey = rs.KEYUTIL.getKey(keydata);
+        console.log('_createKeyPair privateKey self.rsPubKey=<' , self.rsPubKey , '>');
       })
       .catch(function(err){
         console.error(err);

@@ -318,7 +318,7 @@ class StarBian {
   _signAuth(msg,cb) {
     //console.log('_signAuth msg=<' , msg , '>');
     let self = this;
-    crypto.subtle.digest("SHA-256", new TextEncoder("utf-8").encode(msg))
+    webcrypto.subtle.digest("SHA-256", new TextEncoder("utf-8").encode(msg))
     .then(function(buf) {
       let hash = Array.prototype.map.call(new Uint8Array(buf), x=>(('00'+x.toString(16)).slice(-2))).join('');
       //console.log('_signAuth hash=<' , hash , '>');

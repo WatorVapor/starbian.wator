@@ -159,12 +159,20 @@ class StarBian {
     )
     .then(function(key){
       console.log('_createKeyPair::key=<',key,'>');
-      webcrypto.subtle.exportKey('jwk',key)
+      webcrypto.subtle.exportKey('jwk',key.privateKey)
       .then(function(keydata){
-        console.log('savePrivKey keydata=<' , keydata , '>');
+        console.log('privateKey keydata=<' , keydata , '>');
         let keyStr = JSON.stringify(keydata);
-        console.log('savePrivKey keyStr=<' , keyStr , '>');
-        localStorage.setItem(KEY_NAME,keyStr);
+        console.log('privateKey keyStr=<' , keyStr , '>');
+      })
+      .catch(function(err){
+        console.error(err);
+      });
+      webcrypto.subtle.exportKey('jwk',key.publicKey)
+      .then(function(keydata){
+        console.log('publicKey keydata=<' , keydata , '>');
+        let keyStr = JSON.stringify(keydata);
+        console.log('publicKey keyStr=<' , keyStr , '>');
       })
       .catch(function(err){
         console.error(err);

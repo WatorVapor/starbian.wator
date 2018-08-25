@@ -183,6 +183,7 @@ class StarBian {
         self.rsPubKey = rs.KEYUTIL.getKey(keydata);
         //console.log('_createKeyPair privateKey self.rsPubKey=<' , self.rsPubKey , '>');
         self.pubHex = self.rsPubKey.pubKeyHex;
+        this.pubJwk = keydata;
         toBeSaved.pubKey = keydata;
         if(toBeSaved.prvKey) {
            fs.writeFileSync(self.keyPath_,JSON.stringify(toBeSaved,undefined,2));
@@ -210,6 +211,7 @@ class StarBian {
     this.prvHex = this.rsPrvKey.prvKeyHex;
     this.rsPubKey = rs.KEYUTIL.getKey(keyJson.pubKey);
     this.pubHex = this.rsPubKey.pubKeyHex;
+    this.pubJwk = keyJson.pubKey;
     let self = this;
     webcrypto.subtle.importKey(
       'jwk',
@@ -397,8 +399,8 @@ class StarBian {
       let signatureHex = signEngine.sign();
 
       let signature = {
-        pubKey:self.pubKeyJWK,
-        pubKeyHex:self.pubKeyHex,
+        pubKey:self.pubJwk,
+        pubKeyHex:self.pubHex,
         hash:hash,
         enc:'hex',
         sign:signatureHex

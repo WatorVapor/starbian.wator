@@ -229,6 +229,9 @@ class StarBian {
   
   _doExchangeKey(ecdh) {
     console.log('_doExchangeKey ecdh=<',ecdh,'>');
+    if(ecdh.type === 'request') {
+      this._tryExchangeKey('response');
+    }
     let self = this;
     webcrypto.subtle.importKey(
       'jwk',
@@ -294,7 +297,54 @@ class StarBian {
       console.error(err);
     });
   }
-  
+
+  _tryExchangeKey(type) {
+    let ecdh = {
+      key:this.ECDHKeyPubJwk,
+      type:type,
+      ts:new Date()
+    };
+    let self = this;
+    this.sign_(JSON.stringify(ecdh),function(auth) {
+      let sentMsg = {
+        channel:self.channel.myself,
+        auth:auth,
+        ecdh:ecdh
+      };
+      this.p2p.out(self.channel.myself,auth);
+    });
+  }
+
+  sign_(msg,cb) {
+    //console.log('sign_ msg=<' , msg , '>');
+    let self = this;
+    crypto.subtle.digest("SHA-256", new TextEncoder("utf-8").encode(msg))
+    .then(function(buf) {
+      let hash = Array.prototype.map.call(new Uint8Array(buf), x=>(('00'+x.toString(16)).slice(-2))).join('');
+      //console.log('sign_ hash=<' , hash , '>');
+      let ecSign = new rs.KJUR.crypto.ECDSA({'curve': 'secp256r1'});
+      //console.log('sign_ ecSign=<' , ecSign , '>');
+      //console.log('sign_ WATOR.prvKeyHex=<' , WATOR.prvKeyHex , '>');
+
+      let signEngine = new rs.KJUR.crypto.Signature({alg: 'SHA256withECDSA'});
+      signEngine.init({d: self.rsPrvKey.prvKeyHex, curve: 'secp256r1'});
+      signEngine.updateString(hash);
+      let signatureHex = signEngine.sign();
+
+      let signature = {
+        pubKey:self.pubKeyJWK,
+        pubKeyHex:self.pubKeyHex,
+        hash:hash,
+        enc:'hex',
+        sign:signatureHex
+      };
+      cb(signature);
+    })
+    .catch(function(err){
+      console.error(err);
+    });
+  };
+
 }
 
 module.exports = StarBian;

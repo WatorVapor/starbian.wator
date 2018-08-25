@@ -206,6 +206,7 @@ class StarBian {
     let keyStr = fs.readFileSync(this.keyPath_, 'utf8');
     let keyJson = JSON.parse(keyStr);
     console.log('_loadKeyPair::keyJson=<',keyJson,'>');
+    let self = this;
     webcrypto.subtle.importKey(
       'jwk',
       keyJson.prvKey,

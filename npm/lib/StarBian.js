@@ -375,7 +375,7 @@ class StarBian {
         auth:auth,
         ecdh:ecdh
       };
-      this.p2p.out(self.channel.myself,auth);
+      self.p2p.out(self.channel.myself,auth);
     });
   }
 

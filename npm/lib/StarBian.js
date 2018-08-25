@@ -443,8 +443,8 @@ class StarBian {
       console.log('_onEncryptMsg plainBuff=<' , plainBuff , '>');
       let plainText = ab2str(plainBuff);
       console.log('_onEncryptMsg plainText=<' , plainText , '>');
-      //let plainJson = JSON.parse(plainText);
-      //console.log('WATOR.decrypt plainJson=<' , plainJson , '>');
+      let plainJson = JSON.parse(plainText);
+      console.log('WATOR.decrypt plainJson=<' , plainJson , '>');
       //cb(plainJson);
     })
     .catch(function(err){

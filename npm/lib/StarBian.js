@@ -159,14 +159,14 @@ class StarBian {
       ['sign','verify']
     )
     .then(function(key){
-      console.log('_createKeyPair::key=<',key,'>');
+      //console.log('_createKeyPair::key=<',key,'>');
       self.key = key;
       webcrypto.subtle.exportKey('jwk',key.privateKey)
       .then(function(keydata){
-        console.log('_createKeyPair privateKey keydata=<' , keydata , '>');
+        //console.log('_createKeyPair privateKey keydata=<' , keydata , '>');
         self.prvKey = keydata;
         self.rsPrvKey = rs.KEYUTIL.getKey(keydata);
-        console.log('_createKeyPair privateKey self.rsPrvKey=<' , self.rsPrvKey , '>');
+        //console.log('_createKeyPair privateKey self.rsPrvKey=<' , self.rsPrvKey , '>');
         self.prvHex = self.rsPrvKey.prvKeyHex;
         toBeSaved.prvKey = keydata;
         if(toBeSaved.pubKey) {
@@ -178,10 +178,10 @@ class StarBian {
       });
       webcrypto.subtle.exportKey('jwk',key.publicKey)
       .then(function(keydata){
-        console.log('_createKeyPair publicKey keydata=<' , keydata , '>');
+        //console.log('_createKeyPair publicKey keydata=<' , keydata , '>');
         self.pubKey = keydata;
         self.rsPubKey = rs.KEYUTIL.getKey(keydata);
-        console.log('_createKeyPair privateKey self.rsPubKey=<' , self.rsPubKey , '>');
+        //console.log('_createKeyPair privateKey self.rsPubKey=<' , self.rsPubKey , '>');
         self.pubHex = self.rsPubKey.pubKeyHex;
         toBeSaved.pubKey = keydata;
         if(toBeSaved.prvKey) {
@@ -205,7 +205,7 @@ class StarBian {
   _loadKeyPair() {
     let keyStr = fs.readFileSync(this.keyPath_, 'utf8');
     let keyJson = JSON.parse(keyStr);
-    console.log('_loadKeyPair::keyJson=<',keyJson,'>');
+    //console.log('_loadKeyPair::keyJson=<',keyJson,'>');
     this.rsPrvKey = rs.KEYUTIL.getKey(keyJson.prvKey);
     this.prvHex = this.rsPrvKey.prvKeyHex;
     this.rsPubKey = rs.KEYUTIL.getKey(keyJson.pubKey);
@@ -222,7 +222,7 @@ class StarBian {
       ['sign']
     )
     .then(function(privateKey){
-      console.log('_loadKeyPair:privateKey=<' , privateKey , '>');
+      //console.log('_loadKeyPair:privateKey=<' , privateKey , '>');
       self.prvKey = privateKey;
     })
     .catch(function(err){
@@ -239,7 +239,7 @@ class StarBian {
       ['verify']
     )
     .then(function(publicKey){
-      console.log('_loadKeyPair:publicKey=<' , publicKey , '>');
+      //console.log('_loadKeyPair:publicKey=<' , publicKey , '>');
       self.pubKey = publicKey;
     })
     .catch(function(err){

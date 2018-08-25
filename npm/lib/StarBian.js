@@ -58,14 +58,14 @@ class StarBian {
    *
    */
   getPrivate () {
-    return this.prvKeyStr;
+    return this.prvHex;
   }
   /**
    * get public key.
    *
    */
   getPublic () {
-    return this.pubKeyStr;
+    return this.pubHex;
   }
   /**
    * get authed public key.

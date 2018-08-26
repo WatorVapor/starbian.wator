@@ -13,6 +13,10 @@ console.log('pubKey=<',pubKey,'>');
 let authedKey  = gofuro.getAuthed();
 console.log('authedKey=<',authedKey,'>');
 
+gofuro.subscribe((msg,channel) => {
+  console.log('gofuro.subscribe msg=<',msg,'>');
+  console.log('gofuro.subscribe channel=<',channel,'>');
+});
 
 
 

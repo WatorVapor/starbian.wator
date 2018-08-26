@@ -453,7 +453,8 @@ class StarBian {
       let plainText = ab2str(plainBuff);
       //console.log('_onEncryptMsg plainText=<' , plainText , '>');
       let plainJson = JSON.parse(plainText);
-      //console.log('_onEncryptMsg plainJson=<' , plainJson , '>');
+      console.log('_onEncryptMsg plainJson=<' , plainJson , '>');
+      console.log('_onEncryptMsg self.callback_=<' , self.callback_ , '>');
       if(self.callback_ === 'function') {
         self.callback_(plainJson,remotePubKeyHex);
       }

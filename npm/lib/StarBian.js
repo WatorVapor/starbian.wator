@@ -460,12 +460,13 @@ class StarBian {
       iv: iv
     };
     const ptUint8 = hex2buf(msg);
+    console.log('_encrypt ptUint8=<' , ptUint8 , '>');
     webcrypto.subtle.encrypt( 
       alg,
       this.AESKey,
       ptUint8
     ).then(enMsg => {
-      //console.log('_encrypt enMsg=<' , enMsg , '>');
+      console.log('_encrypt enMsg=<' , enMsg , '>');
       let enObj = {
         iv:buf2hex(iv),
         encrypt:buf2hex(enMsg)

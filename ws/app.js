@@ -106,8 +106,6 @@ function onAuthedMsg(jsonMsg,ws) {
   }
 }
 
-
-
 function buf2hex(buf) {
   return Array.prototype.map.call(new Uint8Array(buf), x=>(('00'+x.toString(16)).slice(-2))).join('');
 }
@@ -115,28 +113,20 @@ function hex2buf(str) {
   return Buffer.from(str,'hex');
 }
 
-function verifyAuth(auth) {
-  console.log('verifyAuth auth=<',auth,'>');
-  if(auth) {
-    let pubKey = ec.keyFromPublic(auth.pubKey, 'hex');
-    console.log('verifyAuth pubKey=<',pubKey,'>');
-    let sign = auth.sign;
-    console.log('verifyAuth auth.enc=<',auth.enc,'>');
-    if(auth.enc === 'hex') {
-      //sign = new Signature(sign,'hex');
-      sign = {
-        s:auth.sign.substr(0,64),
-        r:auth.sign.substr(64,64)
-      };
-      console.log('verifyAuth sign=<',sign,'>');
-    }
-    let verify = pubKey.verify(auth.hash,sign);
-    console.log('verifyAuth verify=<',verify,'>');
-    return verify;
-    return true;
-  } else {
-    return false;
-  }
+function verifyAuth(auth) {	
+  //console.log('verifyAuth auth=<',auth,'>');	
+  if(auth) {	
+    let pubKey = rs.KEYUTIL.getKey(auth.pubKey);	
+    //console.log('verifyAuth pubKey=<',pubKey,'>');	
+    let signEngine = new rs.KJUR.crypto.Signature({alg: 'SHA256withECDSA'});	
+    signEngine.init({xy: pubKey.pubKeyHex, curve: 'secp256r1'});	
+    signEngine.updateString(auth.hash);	
+    //console.log('verifyAuth signEngine=<',signEngine,'>');	
+    let result = signEngine.verify(auth.sign);	
+    //console.log('verifyAuth result=<',result,'>');	
+    return result;	
+  } else {	
+    return false;	
+  }	
 }
-
 

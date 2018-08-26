@@ -275,12 +275,12 @@ class StarBian {
     //console.log('_onP2PMsg::channel=<',channel,'>');
     //console.log('_onP2PMsg::msg=<',msg,'>');
     let authed = this._verifyAuth(msg.auth);
-    console.log('_onP2PMsg::authed=<',authed,'>');
+    //console.log('_onP2PMsg::authed=<',authed,'>');
     if(!authed) {
       console.log('not authed _onP2PMsg::channel=<',channel,'>');
       console.log('not authed _onP2PMsg::msg=<',msg,'>');
     }
-    console.log('_onP2PMsg::msg=<',msg,'>');
+    //console.log('_onP2PMsg::msg=<',msg,'>');
     if(msg.ecdh) {
       this._doExchangeKey(msg.ecdh,msg.auth.pubKeyHex);
     }
@@ -293,7 +293,7 @@ class StarBian {
     //console.log('verifyAuth auth=<',auth,'>');
     if(auth) {
       let indexAuthed = this.channel.authed.indexOf(auth.pubKeyHex);
-      console.log('_verifyAuth indexAuthed=<',indexAuthed,'>');
+      //console.log('_verifyAuth indexAuthed=<',indexAuthed,'>');
       if(indexAuthed === -1) {
         return false;
       }
@@ -313,7 +313,7 @@ class StarBian {
   }
   
   _doExchangeKey(ecdh,remotePubKeyHex) {
-    console.log('_doExchangeKey ecdh=<',ecdh,'>');
+    //console.log('_doExchangeKey ecdh=<',ecdh,'>');
     if(ecdh.type === 'request') {
       this._tryExchangeKey('response',remotePubKeyHex);
     }
@@ -330,9 +330,6 @@ class StarBian {
     .catch(function(err){
       console.error(err);
     });
-    
-    console.log('_doExchangeKey this.ECDHKey=<',this.ECDHKey,'>');
-    console.log('_doExchangeKey this.ECDHKeyPubJwk=<',this.ECDHKeyPubJwk,'>');
   }
   _tryExchangeKey(type,remotePubKeyHex) {
     let ecdh = {
@@ -347,13 +344,13 @@ class StarBian {
         auth:auth,
         ecdh:ecdh
       };
-      console.log('_tryExchangeKey sentMsg=<' , sentMsg , '>');
+      //console.log('_tryExchangeKey sentMsg=<' , sentMsg , '>');
       self.p2p.out(remotePubKeyHex,sentMsg);
     });
   }
 
   _onExchangeKey(remotePubKey) {
-    console.log('_onExchangeKey remotePubKey=<' , remotePubKey , '>');
+    //console.log('_onExchangeKey remotePubKey=<' , remotePubKey , '>');
     let self = this;
     webcrypto.subtle.deriveKey( 
       { name: 'ECDH', namedCurve: 'P-256', public: remotePubKey },
@@ -362,7 +359,7 @@ class StarBian {
       false,
       ['encrypt', 'decrypt']
     ).then(keyAES => {
-      console.log('_onExchangeKey keyAES=<' , keyAES , '>');
+      //console.log('_onExchangeKey keyAES=<' , keyAES , '>');
       self.AESKey = keyAES;
     })
     .catch(function(err){
@@ -406,9 +403,9 @@ class StarBian {
     let self = this;
     webcrypto.subtle.digest("SHA-256",Buffer.from(msg,'hex'))
     .then(function(buf) {
-      console.log('_signAuth buf=<' , buf , '>');
+      //console.log('_signAuth buf=<' , buf , '>');
       let hash = buf2hex(buf);
-      console.log('_signAuth hash=<' , hash , '>');
+      //console.log('_signAuth hash=<' , hash , '>');
       let ecSign = new rs.KJUR.crypto.ECDSA({'curve': 'secp256r1'});
       //console.log('_signAuth ecSign=<' , ecSign , '>');
       //console.log('_signAuth self.rsPrvKey=<' , self.rsPrvKey , '>');
@@ -453,8 +450,8 @@ class StarBian {
       let plainText = ab2str(plainBuff);
       //console.log('_onEncryptMsg plainText=<' , plainText , '>');
       let plainJson = JSON.parse(plainText);
-      console.log('_onEncryptMsg plainJson=<' , plainJson , '>');
-      console.log('_onEncryptMsg self.callback_=<' , self.callback_ , '>');
+      //console.log('_onEncryptMsg plainJson=<' , plainJson , '>');
+      //console.log('_onEncryptMsg self.callback_=<' , self.callback_ , '>');
       if(typeof self.callback_ === 'function') {
         self.callback_(plainJson,remotePubKeyHex);
       }

@@ -469,7 +469,7 @@ class StarBian {
       console.log('_encrypt enMsg=<' , enMsg , '>');
       let enObj = {
         iv:buf2hex(iv),
-        encrypt:buf2hex(enMsg)
+        encrypt:ab2str(enMsg)
       };
       cb(enObj);
     })

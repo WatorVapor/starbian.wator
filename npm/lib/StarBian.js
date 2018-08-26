@@ -448,7 +448,7 @@ class StarBian {
     });
   }
 
-  _encrypt = function(msg,cb) {
+  _encrypt(msg,cb) {
     if(!this.AESKey) {
       return;
     }

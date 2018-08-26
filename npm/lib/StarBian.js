@@ -191,7 +191,7 @@ class StarBian {
         self.rsPubKey = rs.KEYUTIL.getKey(keydata);
         //console.log('_createKeyPair privateKey self.rsPubKey=<' , self.rsPubKey , '>');
         self.pubHex = self.rsPubKey.pubKeyHex;
-        this.pubJwk = keydata;
+        self.pubJwk = keydata;
         toBeSaved.pubKey = keydata;
         if(toBeSaved.prvKey) {
            fs.writeFileSync(self.keyPath_,JSON.stringify(toBeSaved,undefined,2));

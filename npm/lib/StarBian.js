@@ -86,22 +86,12 @@ class StarBian {
    * publish a messege.
    *
    * @param {String} msg 
+   * @param {String} channel 
    */
-  publish(msg) {
-    console.log('msg =<',msg,'>');
-    let msgEnc = JSON.stringify(msg);
-    console.log('msgEnc =<',msgEnc,'>');
-    let d = new SHA3.SHA3Hash();
-    let signOrig = Buffer.from(msgEnc).toString('base64');
-    d.update(signOrig);
-    let signHash = d.digest('hex');
-    let sign = this.key.sign(signHash, 'sha256');
-    let signature = sign.toDER('hex').toString('base64');
-    let pubObj = {
-      enc:msgEnc,
-      sign:signature
-    };
-    this.p2p.out(this.channel.myself ,pubObj);
+  publish(msg,channel) {
+    console.log('publish:msg =<',msg,'>');
+    console.log('publish:channel =<',channel,'>');
+    //this.p2p.out(channel ,pubObj);
   }
   /**
    * subscribe.

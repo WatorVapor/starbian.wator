@@ -183,7 +183,7 @@ function verifyAuth(auth,cb) {
         hash: {name: "SHA-256"}
       };
       let msgBuff = hex2buf(auth.hash)
-      let signBuff = hex2buf(auth.signatureHex)
+      let signBuff = hex2buf(auth.sign)
       webcrypto.subtle.verify(alg,publicKey,signBuff,msgBuff)
       .then(function(result){
         console.log('verifyAuth result=<' , result , '>');

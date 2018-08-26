@@ -103,6 +103,14 @@ class StarBian {
     };
     this.p2p.out(this.channel.myself ,pubObj);
   }
+  /**
+   * subscribe.
+   *
+   * @param {Function} callback 
+   */
+  subscribe(callback) {
+    this.callback_ = callback;
+  }
   
   /**
    * pass through a messege.
@@ -114,12 +122,12 @@ class StarBian {
     this.p2p.out(channel ,msg);
   }
   /**
-   * subscribe.
+   * subscribe_passthrough.
    *
    * @param {String} channel 
    * @param {Function} callback 
    */
-  subscribe(channel,callback) {
+  subscribe_passthrough(channel,callback) {
     console.log('subscribe channel =<',channel,'>');
     this.p2p.in(channel ,callback);
   }
@@ -435,17 +443,20 @@ class StarBian {
     };
     const ptUint8 = hex2buf(msg.encrypt);
     //console.log('_onEncryptMsg this.AESKey=<' , this.AESKey , '>');
+    let self = this;
     webcrypto.subtle.decrypt( 
       alg,
       this.AESKey,
       ptUint8
     ).then(plainBuff => {
-      console.log('_onEncryptMsg plainBuff=<' , plainBuff , '>');
+      //console.log('_onEncryptMsg plainBuff=<' , plainBuff , '>');
       let plainText = ab2str(plainBuff);
-      console.log('_onEncryptMsg plainText=<' , plainText , '>');
+      //console.log('_onEncryptMsg plainText=<' , plainText , '>');
       let plainJson = JSON.parse(plainText);
-      console.log('_onEncryptMsg plainJson=<' , plainJson , '>');
-      //cb(plainJson);
+      //console.log('_onEncryptMsg plainJson=<' , plainJson , '>');
+      if(self.callback_ === 'function') {
+        self.callback_(plainJson,remotePubKeyHex);
+      }
     })
     .catch(function(err){
       console.error(err);

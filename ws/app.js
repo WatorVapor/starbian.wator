@@ -7,6 +7,9 @@
 const StarBian = require('starbian');
 const wsProxy = new StarBian();
 const crypto = require('crypto');
+const WebCrypto = require("node-webcrypto-ossl");
+const webcrypto = new WebCrypto();
+
 const EC = require('elliptic').ec;
 const Signature = require('elliptic').Signature;
 const ec = new EC('p256');

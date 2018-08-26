@@ -101,6 +101,7 @@ class StarBian {
           auth:auth,
           encrypt:encrypt
         };
+        console.log('publish:sentMsg=<',sentMsg,'>');
         self.p2p.out(channel ,sentMsg);
       })
     });

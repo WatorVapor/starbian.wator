@@ -163,12 +163,12 @@ function hex2buf(str) {
 }
 
 function verifyAuth(auth,cb) {
-  let keyBuff = hex2buf(auth.pubKey);
   //console.log('verifyAuth keyBuff=<',keyBuff,'>');
+  //let keyBuff = hex2buf(auth.pubKey);
   if(auth) {
     webcrypto.subtle.importKey(
       'jwk',
-      keyBuff,
+      auth.pubKey,
       {
         name: 'ECDSA',
         namedCurve: 'P-256', 

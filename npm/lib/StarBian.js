@@ -453,7 +453,8 @@ class StarBian {
     if(!this.AESKey) {
       return;
     }
-    //console.log('_encrypt msg=<' , msg , '>');
+    console.log('_encrypt msg=<' , msg , '>');
+    console.log('_encrypt this.AESKey=<' , this.AESKey , '>');
     let iv = webcrypto.getRandomValues(new Uint8Array(12));
     const alg = { 
       name: 'AES-GCM',

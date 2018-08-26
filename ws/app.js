@@ -96,7 +96,7 @@ function removeWSClients(key) {
 function onAuthedMsg(jsonMsg,ws) {
   if(jsonMsg.channel) {
     if(jsonMsg.subscribe) {
-      wsProxy.subscribe(jsonMsg.channel,onStarBianMsg);
+      wsProxy.subscribe_passthrough(jsonMsg.channel,onStarBianMsg);
       wsClients[jsonMsg.channel] = ws;
     } else {
       wsProxy.passthrough(jsonMsg.channel,jsonMsg);

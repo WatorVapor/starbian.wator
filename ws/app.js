@@ -9,11 +9,6 @@ const wsProxy = new StarBian();
 const crypto = require('crypto');
 const WebCrypto = require("node-webcrypto-ossl");
 const webcrypto = new WebCrypto();
-
-const EC = require('elliptic').ec;
-const Signature = require('elliptic').Signature;
-const ec = new EC('p256');
-//console.log('wsProxy=<',wsProxy,'>');
 const WebSocket = require('ws');
 const rs = require('jsrsasign');
 const rsu = require('jsrsasign-util');
@@ -110,7 +105,16 @@ function onAuthedMsg(jsonMsg,ws) {
     console.log('onAuthedMsg jsonMsg=<',jsonMsg,'>');
   }
 }
-/*
+
+
+
+function buf2hex(buf) {
+  return Array.prototype.map.call(new Uint8Array(buf), x=>(('00'+x.toString(16)).slice(-2))).join('');
+}
+function hex2buf(str) {
+  return Buffer.from(str,'hex');
+}
+
 function verifyAuth(auth) {
   console.log('verifyAuth auth=<',auth,'>');
   if(auth) {
@@ -130,83 +134,6 @@ function verifyAuth(auth) {
     console.log('verifyAuth verify=<',verify,'>');
     return verify;
     return true;
-  } else {
-    return false;
-  }
-}
-*/
-
-/*
-function verifyAuth(auth) {
-  //console.log('verifyAuth auth=<',auth,'>');
-  if(auth) {
-    let pubKey = rs.KEYUTIL.getKey(auth.pubKey);
-    //console.log('verifyAuth pubKey=<',pubKey,'>');
-    let signEngine = new rs.KJUR.crypto.Signature({alg: 'SHA256withECDSA'});
-    signEngine.init({xy: pubKey.pubKeyHex, curve: 'secp256r1'});
-    signEngine.updateString(auth.hash);
-    //console.log('verifyAuth signEngine=<',signEngine,'>');
-    let result = signEngine.verify(auth.sign);
-    //console.log('verifyAuth result=<',result,'>');
-    return result;
-  } else {
-    return false;
-  }
-}
-*/
-
-function buf2hex(buf) {
-  return Array.prototype.map.call(new Uint8Array(buf), x=>(('00'+x.toString(16)).slice(-2))).join('');
-}
-function hex2buf(str) {
-  return Buffer.from(str,'hex');
-}
-
-function verifyAuth(auth,cb) {
-  //console.log('verifyAuth keyBuff=<',keyBuff,'>');
-  //let keyBuff = hex2buf(auth.pubKey);
-  if(auth) {
-    webcrypto.subtle.importKey(
-      'jwk',
-      auth.pubKey,
-      {
-        name: 'ECDSA',
-        namedCurve: 'P-256', 
-      },
-      true, 
-      ['verify']
-    )
-    .then(function(publicKey){
-      console.log('WATOR.verify publicKey=<' , publicKey , '>');
-      let alg = {
-        name: "ECDSA",
-        hash: {name: "SHA-256"}
-      };
-      let msgBuff = hex2buf(auth.hash)
-      let signBuff = hex2buf(auth.sign)
-      webcrypto.subtle.verify(alg,publicKey,signBuff,msgBuff)
-      .then(function(result){
-        console.log('verifyAuth result=<' , result , '>');
-        cb(result);
-      })
-      .catch(function(err){
-        console.error(err);
-      });
-    })
-    .catch(function(err){
-      console.error(err);
-    });
-/*
-    let pubKey = rs.KEYUTIL.getKey(auth.pubKey);
-    //console.log('verifyAuth pubKey=<',pubKey,'>');
-    let signEngine = new rs.KJUR.crypto.Signature({alg: 'SHA256withECDSA'});
-    signEngine.init({xy: pubKey.pubKeyHex, curve: 'secp256r1'});
-    signEngine.updateString(auth.hash);
-    //console.log('verifyAuth signEngine=<',signEngine,'>');
-    let result = signEngine.verify(auth.sign);
-    //console.log('verifyAuth result=<',result,'>');
-    return result;
-*/
   } else {
     return false;
   }

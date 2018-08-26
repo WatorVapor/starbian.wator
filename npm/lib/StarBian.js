@@ -91,7 +91,19 @@ class StarBian {
   publish(msg,channel) {
     console.log('publish:msg =<',msg,'>');
     console.log('publish:channel =<',channel,'>');
-    //this.p2p.out(channel ,pubObj);
+    msg.ts = new Date();
+    let self = this;
+    this._encrypt(JSON.stringify(msg),function(encrypt) {
+      console.log('publish:encrypt=<',encrypt,'>');
+      self._signAuth(JSON.stringify(encrypt),function(auth) {
+        let sentMsg = {
+          channel:channel,
+          auth:auth,
+          encrypt:encrypt
+        };
+        self.p2p.out(channel ,sentMsg);
+      })
+    });
   }
   /**
    * subscribe.
@@ -133,21 +145,6 @@ class StarBian {
   reCreatePubKey() {
   }
   
-  /**
-   * decrypt public key.
-   *
-   * @param {String} msg 
-   * @private
-   */
-  decrypt(msg) {
-    //this.decryptObj
-    console.log('decrypt::msg=<',msg,'>');
-    var msgJson = JSON.parse(msg);
-    var plainMsg = rs.KJUR.crypto.Cipher.decrypt(msgJson.enc,this.priObj);
-    console.log('decrypt::plainMsg=<',plainMsg,'>');
-    return plainMsg;
-  }
-
   /**
    * create key pair.
    *
@@ -445,6 +442,34 @@ class StarBian {
       if(typeof self.callback_ === 'function') {
         self.callback_(plainJson,remotePubKeyHex);
       }
+    })
+    .catch(function(err){
+      console.error(err);
+    });
+  }
+
+  _encrypt = function(msg,cb) {
+    if(!this.AESKey) {
+      return;
+    }
+    //console.log('_encrypt msg=<' , msg , '>');
+    let iv = webcrypto.getRandomValues(new Uint8Array(12));
+    const alg = { 
+      name: 'AES-GCM',
+      iv: iv
+    };
+    const ptUint8 = hex2buf(msg);
+    webcrypto.subtle.encrypt( 
+      alg,
+      this.AESKey,
+      ptUint8
+    ).then(enMsg => {
+      //console.log('_encrypt enMsg=<' , enMsg , '>');
+      let enObj = {
+        iv:buf2hex(iv),
+        encrypt:buf2hex(enMsg)
+      };
+      cb(enObj);
     })
     .catch(function(err){
       console.error(err);

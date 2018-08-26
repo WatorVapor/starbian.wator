@@ -15,8 +15,7 @@ console.log('authedKey=<',authedKey,'>');
 
 gofuro.subscribe((msg,channel) => {
   console.log('gofuro.subscribe msg=<',msg,'>');
+  console.log('gofuro.subscribe typeof msg=<',typeof msg,'>');
   console.log('gofuro.subscribe channel=<',channel,'>');
 });
-
-
 

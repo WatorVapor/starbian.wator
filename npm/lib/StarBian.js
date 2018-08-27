@@ -118,7 +118,11 @@ class StarBian {
         };
         console.log('publish:sentMsg=<',sentMsg,'>');
         self.p2p.out(channel ,sentMsg);
-      })
+      });
+      // debug
+      self._onEncryptMsg(encrypt,function(msg){
+        console.log('publish debug :msg=<',msg,'>');
+      });
     });
   }
   /**

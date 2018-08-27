@@ -21,12 +21,11 @@ function buf2hex(buf) {
 }
 
 
-/*
 function hex2buf(str) {
   return Buffer.from(str,'hex');
 }
-*/
 
+/*
 function hex2buf(hex) {
   let buffer = new ArrayBuffer(hex.length / 2);
   let array = new Uint8Array(buffer);
@@ -37,6 +36,7 @@ function hex2buf(hex) {
   }
   return array;
 }
+*/
 
 
 function ab2hex(array_buff) {

@@ -19,9 +19,24 @@ const ab2str = require('arraybuffer-to-string')
 function buf2hex(buf) {
   return Array.prototype.map.call(new Uint8Array(buf), x=>(('00'+x.toString(16)).slice(-2))).join('');
 }
+
+/*
 function hex2buf(str) {
   return Buffer.from(str,'hex');
 }
+*/
+
+function hex2buf(hex) {
+  let buffer = new ArrayBuffer(hex.length / 2);
+  let array = new Uint8Array(buffer);
+  let k = 0;
+  for (let i = 0; i < hex.length; i +=2 ) {
+    array[k] = parseInt(hex[i] + hex[i+1], 16);
+    k++;
+  }
+  return buffer;
+}
+
 
 class StarBian {
   /**

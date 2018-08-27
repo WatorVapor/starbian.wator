@@ -99,6 +99,20 @@ module.exports = class StarBianP2p {
       } else {
         //console.log('onRoomMessage::jsonData=<',jsonData,'>');
       }
+      if(jsonData.channel === 'broadcast') {
+        let cbKeys = Object.keys(this._cb);
+        for(let i = 0;i < cbKeys.length;i++) {
+          let key = cbKeys[i]
+          let cb = this._cb[key];
+          if(typeof(cb) === 'function') {
+            let channel = jsonData.channel;
+            delete jsonData.channel;
+            cb(jsonData,channel,msg.from);
+          } else {
+            //console.log('onRoomMessage::jsonData=<',jsonData,'>');
+          }
+        }
+      }
     }
   }
 };

@@ -13,14 +13,10 @@ const rs = require('jsrsasign');
 const WebCrypto = require("node-webcrypto-ossl");
 const webcrypto = new WebCrypto();
 const StarBianP2p = require('./star_bian_p2p');
-//const ab2str = require('arraybuffer-to-string')
-const TextDecoder = require('string_decoder');
 
 function buf2hex(buf) {
   return Array.prototype.map.call(new Uint8Array(buf), x=>(('00'+x.toString(16)).slice(-2))).join('');
 }
-
-
 
 function hex2buf(str) {
   return Buffer.from(str,'hex');
@@ -110,7 +106,6 @@ class StarBian {
   publish(msg,channel) {
     //console.log('publish:msg =<',msg,'>');
     //console.log('publish:channel =<',channel,'>');
-    msg.ts = new Date();
     let self = this;
     this._encrypt(JSON.stringify(msg),function(encrypt) {
       //console.log('publish:encrypt=<',encrypt,'>');
@@ -154,9 +149,7 @@ class StarBian {
     this.p2p.in(channel ,callback);
   }
   
-  
-  
-  
+   
   /**
    * recreate public key.
    *

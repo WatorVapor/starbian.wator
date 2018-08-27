@@ -455,7 +455,7 @@ class StarBian {
     ).then(plainBuff => {
       //console.log('_onEncryptMsg plainBuff=<' , plainBuff , '>');
       let plainText = ab2str(plainBuff);
-      //console.log('_onEncryptMsg plainText=<' , plainText , '>');
+      console.log('_onEncryptMsg plainText=<' , plainText , '>');
       let plainJson = JSON.parse(plainText);
       //console.log('_onEncryptMsg plainJson=<' , plainJson , '>');
       //console.log('_onEncryptMsg self.callback_=<' , self.callback_ , '>');
@@ -489,7 +489,7 @@ class StarBian {
       console.log('_encrypt enMsg=<' , enMsg , '>');
       let enObj = {
         iv:buf2hex(iv),
-        encrypt:ab2str(enMsg,'hex')
+        encrypt:buf2hex(enMsg,'hex')
       };
       cb(enObj);
     })

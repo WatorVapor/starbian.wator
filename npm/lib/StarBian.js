@@ -454,7 +454,7 @@ class StarBian {
       this.AESKey,
       ptUint8
     ).then(plainBuff => {
-      //console.log('_onEncryptMsg plainBuff=<' , plainBuff , '>');
+      console.log('_onEncryptMsg plainBuff=<' , plainBuff , '>');
       let plainText = new TextDecoder().decode(plainBuff);
       console.log('_onEncryptMsg plainText=<' , plainText , '>');
       let plainJson = JSON.parse(plainText);

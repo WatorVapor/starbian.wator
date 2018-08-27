@@ -39,9 +39,13 @@ function hex2buf(hex) {
 }
 
 function ab2hex(array_buff) {
-  let u8ab = new Uint8Array(array_buff)
+  console.log('ab2hex:array_buff=<',array_buff,'>');
+  let u8ab = new Uint8Array(array_buff);
+  console.log('ab2hex:u8ab=<',u8ab,'>');
   let buffer = Buffer.from(u8ab);
-  return buffer.toString('hex');
+  let hex = buffer.toString('hex');
+  console.log('ab2hex:hex=<',hex,'>');
+  return hex;
 }
 
 function ab2utf8(array_buff) {

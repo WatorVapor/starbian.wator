@@ -16,16 +16,10 @@ const StarBianP2p = require('./star_bian_p2p');
 //const ab2str = require('arraybuffer-to-string')
 const TextDecoder = require('string_decoder');
 
-/*
 function buf2hex(buf) {
   return Array.prototype.map.call(new Uint8Array(buf), x=>(('00'+x.toString(16)).slice(-2))).join('');
 }
-*/
 
-function buf2hex(buf) {
-  let buffer = Buffer.from(array_buff);
-  return buffer.toString('hex');
-}
 
 /*
 function hex2buf(str) {
@@ -42,6 +36,11 @@ function hex2buf(hex) {
     k++;
   }
   return buffer;
+}
+
+function ab2hex(array_buff) {
+  let buffer = Buffer.from(array_buff);
+  return buffer.toString('hex');
 }
 
 function ab2utf8(array_buff) {
@@ -485,7 +484,10 @@ class StarBian {
     }
     console.log('_encrypt msg=<' , msg , '>');
     console.log('_encrypt this.AESKey=<' , this.AESKey , '>');
-    let iv = webcrypto.getRandomValues(new Uint8Array(12));
+    let iv_in = new Uint8Array(12);
+    let iv = webcrypto.getRandomValues(iv_in);
+    console.log('_encrypt iv_in=<' , iv_in , '>');
+    console.log('_encrypt iv=<' , iv , '>');
     const alg = { 
       name: 'AES-GCM',
       iv: iv
@@ -500,7 +502,7 @@ class StarBian {
       console.log('_encrypt enMsg=<' , enMsg , '>');
       let enObj = {
         iv:buf2hex(iv),
-        encrypt:buf2hex(enMsg,'hex')
+        encrypt:ab2hex(enMsg)
       };
       cb(enObj);
     })

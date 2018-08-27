@@ -31,6 +31,15 @@ const interval = setInterval(function ping() {
   });
 }, 30000);
 
+wsProxy.onReady = () =>{
+  wsProxy.subscribe_passthrough('broadcast',onStarBianBroadCast);
+};
+function onStarBianBroadCast(msg,channel,peer) {
+  console.log('onStarBianBroadCast:msg=<',msg,'>');
+  console.log('onStarBianBroadCast:channel=<',channel,'>');
+  console.log('onStarBianBroadCast:peer=<',peer,'>');
+}
+
 wss.on('connection', function (ws,req) {
   //console.log('req.headers=<',req.headers,'>');
   //console.log('ws=<', ws,'>');
@@ -44,7 +53,7 @@ wss.on('connection', function (ws,req) {
     //console.log('received: message=<', message,'>');
     try {
       let jsonMsg = JSON.parse(message);
-      console.log('jsonMsg=<', jsonMsg,'>');
+      //console.log('jsonMsg=<', jsonMsg,'>');
       if(jsonMsg && verifyAuth(jsonMsg.auth)) {
         onAuthedMsg(jsonMsg,ws);
       } else {

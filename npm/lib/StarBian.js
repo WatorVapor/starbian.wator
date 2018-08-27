@@ -147,8 +147,15 @@ class StarBian {
   subscribe_passthrough(channel,callback) {
     console.log('subscribe channel =<',channel,'>');
     this.p2p.in(channel ,callback);
+  }  
+  /**
+   * subscribe_broadcast.
+   *
+   * @param {Function} callback 
+   */
+  subscribe_broadcast(callback) {
+    this.p2p.in(channel ,callback);
   }
-  
    
   /**
    * recreate public key.

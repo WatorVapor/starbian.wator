@@ -39,7 +39,8 @@ function hex2buf(hex) {
 }
 
 function ab2hex(array_buff) {
-  let buffer = Buffer.from(array_buff);
+  let u8ab = new Uint8Array(array_buff)
+  let buffer = Buffer.from(u8ab);
   return buffer.toString('hex');
 }
 

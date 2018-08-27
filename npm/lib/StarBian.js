@@ -16,9 +16,15 @@ const StarBianP2p = require('./star_bian_p2p');
 //const ab2str = require('arraybuffer-to-string')
 const TextDecoder = require('string_decoder');
 
-
+/*
 function buf2hex(buf) {
   return Array.prototype.map.call(new Uint8Array(buf), x=>(('00'+x.toString(16)).slice(-2))).join('');
+}
+*/
+
+function buf2hex(buf) {
+  let buffer = Buffer.from(array_buff);
+  return buffer.toString('hex');
 }
 
 /*

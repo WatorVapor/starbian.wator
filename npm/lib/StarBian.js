@@ -27,12 +27,12 @@ function hex2buf(str) {
 }
 
 function ab2hex(array_buff) {
-  console.log('ab2hex:array_buff=<',array_buff,'>');
+  //console.log('ab2hex:array_buff=<',array_buff,'>');
   let u8ab = new Uint8Array(array_buff);
-  console.log('ab2hex:u8ab=<',u8ab,'>');
+  //console.log('ab2hex:u8ab=<',u8ab,'>');
   let buffer = Buffer.from(u8ab,'binary');
   let hex = buffer.toString('hex');
-  console.log('ab2hex:hex=<',hex,'>');
+  //console.log('ab2hex:hex=<',hex,'>');
   return hex;
 }
 
@@ -489,23 +489,6 @@ class StarBian {
       this.AESKey,
       ptUint8
     ).then(enMsg => {
-      //debug
-      webcrypto.subtle.decrypt( 
-        alg,
-        this.AESKey,
-        enMsg
-      ).then(plainBuff => {
-        console.log('_encrypt debug plainBuff=<' , plainBuff , '>');
-        let plainText = ab2utf8(plainBuff);
-        console.log('_encrypt debug plainText=<' , plainText , '>');
-        let plainJson = JSON.parse(plainText);
-        console.log('_encrypt debug plainJson=<' , plainJson , '>');
-      })
-      .catch(function(err){
-        console.error(err);
-      });
-      //debug
-      
       console.log('_encrypt enMsg=<' , enMsg , '>');
       let enObj = {
         iv:buf2hex(iv),

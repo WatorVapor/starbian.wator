@@ -44,7 +44,7 @@ wss.on('connection', function (ws,req) {
     //console.log('received: message=<', message,'>');
     try {
       let jsonMsg = JSON.parse(message);
-      //console.log('jsonMsg=<', jsonMsg,'>');
+      console.log('jsonMsg=<', jsonMsg,'>');
       if(jsonMsg && verifyAuth(jsonMsg.auth)) {
         onAuthedMsg(jsonMsg,ws);
       } else {

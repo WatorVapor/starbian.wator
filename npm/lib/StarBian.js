@@ -38,6 +38,10 @@ function hex2buf(hex) {
   return buffer;
 }
 
+function ab2utf8(array_buff) {
+  let buffer = Buffer.from(array_buff);
+  return buffer.toString('utf8');
+}
 
 class StarBian {
   /**
@@ -455,7 +459,7 @@ class StarBian {
       ptUint8
     ).then(plainBuff => {
       console.log('_onEncryptMsg plainBuff=<' , plainBuff , '>');
-      let plainText = new TextDecoder().decode(plainBuff);
+      let plainText = ab2utf8(plainBuff);
       console.log('_onEncryptMsg plainText=<' , plainText , '>');
       let plainJson = JSON.parse(plainText);
       //console.log('_onEncryptMsg plainJson=<' , plainJson , '>');

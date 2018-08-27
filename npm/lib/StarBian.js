@@ -272,8 +272,8 @@ class StarBian {
    * @private
    */
   _onP2PMsg(channel,msg) {
-    //console.log('_onP2PMsg::channel=<',channel,'>');
-    //console.log('_onP2PMsg::msg=<',msg,'>');
+    console.log('_onP2PMsg::channel=<',channel,'>');
+    console.log('_onP2PMsg::msg=<',msg,'>');
     let authed = this._verifyAuth(msg.auth);
     //console.log('_onP2PMsg::authed=<',authed,'>');
     if(!authed) {

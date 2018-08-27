@@ -108,19 +108,19 @@ class StarBian {
    * @param {String} channel 
    */
   publish(msg,channel) {
-    console.log('publish:msg =<',msg,'>');
-    console.log('publish:channel =<',channel,'>');
+    //console.log('publish:msg =<',msg,'>');
+    //console.log('publish:channel =<',channel,'>');
     msg.ts = new Date();
     let self = this;
     this._encrypt(JSON.stringify(msg),function(encrypt) {
-      console.log('publish:encrypt=<',encrypt,'>');
+      //console.log('publish:encrypt=<',encrypt,'>');
       self._signAuth(JSON.stringify(encrypt),function(auth) {
         let sentMsg = {
           channel:channel,
           auth:auth,
           encrypt:encrypt
         };
-        console.log('publish:sentMsg=<',sentMsg,'>');
+        //console.log('publish:sentMsg=<',sentMsg,'>');
         self.p2p.out(channel ,sentMsg);
       });
     });
@@ -453,9 +453,9 @@ class StarBian {
       this.AESKey,
       ptUint8
     ).then(plainBuff => {
-      console.log('_onEncryptMsg plainBuff=<' , plainBuff , '>');
+      //console.log('_onEncryptMsg plainBuff=<' , plainBuff , '>');
       let plainText = ab2utf8(plainBuff);
-      console.log('_onEncryptMsg plainText=<' , plainText , '>');
+      //console.log('_onEncryptMsg plainText=<' , plainText , '>');
       let plainJson = JSON.parse(plainText);
       //console.log('_onEncryptMsg plainJson=<' , plainJson , '>');
       //console.log('_onEncryptMsg self.callback_=<' , self.callback_ , '>');
@@ -472,24 +472,24 @@ class StarBian {
     if(!this.AESKey) {
       return;
     }
-    console.log('_encrypt msg=<' , msg , '>');
-    console.log('_encrypt this.AESKey=<' , this.AESKey , '>');
+    //console.log('_encrypt msg=<' , msg , '>');
+    //console.log('_encrypt this.AESKey=<' , this.AESKey , '>');
     let iv_in = new Uint8Array(12);
     let iv = webcrypto.getRandomValues(iv_in);
-    console.log('_encrypt iv_in=<' , iv_in , '>');
-    console.log('_encrypt iv=<' , iv , '>');
+    //console.log('_encrypt iv_in=<' , iv_in , '>');
+    //console.log('_encrypt iv=<' , iv , '>');
     const alg = { 
       name: 'AES-GCM',
       iv: iv
     };
     const ptUint8 = Buffer.from(msg,'utf8');
-    console.log('_encrypt ptUint8=<' , ptUint8 , '>');
+    //console.log('_encrypt ptUint8=<' , ptUint8 , '>');
     webcrypto.subtle.encrypt( 
       alg,
       this.AESKey,
       ptUint8
     ).then(enMsg => {
-      console.log('_encrypt enMsg=<' , enMsg , '>');
+      //console.log('_encrypt enMsg=<' , enMsg , '>');
       let enObj = {
         iv:buf2hex(iv),
         encrypt:ab2hex(enMsg)

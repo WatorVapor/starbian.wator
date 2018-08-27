@@ -154,7 +154,7 @@ class StarBian {
    * @param {Function} callback 
    */
   subscribe_broadcast(callback) {
-    this.p2p.in(channel ,callback);
+    //this.p2p.in(channel ,callback);
   }
    
   /**

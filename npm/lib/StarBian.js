@@ -21,23 +21,10 @@ function buf2hex(buf) {
 }
 
 
+
 function hex2buf(str) {
   return Buffer.from(str,'hex');
 }
-
-/*
-function hex2buf(hex) {
-  let buffer = new ArrayBuffer(hex.length / 2);
-  let array = new Uint8Array(buffer);
-  let k = 0;
-  for (let i = 0; i < hex.length; i +=2 ) {
-    array[k] = parseInt(hex[i] + hex[i+1], 16);
-    k++;
-  }
-  return array;
-}
-*/
-
 
 function ab2hex(array_buff) {
   console.log('ab2hex:array_buff=<',array_buff,'>');
@@ -495,7 +482,7 @@ class StarBian {
       name: 'AES-GCM',
       iv: iv
     };
-    const ptUint8 = hex2buf(msg);
+    const ptUint8 = Buffer.from(str,'utf8');
     console.log('_encrypt ptUint8=<' , ptUint8 , '>');
     webcrypto.subtle.encrypt( 
       alg,

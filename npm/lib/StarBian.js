@@ -134,10 +134,6 @@ class StarBian {
         console.log('publish:sentMsg=<',sentMsg,'>');
         self.p2p.out(channel ,sentMsg);
       });
-      // debug
-      self._onEncryptMsg(encrypt,function(msg){
-        console.log('publish debug :msg=<',msg,'>');
-      });
     });
   }
   /**
@@ -504,6 +500,23 @@ class StarBian {
       this.AESKey,
       ptUint8
     ).then(enMsg => {
+      //debug
+      webcrypto.subtle.decrypt( 
+        alg,
+        this.AESKey,
+        enMsg
+      ).then(plainBuff => {
+        console.log('_encrypt debug plainBuff=<' , plainBuff , '>');
+        let plainText = ab2utf8(plainBuff);
+        console.log('_encrypt debug plainText=<' , plainText , '>');
+        let plainJson = JSON.parse(plainText);
+        console.log('_encrypt debug plainJson=<' , plainJson , '>');
+      })
+      .catch(function(err){
+        console.error(err);
+      });
+      //debug
+      
       console.log('_encrypt enMsg=<' , enMsg , '>');
       let enObj = {
         iv:buf2hex(iv),

@@ -69,7 +69,7 @@ class StarBian {
     this.p2p = new StarBianP2p();
     let self = this;
     this.p2p.onReady = () => {
-      self.p2p.in(self.pubHex,(msg) => {self._onP2PMsg(self.pubHex,msg)});      
+      self.p2p.in(self.pubHex,(msg,channel,from) => {self._onP2PMsg(msg,channel,from)});      
       if(typeof this.onReady === 'function') {
         self.onReady();
       }
@@ -278,9 +278,10 @@ class StarBian {
    * @param {String} msg 
    * @private
    */
-  _onP2PMsg(channel,msg) {
+  _onP2PMsg(msg,channel,from) {
     console.log('_onP2PMsg::channel=<',channel,'>');
     console.log('_onP2PMsg::msg=<',msg,'>');
+    console.log('_onP2PMsg::from=<',from,'>');
     let authed = this._verifyAuth(msg.auth);
     //console.log('_onP2PMsg::authed=<',authed,'>');
     if(!authed) {

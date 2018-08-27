@@ -35,8 +35,9 @@ function hex2buf(hex) {
     array[k] = parseInt(hex[i] + hex[i+1], 16);
     k++;
   }
-  return buffer;
+  return array;
 }
+
 
 function ab2hex(array_buff) {
   console.log('ab2hex:array_buff=<',array_buff,'>');

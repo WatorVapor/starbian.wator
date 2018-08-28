@@ -29,12 +29,12 @@ gofuro.subscribe((msg,channel) => {
 });
 
 gofuro.subscribe_broadcast((msg,channel) => {
-  console.log('gofuro.subscribe_broadcast typeof msg=<',typeof msg,'>');
+  //console.log('gofuro.subscribe_broadcast typeof msg=<',typeof msg,'>');
   if(typeof msg === 'string') {
     msg = JSON.parse(msg);
   }
-  console.log('gofuro.subscribe_broadcast msg=<',msg,'>');
-  console.log('gofuro.subscribe_broadcast channel=<',channel,'>');
+  //console.log('gofuro.subscribe_broadcast msg=<',msg,'>');
+  //console.log('gofuro.subscribe_broadcast channel=<',channel,'>');
   if(msg.shareKey) {
     console.log('gofuro.subscribe_broadcast msg.shareKey=<',msg.shareKey,'>');
   }

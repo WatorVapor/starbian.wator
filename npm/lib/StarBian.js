@@ -73,7 +73,6 @@ class StarBian {
         self.onReady();
       }
     };
-    this.chCB = {};
   }
   /**
    * get private key.
@@ -127,6 +126,14 @@ class StarBian {
   subscribe(callback) {
     this.callback_ = callback;
   }
+  /**
+   * subscribe.
+   *
+   * @param {Function} callback 
+   */
+  subscribe_broadcast(callback) {
+    this.bc_callback_ = callback;
+  }
   
   /**
    * pass through a messege.
@@ -148,12 +155,12 @@ class StarBian {
     this.p2p.in(channel ,callback);
   }  
   /**
-   * subscribe_broadcast.
+   * subscribe_passthrough_broadcast.
    *
    * @param {Function} callback 
    */
-  subscribe_broadcast(callback) {
-    //this.p2p.in(channel ,callback);
+  subscribe_passthrough_broadcast(callback) {
+    this.pt_bc_callback_ = callback;
   }
    
   /**
@@ -281,11 +288,26 @@ class StarBian {
     console.log('_onP2PMsg::channel=<',channel,'>');
     console.log('_onP2PMsg::msg=<',msg,'>');
     console.log('_onP2PMsg::from=<',from,'>');
+    if(channel === 'broadcast') {
+      let bcAuthed = this._verifyWeakAuth(msg.auth);
+      if(!bcAuthed) {
+        console.log('not authed _onP2PMsg::channel=<',channel,'>');
+        console.log('not authed _onP2PMsg::msg=<',msg,'>');
+        return;
+      }
+      if(typeof this.pt_bc_callback_ === 'function') {
+        this.pt_bc_callback_(msg,channel,from);
+      }
+      if(typeof this.bc_callback_ === 'function') {
+        this.bc_callback_(msg,channel);
+      }
+    }
     let authed = this._verifyAuth(msg.auth);
     //console.log('_onP2PMsg::authed=<',authed,'>');
     if(!authed) {
       console.log('not authed _onP2PMsg::channel=<',channel,'>');
       console.log('not authed _onP2PMsg::msg=<',msg,'>');
+      return;
     }
     //console.log('_onP2PMsg::msg=<',msg,'>');
     if(msg.ecdh) {
@@ -318,6 +340,24 @@ class StarBian {
       return false;
     }
   }
+
+  _verifyWeakAuth(auth) {
+    //console.log('_verifyWeakAuth auth=<',auth,'>');
+    if(auth) {
+      let pubKey = rs.KEYUTIL.getKey(auth.pubKey);
+      //console.log('verifyAuth pubKey=<',pubKey,'>');
+      let signEngine = new rs.KJUR.crypto.Signature({alg: 'SHA256withECDSA'});
+      signEngine.init({xy: pubKey.pubKeyHex, curve: 'secp256r1'});
+      signEngine.updateString(auth.hash);
+      //console.log('verifyAuth signEngine=<',signEngine,'>');
+      let result = signEngine.verify(auth.sign);
+      //console.log('verifyAuth result=<',result,'>');
+      return result;
+    } else {
+      return false;
+    }
+  }
+
   
   _doExchangeKey(ecdh,remotePubKeyHex) {
     //console.log('_doExchangeKey ecdh=<',ecdh,'>');

@@ -8,7 +8,6 @@
 
 const fs = require('fs');
 const crypto = require('crypto');
-const SHA3  = require('sha3');
 const rs = require('jsrsasign');
 const WebCrypto = require("node-webcrypto-ossl");
 const webcrypto = new WebCrypto();

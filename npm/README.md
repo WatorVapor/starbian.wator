@@ -1,8 +1,7 @@
-# starbian.wator
-star bian of wator
+# starbian.wator  
+star bian of wator  
+star edge of wator  
+星边/星缘
 
-star edge of wator
-星边
-
-demo.  
+# demo.  
   https://www.wator.xyz/starbian

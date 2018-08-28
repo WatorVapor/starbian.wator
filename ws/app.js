@@ -38,6 +38,13 @@ function onStarBianBroadCast(msg,channel,peer) {
   console.log('onStarBianBroadCast:msg=<',msg,'>');
   console.log('onStarBianBroadCast:channel=<',channel,'>');
   console.log('onStarBianBroadCast:peer=<',peer,'>');
+  wss.clients.forEach(function each(ws) {
+    let sentMsg = {
+      channel:channel,
+      msg:msg
+    };
+    client.send(JSON.stringify(sentMsg));
+  });
 }
 
 wss.on('connection', function (ws,req) {

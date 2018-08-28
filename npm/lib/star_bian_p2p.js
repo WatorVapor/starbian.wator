@@ -1,11 +1,11 @@
 const Room = require('ipfs-pubsub-room');
 const IPFS = require('ipfs');
-const SHA3  = require('sha3');
+const crypto = require("crypto");
 const bs58 = require('bs58')
 
 let nowTag = new Date();
 
-let dNowTag = new SHA3.SHA3Hash(224);
+let dNowTag = crypto.createHash('sha224');
 dNowTag.update(nowTag.toISOString());
 const pubsubRepos = bs58.encode(dNowTag.digest('hex'));
 console.log('pubsubRepos=<',pubsubRepos,'>');
@@ -27,7 +27,7 @@ const IPFS_CONF = {
 
 module.exports = class StarBianP2p {
   constructor() {
-    let d = new SHA3.SHA3Hash(224);
+    let d = new crypto.createHash('sha224');
     d.update('!!欢迎来到StarBian!!');
     let number = d.digest('hex');
     this.number = bs58.encode(number);

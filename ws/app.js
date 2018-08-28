@@ -43,7 +43,7 @@ function onStarBianBroadCast(msg,channel,peer) {
       channel:channel,
       msg:msg
     };
-    client.send(JSON.stringify(sentMsg));
+    ws.send(JSON.stringify(sentMsg));
   });
 }
 

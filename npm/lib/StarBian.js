@@ -285,9 +285,9 @@ class StarBian {
    * @private
    */
   _onP2PMsg(msg,channel,from) {
-    console.log('_onP2PMsg::channel=<',channel,'>');
-    console.log('_onP2PMsg::msg=<',msg,'>');
-    console.log('_onP2PMsg::from=<',from,'>');
+    //console.log('_onP2PMsg::channel=<',channel,'>');
+    //console.log('_onP2PMsg::msg=<',msg,'>');
+    //console.log('_onP2PMsg::from=<',from,'>');
     if(channel === 'broadcast') {
       let bcAuthed = this._verifyWeakAuth(msg.auth);
       if(!bcAuthed) {

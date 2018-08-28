@@ -32,7 +32,7 @@ const interval = setInterval(function ping() {
 }, 30000);
 
 wsProxy.onReady = () =>{
-  wsProxy.subscribe_broadcast(onStarBianBroadCast);
+  wsProxy.subscribe_passthrough_broadcast(onStarBianBroadCast);
 };
 function onStarBianBroadCast(msg,channel,peer) {
   console.log('onStarBianBroadCast:msg=<',msg,'>');

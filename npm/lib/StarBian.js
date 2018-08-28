@@ -301,6 +301,7 @@ class StarBian {
       if(typeof this.bc_callback_ === 'function') {
         this.bc_callback_(msg,channel);
       }
+      return;
     }
     let authed = this._verifyAuth(msg.auth);
     //console.log('_onP2PMsg::authed=<',authed,'>');

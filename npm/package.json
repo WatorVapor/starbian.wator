@@ -1,20 +1,17 @@
 {
   "name": "starbian",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "wator star edge",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "arraybuffer-to-string": "^1.0.2",
     "bs58": "^4.0.1",
-    "elliptic": "^6.4.1",
     "ipfs": "^0.31.7",
     "ipfs-pubsub-room": "^1.4.0",
     "jsrsasign": "^8.0.12",
-    "node-webcrypto-ossl": "^1.0.37",
-    "sha3": "^1.2.2"
+    "node-webcrypto-ossl": "^1.0.37"
   },
   "repository": {
     "type": "git",

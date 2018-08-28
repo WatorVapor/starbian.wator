@@ -1,6 +1,6 @@
 {
   "name": "starbian",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "wator star edge",
   "main": "index.js",
   "scripts": {

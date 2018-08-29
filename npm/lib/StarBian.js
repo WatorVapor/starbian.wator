@@ -89,6 +89,16 @@ class StarBian {
     return this.pubHex;
   }
   /**
+   * add authed public key.
+   * @param {String} key 
+   *
+   */
+  addAuthedKey (key) {
+    this.channel.authed.push(key);
+    let saveChannel = JSON.stringify(this.channel,null, 2);
+    fs.writeFileSync(this.channelPath_,saveChannel);
+  }
+  /**
    * get authed public key.
    *
    */

@@ -5,6 +5,8 @@ const StarBian = require('..');
 let searchKey = new StarBian();
 //console.log('searchKey=<',searchKey,'>');
 
+let password = false;
+
 searchKey.subscribe_broadcast((msg,channel) => {
   //console.log('searchKey.subscribe_broadcast typeof msg=<',typeof msg,'>');
   if(typeof msg === 'string') {
@@ -13,16 +15,23 @@ searchKey.subscribe_broadcast((msg,channel) => {
   //console.log('searchKey.subscribe_broadcast msg=<',msg,'>');
   //console.log('searchKey.subscribe_broadcast channel=<',channel,'>');
   if(msg.shareKey) {
-    console.log('searchKey.subscribe_broadcast msg.shareKey=<',msg.shareKey,'>');
+    //console.log('searchKey.subscribe_broadcast msg.shareKey=<',msg.shareKey,'>');
+    if(msg.shareKey.password === password) {
+      console.log('searchKey.subscribe_broadcast msg.shareKey=<',msg.shareKey,'>');
+    } else {
+      console.log('pass msg.shareKey=<',msg.shareKey,'>');
+    }
   }
 });
 
 
 process.stdin.setEncoding('utf8');
 process.stdin.on('readable', () => {
+  console.log('input one time password please');
   const chunk = process.stdin.read();
   if (chunk !== null) {
-    process.stdout.write(`data: ${chunk}`);
+    password = chunk;
+    console.log('search with <',password,'>');
   }
 });
 

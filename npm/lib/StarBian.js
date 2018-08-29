@@ -583,7 +583,7 @@ class StarBian {
   }
   
   sharePubKeyInside_() {	
-    console.log('sharePubKeyInside_:WATOR.pubKeyHex=<',WATOR.pubKeyHex,'>');	
+    console.log('sharePubKeyInside_:this.pubHex=<',this.pubHex,'>');	
     if(!this.pubHex) {	
       return;	
     } 	

@@ -16,9 +16,16 @@ searchKey.subscribe_broadcast((msg,channel) => {
     console.log('searchKey.subscribe_broadcast msg.shareKey=<',msg.shareKey,'>');
   }
 });
-const ReadLine = require('readline');
-let readline = ReadLine.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-    terminal: false
+
+
+process.stdin.setEncoding('utf8');
+process.stdin.on('readable', () => {
+  const chunk = process.stdin.read();
+  if (chunk !== null) {
+    process.stdout.write(`data: ${chunk}`);
+  }
+});
+
+process.stdin.on('end', () => {
+  process.stdout.write('end');
 });

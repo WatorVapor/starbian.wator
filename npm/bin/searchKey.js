@@ -36,7 +36,7 @@ let doReadInput = () => {
     if (chunk !== null) {
       if(hitPubKey) {
         if(chunk.trim() === 'yes') {
-          searchKey.addAuthKey(hitPubKey);
+          searchKey.addAuthedKey(hitPubKey);
           hitPubKey = false;
           password = false;
         }

@@ -26,7 +26,7 @@ searchKey.subscribe_broadcast((msg,channel) => {
 
 
 process.stdin.setEncoding('utf8');
-doReadInput = () => {
+let doReadInput = () => {
   process.stdin.on('readable', () => {
     console.log('input one time password please');
     const chunk = process.stdin.read();
@@ -35,7 +35,8 @@ doReadInput = () => {
       console.log('search with <',password,'>');
     }
   });
-}
+};
+
 process.stdin.on('end', () => {
   process.stdout.write('end');
 });

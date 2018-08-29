@@ -109,6 +109,13 @@ class StarBian {
     return this.channel.authed;
   }
   /**
+   * broadcast public key with one time password.
+   *
+   */
+  broadcastPubKey (cb) {
+  }
+  
+  /**
    * publish a messege.
    *
    * @param {String} msg 

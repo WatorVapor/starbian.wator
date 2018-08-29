@@ -572,7 +572,7 @@ class StarBian {
 
   sharePubKeyTimeOut_(cb) {
     this.sharePubKeyInside_();
-    this.OneTimeCB_(this.sharePubKeyCounter);
+    this.OneTimeCB_(this.sharePubKeyCounter,self.OneTimePassword_);
     this.sharePubKeyCounter--;
     if(this.sharePubKeyCounter >= 0) {
       let self = this;

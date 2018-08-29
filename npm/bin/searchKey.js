@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 'use strict';
 const StarBian = require('..');
 
@@ -14,4 +15,10 @@ searchKey.subscribe_broadcast((msg,channel) => {
   if(msg.shareKey) {
     console.log('searchKey.subscribe_broadcast msg.shareKey=<',msg.shareKey,'>');
   }
+});
+const ReadLine = require('readline');
+let readline = ReadLine.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+    terminal: false
 });

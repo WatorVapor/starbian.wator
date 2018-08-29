@@ -24,16 +24,21 @@ searchKey.subscribe_broadcast((msg,channel) => {
   }
 });
 
-
 process.stdin.setEncoding('utf8');
-process.stdin.on('readable', () => {
-  console.log('input one time password please');
-  const chunk = process.stdin.read();
-  if (chunk !== null) {
-    password = chunk;
-    console.log('search with <',password,'>');
-  }
-});
+searchKey.onReady = () {
+  setTimeout(doReadInput,1);
+}
+
+doReadInput = () => {
+  process.stdin.on('readable', () => {
+    console.log('input one time password please');
+    const chunk = process.stdin.read();
+    if (chunk !== null) {
+      password = chunk;
+      console.log('search with <',password,'>');
+    }
+  });
+}
 
 process.stdin.on('end', () => {
   process.stdout.write('end');

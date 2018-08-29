@@ -352,7 +352,7 @@ class StarBian {
   }
 
   _verifyAuth(auth,content,channel,cb) {
-    console.log('verifyAuth auth=<',auth,'>');
+    //console.log('verifyAuth auth=<',auth,'>');
     if(auth) {
       //console.log('verifyAuth content=<',content,'>');
       webcrypto.subtle.digest("SHA-256",Buffer.from(JSON.stringify(content),'utf8'))

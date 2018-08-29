@@ -316,39 +316,42 @@ class StarBian {
     //console.log('_onP2PMsg::channel=<',channel,'>');
     //console.log('_onP2PMsg::msg=<',msg,'>');
     //console.log('_onP2PMsg::from=<',from,'>');
+    let self = this;
     let content = msg.encrypt || msg.ecdh || msg.subscribe || msg.shareKey;
     if(channel === 'broadcast') {
-      let bcAuthed = this._verifyAuth(msg.auth,content,channel);
-      if(!bcAuthed) {
+      let bcAuthed = this._verifyAuth(msg.auth,content,channel,(bcAuthed)=>{
+        if(!bcAuthed) {
+          console.log('not authed _onP2PMsg::channel=<',channel,'>');
+          console.log('not authed _onP2PMsg::msg=<',msg,'>');
+          return;
+        }        
+        if(typeof self.pt_bc_callback_ === 'function') {
+          self.pt_bc_callback_(msg,channel,from);
+        }
+        if(typeof self.bc_callback_ === 'function') {
+          self.bc_callback_(msg,channel);
+        }
+      });
+      return;
+    }
+    this._verifyAuth(msg.auth,content,channel,(authed) => {
+      //console.log('_onP2PMsg::authed=<',authed,'>');
+      if(!authed) {
         console.log('not authed _onP2PMsg::channel=<',channel,'>');
         console.log('not authed _onP2PMsg::msg=<',msg,'>');
         return;
       }
-      if(typeof this.pt_bc_callback_ === 'function') {
-        this.pt_bc_callback_(msg,channel,from);
+      //console.log('_onP2PMsg::msg=<',msg,'>');
+      if(msg.ecdh) {
+        self._doExchangeKey(msg.ecdh,msg.auth.pubKeyHex);
       }
-      if(typeof this.bc_callback_ === 'function') {
-        this.bc_callback_(msg,channel);
-      }
-      return;
-    }
-    let authed = this._verifyAuth(msg.auth,content,channel);
-    //console.log('_onP2PMsg::authed=<',authed,'>');
-    if(!authed) {
-      console.log('not authed _onP2PMsg::channel=<',channel,'>');
-      console.log('not authed _onP2PMsg::msg=<',msg,'>');
-      return;
-    }
-    //console.log('_onP2PMsg::msg=<',msg,'>');
-    if(msg.ecdh) {
-      this._doExchangeKey(msg.ecdh,msg.auth.pubKeyHex);
-    }
-    if(msg.encrypt) {
-      this._onEncryptMsg(msg.encrypt,msg.auth.pubKeyHex);
-    }
+      if(msg.encrypt) {
+        self._onEncryptMsg(msg.encrypt,msg.auth.pubKeyHex);
+      }      
+    });
   }
 
-  _verifyAuth(auth,content,channel) {
+  _verifyAuth(auth,content,channel,cb) {
     console.log('verifyAuth auth=<',auth,'>');
    if(auth) {
       console.log('verifyAuth content=<',content,'>');
@@ -359,7 +362,7 @@ class StarBian {
         console.log('_verifyAuth hashCal=<' , hashCal , '>');
         console.log('_verifyAuth auth.hash=<' , auth.hash , '>');
         if(auth.hash !== hashCal) {
-          return false;
+          cb(false);
         }
       })
       .catch(function(err){
@@ -368,7 +371,7 @@ class StarBian {
       let indexAuthed = this.channel.authed.indexOf(auth.pubKeyHex);
       console.log('_verifyAuth indexAuthed=<',indexAuthed,'>');
       if(indexAuthed === -1 && channel !== 'broadcast') {
-        return false;
+        cb(false);
       }
 
       let pubKey = rs.KEYUTIL.getKey(auth.pubKey);
@@ -379,9 +382,9 @@ class StarBian {
       //console.log('verifyAuth signEngine=<',signEngine,'>');
       let result = signEngine.verify(auth.sign);
       //console.log('verifyAuth result=<',result,'>');
-      return result;
+      cb(result);
     } else {
-      return false;
+      cb(false);
     }
   }
 

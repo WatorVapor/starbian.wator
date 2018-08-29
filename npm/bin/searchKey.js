@@ -24,9 +24,6 @@ searchKey.subscribe_broadcast((msg,channel) => {
   }
 });
 
-searchKey.onReady = () => {
-  setTimeout(doReadInput,1);
-}
 
 process.stdin.setEncoding('utf8');
 doReadInput = () => {
@@ -39,7 +36,11 @@ doReadInput = () => {
     }
   });
 }
-
 process.stdin.on('end', () => {
   process.stdout.write('end');
 });
+
+searchKey.onReady = () => {
+  setTimeout(doReadInput,1);
+}
+

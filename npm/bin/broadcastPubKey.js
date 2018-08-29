@@ -5,9 +5,9 @@ const StarBian = require('..');
 let broadcast = new StarBian();
 //console.log('broadcast=<',broadcast,'>');
 broadcast.onReady = () => {
-  broadcast.broadcastPubKey( (password,progress,finnish) => {
+  broadcast.broadcastPubKey( (progress,password) => {
     console.log('please search this key by <',password,'> will finnish at <',progress,'seconds');
-    if(finnish) {
+    if(password < 1) {
       process.exit(0);
     }
   });

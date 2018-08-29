@@ -113,6 +113,14 @@ class StarBian {
    *
    */
   broadcastPubKey (cb) {
+    this.sharePubKeyCounter = 10;
+    this.OneTimePassword_ = Math.floor(Math.random()*(9999-1111)+1111);
+    this.OneTimeCB_ = cb;
+    let self = this;
+    setTimeout(function() {
+      self.OneTimeCB_(self.OneTimePassword_,self.sharePubKeyCounter,false);
+      self.sharePubKeyTimeOut_();
+    },0);
   }
   
   /**
@@ -560,6 +568,38 @@ class StarBian {
     .catch(function(err){
       console.error(err);
     });
+  }
+
+  sharePubKeyTimeOut_(cb) {
+    this.sharePubKeyInside_();
+    this.OneTimeCB_(this.sharePubKeyCounter);
+    this.sharePubKeyCounter--;
+    if(this.sharePubKeyCounter >= 0) {
+      let self = this;
+      setTimeout(function() {
+        self.sharePubKeyTimeOut_(cb);
+      },10000);
+    }
+  }
+  
+  sharePubKeyInside_() {	
+    console.log('sharePubKeyInside_:WATOR.pubKeyHex=<',WATOR.pubKeyHex,'>');	
+    if(!this.pubHex) {	
+      return;	
+    } 	
+    let shareKey = { 
+      pubkey:this.pubHex,
+      password:this.OneTimePassword_
+    };
+    let self = this;
+    this._signAuth(JSON.stringify(shareKey),function(auth) {	
+      let sentMsg = {	
+        channel:'broadcast',	
+        auth:auth,
+        shareKey:shareKey	
+      };
+      self.p2p.out('broadcast',sentMsg);
+    });	
   }
   
 }

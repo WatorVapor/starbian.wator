@@ -361,7 +361,7 @@ class StarBian {
         if(auth.hash !== hashCal) {
           return false;
         }
-      });
+      })
       .catch(function(err){
         console.error(err);
       });

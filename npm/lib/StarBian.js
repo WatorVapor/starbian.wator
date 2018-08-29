@@ -598,6 +598,7 @@ class StarBian {
         auth:auth,
         shareKey:shareKey	
       };
+      console.log('sharePubKeyInside_:JSON.stringify(shareKey)=<' , JSON.stringify(shareKey) , '>');
       self.p2p.out('broadcast',sentMsg);
     });	
   }

@@ -316,8 +316,9 @@ class StarBian {
     //console.log('_onP2PMsg::channel=<',channel,'>');
     //console.log('_onP2PMsg::msg=<',msg,'>');
     //console.log('_onP2PMsg::from=<',from,'>');
+    let content = msg.encrypt || msg.ecdh || msg.subscribe || msg.shareKey;
     if(channel === 'broadcast') {
-      let bcAuthed = this._verifyWeakAuth(msg.auth);
+      let bcAuthed = this._verifyAuth(msg.auth,content,channel);
       if(!bcAuthed) {
         console.log('not authed _onP2PMsg::channel=<',channel,'>');
         console.log('not authed _onP2PMsg::msg=<',msg,'>');
@@ -331,7 +332,7 @@ class StarBian {
       }
       return;
     }
-    let authed = this._verifyAuth(msg.auth);
+    let authed = this._verifyAuth(msg.auth,content,channel);
     //console.log('_onP2PMsg::authed=<',authed,'>');
     if(!authed) {
       console.log('not authed _onP2PMsg::channel=<',channel,'>');
@@ -347,12 +348,26 @@ class StarBian {
     }
   }
 
-  _verifyAuth(auth) {
-    //console.log('verifyAuth auth=<',auth,'>');
-    if(auth) {
+  _verifyAuth(auth,content,channel) {
+    console.log('verifyAuth auth=<',auth,'>');
+   if(auth) {
+      console.log('verifyAuth content=<',content,'>');
+      webcrypto.subtle.digest("SHA-256",Buffer.from(msg,'uft8'))
+      .then(function(buf) {
+        //console.log('_verifyAuth buf=<' , buf , '>');
+        let hashCal = buf2hex(buf);
+        console.log('_verifyAuth hashCal=<' , hashCal , '>');
+        console.log('_verifyAuth auth.hash=<' , auth.hash , '>');
+        if(auth.hash !== hashCal) {
+          return false;
+        }
+      });
+      .catch(function(err){
+        console.error(err);
+      });
       let indexAuthed = this.channel.authed.indexOf(auth.pubKeyHex);
-      //console.log('_verifyAuth indexAuthed=<',indexAuthed,'>');
-      if(indexAuthed === -1) {
+      console.log('_verifyAuth indexAuthed=<',indexAuthed,'>');
+      if(indexAuthed === -1 && channel !== 'broadcast') {
         return false;
       }
 
@@ -370,22 +385,6 @@ class StarBian {
     }
   }
 
-  _verifyWeakAuth(auth) {
-    //console.log('_verifyWeakAuth auth=<',auth,'>');
-    if(auth) {
-      let pubKey = rs.KEYUTIL.getKey(auth.pubKey);
-      //console.log('verifyAuth pubKey=<',pubKey,'>');
-      let signEngine = new rs.KJUR.crypto.Signature({alg: 'SHA256withECDSA'});
-      signEngine.init({xy: pubKey.pubKeyHex, curve: 'secp256r1'});
-      signEngine.updateString(auth.hash);
-      //console.log('verifyAuth signEngine=<',signEngine,'>');
-      let result = signEngine.verify(auth.sign);
-      //console.log('verifyAuth result=<',result,'>');
-      return result;
-    } else {
-      return false;
-    }
-  }
 
   
   _doExchangeKey(ecdh,remotePubKeyHex) {
@@ -477,7 +476,7 @@ class StarBian {
   _signAuth(msg,cb) {
     //console.log('_signAuth msg=<' , msg , '>');
     let self = this;
-    webcrypto.subtle.digest("SHA-256",Buffer.from(msg,'hex'))
+    webcrypto.subtle.digest("SHA-256",Buffer.from(msg,'uft8'))
     .then(function(buf) {
       //console.log('_signAuth buf=<' , buf , '>');
       let hash = buf2hex(buf);

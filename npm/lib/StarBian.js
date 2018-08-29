@@ -57,6 +57,9 @@ class StarBian {
     if(fs.existsSync(this.channelPath_)) {
       let channelStr = fs.readFileSync(this.channelPath_, 'utf8');
       this.channel = JSON.parse(channelStr);
+      this.channel.myself = this.pubHex;
+      let saveChannel = JSON.stringify(this.channel,null, 2);
+      fs.writeFileSync(this.channelPath_,saveChannel);
     } else {
       this.channel = {};
       this.channel.myself = this.pubHex;

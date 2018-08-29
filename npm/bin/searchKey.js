@@ -6,6 +6,7 @@ let searchKey = new StarBian();
 //console.log('searchKey=<',searchKey,'>');
 
 let password = false;
+let hitPubKey = false;
 
 searchKey.subscribe_broadcast((msg,channel) => {
   //console.log('searchKey.subscribe_broadcast typeof msg=<',typeof msg,'>');
@@ -17,9 +18,11 @@ searchKey.subscribe_broadcast((msg,channel) => {
   if(msg.shareKey) {
     //console.log('searchKey.subscribe_broadcast msg.shareKey=<',msg.shareKey,'>');
     if(msg.shareKey.password.toString() === password) {
-      console.log('searchKey.subscribe_broadcast msg.shareKey=<',msg.shareKey,'>');
+      //console.log('searchKey.subscribe_broadcast msg.shareKey=<',msg.shareKey,'>');
+      hitPubKey = msg.shareKey.pubkey;
+      console.log('hit a key =<',hitPubKey,'>  save it yes/no?');
     } else {
-      console.log('pass msg.shareKey=<',msg.shareKey,'>');
+      //console.log('pass msg.shareKey=<',msg.shareKey,'>');
     }
   }
 });
@@ -31,8 +34,16 @@ let doReadInput = () => {
     console.log('input one time password please');
     const chunk = process.stdin.read();
     if (chunk !== null) {
-      password = chunk.trim();
-      console.log('search with <',password,'>');
+      if(hitPubKey) {
+        if(chunk.trim() === 'yes') {
+          searchKey.addAuthKey(hitPubKey);
+          hitPubKey = false;
+          password = false;
+        }
+      } else {
+        password = chunk.trim();
+        console.log('search with <',password,'>');
+      }
     }
   });
 };

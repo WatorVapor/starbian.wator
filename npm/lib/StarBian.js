@@ -353,14 +353,14 @@ class StarBian {
 
   _verifyAuth(auth,content,channel,cb) {
     console.log('verifyAuth auth=<',auth,'>');
-   if(auth) {
-      console.log('verifyAuth content=<',content,'>');
+    if(auth) {
+      //console.log('verifyAuth content=<',content,'>');
       webcrypto.subtle.digest("SHA-256",Buffer.from(JSON.stringify(content),'utf8'))
       .then(function(buf) {
         //console.log('_verifyAuth buf=<' , buf , '>');
         let hashCal = buf2hex(buf);
-        console.log('_verifyAuth hashCal=<' , hashCal , '>');
-        console.log('_verifyAuth auth.hash=<' , auth.hash , '>');
+        //console.log('_verifyAuth hashCal=<' , hashCal , '>');
+        //console.log('_verifyAuth auth.hash=<' , auth.hash , '>');
         if(auth.hash !== hashCal) {
           cb(false);
         }
@@ -369,7 +369,7 @@ class StarBian {
         console.error(err);
       });
       let indexAuthed = this.channel.authed.indexOf(auth.pubKeyHex);
-      console.log('_verifyAuth indexAuthed=<',indexAuthed,'>');
+      //console.log('_verifyAuth indexAuthed=<',indexAuthed,'>');
       if(indexAuthed === -1 && channel !== 'broadcast') {
         cb(false);
       }

@@ -24,11 +24,11 @@ searchKey.subscribe_broadcast((msg,channel) => {
   }
 });
 
-process.stdin.setEncoding('utf8');
-searchKey.onReady = () {
+searchKey.onReady = () => {
   setTimeout(doReadInput,1);
 }
 
+process.stdin.setEncoding('utf8');
 doReadInput = () => {
   process.stdin.on('readable', () => {
     console.log('input one time password please');

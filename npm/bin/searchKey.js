@@ -16,7 +16,7 @@ searchKey.subscribe_broadcast((msg,channel) => {
   //console.log('searchKey.subscribe_broadcast channel=<',channel,'>');
   if(msg.shareKey) {
     //console.log('searchKey.subscribe_broadcast msg.shareKey=<',msg.shareKey,'>');
-    if(msg.shareKey.password === password) {
+    if(msg.shareKey.password.toString() === password) {
       console.log('searchKey.subscribe_broadcast msg.shareKey=<',msg.shareKey,'>');
     } else {
       console.log('pass msg.shareKey=<',msg.shareKey,'>');

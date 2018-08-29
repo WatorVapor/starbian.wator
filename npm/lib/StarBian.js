@@ -352,7 +352,7 @@ class StarBian {
     console.log('verifyAuth auth=<',auth,'>');
    if(auth) {
       console.log('verifyAuth content=<',content,'>');
-      webcrypto.subtle.digest("SHA-256",Buffer.from(msg,'uft8'))
+      webcrypto.subtle.digest("SHA-256",Buffer.from(content,'uft8'))
       .then(function(buf) {
         //console.log('_verifyAuth buf=<' , buf , '>');
         let hashCal = buf2hex(buf);

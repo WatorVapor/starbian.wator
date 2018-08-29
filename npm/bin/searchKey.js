@@ -39,6 +39,7 @@ let doReadInput = () => {
           searchKey.addAuthedKey(hitPubKey);
           hitPubKey = false;
           password = false;
+          process.exit(0);
         }
       } else {
         password = chunk.trim();

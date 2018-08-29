@@ -31,7 +31,7 @@ let doReadInput = () => {
     console.log('input one time password please');
     const chunk = process.stdin.read();
     if (chunk !== null) {
-      password = chunk;
+      password = chunk.trim();
       console.log('search with <',password,'>');
     }
   });

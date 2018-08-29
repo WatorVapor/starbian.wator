@@ -7,7 +7,7 @@ let broadcast = new StarBian();
 broadcast.onReady = () => {
   broadcast.broadcastPubKey( (progress,password) => {
     console.log('please search this key by <',password,'> will finnish at <',10 * progress,'seconds');
-    if(password < 1) {
+    if(progress < 1) {
       process.exit(0);
     }
   });

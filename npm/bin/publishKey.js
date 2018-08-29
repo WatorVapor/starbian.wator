@@ -4,6 +4,5 @@ const StarBian = require('..');
 
 let publishKey = new StarBian();
 //console.log('publishKey=<',publishKey,'>');
-
 searchKey.onReady = () => {
 }

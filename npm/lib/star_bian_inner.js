@@ -73,8 +73,8 @@ class StarBianInner {
     let self = this;
     this.p2p.onReady = () => {
       self.p2p.in(self.pubKeyB58,(msg,channel,from) => {self._onP2PMsg(msg,channel,from)});      
-      if(typeof this.onReady === 'function') {
-        self.onReady();
+      if(typeof self.onReady === 'function') {
+        self.onReady(self.prvHex,self.pubKeyB58,self.channel.authed);
       }
     };
   }

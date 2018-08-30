@@ -1,29 +1,11 @@
 'use strict';
-const StarBian = require('../..');
+const StarBian = require('../..').StarBian;
 
-var pBtn = new StarBian();
+let pBtn = new StarBian();
 //console.log('pBtn=<',pBtn,'>');
+pBtn.onReady = (priKey,pubKey,authedKey) => {
+  console.log('priKey=<',priKey,'>');
+  console.log('pubKey=<',pubKey,'>');
+  console.log('authedKey=<',authedKey,'>');
+};
 
-var priKey = pBtn.getPrivate();
-console.log('priKey=<',priKey,'>');
-
-var pubKey  = pBtn.getPublic();
-console.log('pubKey=<',pubKey,'>');
-
-var authedKey  = pBtn.getAuthed();
-console.log('authedKey=<',authedKey,'>');
-
-
-let listenChannel = authedKey[0];
-pBtn.subscribe(listenChannel,(channel,msg) =>{
-  console.log('channel=<',channel,'>');
-  console.log('msg=<',msg,'>');
-});
-
-pBtn.onReady = ()=> {
-  setTimeout(function(){
-    pBtn.publish('ok hot hot run');
-  },20000);
-}; 
-
-//console.log('gofuro=<',gofuro,'>');

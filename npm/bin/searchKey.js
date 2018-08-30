@@ -9,7 +9,7 @@ let password = false;
 let hitPubKey = false;
 
 searchKey.subscribe_broadcast((msg,channel) => {
-  console.log('searchKey.subscribe_broadcast typeof msg=<',typeof msg,'>');
+  //console.log('searchKey.subscribe_broadcast typeof msg=<',typeof msg,'>');
   if(typeof msg === 'string') {
     msg = JSON.parse(msg);
   }

@@ -1,5 +1,5 @@
 'use strict';
-const StarBian = require('../..');
+const StarBian = require('../..').StarBian;
 
 let gofuro = new StarBian();
 //console.log('gofuro=<',gofuro,'>');

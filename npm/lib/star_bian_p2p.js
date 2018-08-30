@@ -91,13 +91,6 @@ module.exports = class StarBianP2p {
     let jsonData = JSON.parse(msg.data.toString('utf8'));
     console.log('onRoomMessage::jsonData=<',jsonData,'>');
     if(jsonData && jsonData.channel) {
-      let cb = this._cb[jsonData.channel];
-      if(typeof(cb) === 'function') {
-        let channel = jsonData.channel;
-        cb(jsonData,channel,msg.from);
-      } else {
-        //console.log('onRoomMessage::jsonData=<',jsonData,'>');
-      }
       if(jsonData.channel === 'broadcast') {
         let cbKeys = Object.keys(this._cb);
         for(let i = 0;i < cbKeys.length;i++) {
@@ -111,6 +104,14 @@ module.exports = class StarBianP2p {
             //console.log('onRoomMessage::jsonData=<',jsonData,'>');
           }
         }
+        return;
+      }
+      let cb = this._cb[jsonData.channel];
+      if(typeof(cb) === 'function') {
+        let channel = jsonData.channel;
+        cb(jsonData,channel,msg.from);
+      } else {
+        //console.log('onRoomMessage::jsonData=<',jsonData,'>');
       }
     }
   }

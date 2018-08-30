@@ -290,9 +290,9 @@ class StarBianInner {
    * @private
    */
   _onP2PMsg(msg,channel,from) {
-    //console.log('_onP2PMsg::channel=<',channel,'>');
-    //console.log('_onP2PMsg::msg=<',msg,'>');
-    //console.log('_onP2PMsg::from=<',from,'>');
+    console.log('_onP2PMsg::channel=<',channel,'>');
+    console.log('_onP2PMsg::msg=<',msg,'>');
+    console.log('_onP2PMsg::from=<',from,'>');
     let self = this;
     let content = msg.encrypt || msg.ecdh || msg.subscribe || msg.shareKey;
     if(channel === 'broadcast') {

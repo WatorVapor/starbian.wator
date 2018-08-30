@@ -61,10 +61,16 @@ wss.on('connection', function (ws,req) {
     try {
       let jsonMsg = JSON.parse(message);
       //console.log('jsonMsg=<', jsonMsg,'>');
-      if(jsonMsg && verifyAuth(jsonMsg.auth)) {
-        onAuthedMsg(jsonMsg,ws);
+      if(jsonMsg) {
+        verifyAuth(jsonMsg.auth,(good) => {
+          if(good) {
+             onAuthedMsg(jsonMsg,ws);
+          } else {
+            console.log('not authed message=<', message,'>');
+          }
+        });
       } else {
-        console.log('not authed jsonMsg=<', jsonMsg,'>');
+        console.log('not json message=<', message,'>');
         return;
       }
     } catch(e){
@@ -129,20 +135,26 @@ function hex2buf(str) {
   return Buffer.from(str,'hex');
 }
 
-function verifyAuth(auth) {	
-  //console.log('verifyAuth auth=<',auth,'>');	
-  if(auth) {	
-    let pubKey = rs.KEYUTIL.getKey(auth.pubKey);	
-    //console.log('verifyAuth pubKey=<',pubKey,'>');	
-    let signEngine = new rs.KJUR.crypto.Signature({alg: 'SHA256withECDSA'});	
-    signEngine.init({xy: pubKey.pubKeyHex, curve: 'secp256r1'});	
-    signEngine.updateString(auth.hash);	
-    //console.log('verifyAuth signEngine=<',signEngine,'>');	
-    let result = signEngine.verify(auth.sign);	
-    //console.log('verifyAuth result=<',result,'>');	
-    return result;	
+function verifyAuth(auth,cb) {	
+  console.log('verifyAuth auth=<',auth,'>');	
+  if(auth) {
+    Bs58Key2RsKey(auth.pubKeyB58,(pubKey) => {
+      //console.log('verifyAuth pubKey=<',pubKey,'>');	
+      let signEngine = new rs.KJUR.crypto.Signature({alg: 'SHA256withECDSA'});	
+      signEngine.init({xy: pubKey.pubKeyHex, curve: 'secp256r1'});	
+      signEngine.updateString(auth.hash);	
+      //console.log('verifyAuth signEngine=<',signEngine,'>');	
+      let result = signEngine.verify(auth.sign);	
+      //console.log('verifyAuth result=<',result,'>');	
+      cb(result);      
+    });
   } else {	
-    return false;	
+    cb(false);	
   }	
 }
 
+function Bs58Key2RsKey(bs58Key,cb) {
+  console.log('verifyAuth bs58Key=<',bs58Key,'>');
+  let pubKey = rs.KEYUTIL.getKey(bs58Key);	
+  console.log('verifyAuth pubKey=<',pubKey,'>');
+}

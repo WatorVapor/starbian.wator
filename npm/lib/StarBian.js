@@ -6,37 +6,7 @@
 
 'use strict';
 
-const fs = require('fs');
-const crypto = require('crypto');
-const rs = require('jsrsasign');
-const WebCrypto = require("node-webcrypto-ossl");
-const webcrypto = new WebCrypto();
-const StarBianP2p = require('./star_bian_p2p');
-const bs58 = require('bs58');
-
-function buf2hex(buf) {
-  return Array.prototype.map.call(new Uint8Array(buf), x=>(('00'+x.toString(16)).slice(-2))).join('');
-}
-
-function hex2buf(str) {
-  return Buffer.from(str,'hex');
-}
-
-function ab2hex(array_buff) {
-  //console.log('ab2hex:array_buff=<',array_buff,'>');
-  let u8ab = new Uint8Array(array_buff);
-  //console.log('ab2hex:u8ab=<',u8ab,'>');
-  let buffer = Buffer.from(u8ab,'binary');
-  let hex = buffer.toString('hex');
-  //console.log('ab2hex:hex=<',hex,'>');
-  return hex;
-}
-
-function ab2utf8(array_buff) {
-  let u8ab = new Uint8Array(array_buff,'binary');
-  let buffer = Buffer.from(u8ab);
-  return buffer.toString('utf8');
-}
+const StarBianInner = require('./star_bian_inner');
 
 class StarBian {
   /**
@@ -44,53 +14,7 @@ class StarBian {
    *
    */
   constructor () {
-    if(!fs.existsSync('.keys/')) {
-      fs.mkdirSync('.keys/');
-    }
-    this.keyPath_ = '.keys/key.json';
-    if(!fs.existsSync(this.keyPath_)) {
-      this._createKeyPair();
-    } else {
-      this._loadKeyPair();
-    }
-    //console.log('StarBian constructor:this.p2p=<',this.p2p,'>');
-    this.channelPath_ = 'channels.json';
-    if(fs.existsSync(this.channelPath_)) {
-      let channelStr = fs.readFileSync(this.channelPath_, 'utf8');
-      this.channel = JSON.parse(channelStr);
-      this.channel.myself = this.pubKeyB58;
-      let saveChannel = JSON.stringify(this.channel,null, 2);
-      fs.writeFileSync(this.channelPath_,saveChannel);
-    } else {
-      this.channel = {};
-      this.channel.myself = this.pubKeyB58;
-      this.channel.authed = [];
-      let saveChannel = JSON.stringify(this.channel,null, 2);
-      fs.writeFileSync(this.channelPath_,saveChannel);
-    }
-    this._createECDHKey();    
-    this.p2p = new StarBianP2p();
-    let self = this;
-    this.p2p.onReady = () => {
-      self.p2p.in(self.pubKeyB58,(msg,channel,from) => {self._onP2PMsg(msg,channel,from)});      
-      if(typeof this.onReady === 'function') {
-        self.onReady();
-      }
-    };
-  }
-  /**
-   * get private key.
-   *
-   */
-  getPrivate () {
-    return this.prvHex;
-  }
-  /**
-   * get public key.
-   *
-   */
-  getPublic () {
-    return this.pubKeyB58;
+    this.inner_ = new StarBianInner();
   }
   /**
    * add authed public key.
@@ -98,30 +22,14 @@ class StarBian {
    *
    */
   addAuthedKey (key) {
-    this.channel.authed.push(key);
-    let saveChannel = JSON.stringify(this.channel,null, 2);
-    fs.writeFileSync(this.channelPath_,saveChannel);
-  }
-  /**
-   * get authed public key.
-   *
-   */
-  getAuthed () {
-    return this.channel.authed;
+    this.inner_.addAuthedKey(key);
   }
   /**
    * broadcast public key with one time password.
    *
    */
   broadcastPubKey (cb) {
-    this.sharePubKeyCounter = 10;
-    this.OneTimePassword_ = Math.floor(Math.random()*(9999-1111)+1111);
-    this.OneTimeCB_ = cb;
-    let self = this;
-    setTimeout(function() {
-      self.OneTimeCB_(self.sharePubKeyCounter,self.OneTimePassword_);
-      self.sharePubKeyTimeOut_();
-    },0);
+    this.inner_.broadcastPubKey(cb);
   }
   
   /**
@@ -131,21 +39,7 @@ class StarBian {
    * @param {String} channel 
    */
   publish(msg,channel) {
-    //console.log('publish:msg =<',msg,'>');
-    //console.log('publish:channel =<',channel,'>');
-    let self = this;
-    this._encrypt(JSON.stringify(msg),function(encrypt) {
-      //console.log('publish:encrypt=<',encrypt,'>');
-      self._signAuth(JSON.stringify(encrypt),function(auth) {
-        let sentMsg = {
-          channel:channel,
-          auth:auth,
-          encrypt:encrypt
-        };
-        //console.log('publish:sentMsg=<',sentMsg,'>');
-        self.p2p.out(channel ,sentMsg);
-      });
-    });
+    this.inner_.publish(msg,channel);
   }
   /**
    * subscribe.
@@ -153,15 +47,15 @@ class StarBian {
    * @param {Function} callback 
    */
   subscribe(callback) {
-    this.callback_ = callback;
+    this.inner_.subscribe(callback);
   }
   /**
-   * subscribe.
+   * subscribe_broadcast.
    *
    * @param {Function} callback 
    */
   subscribe_broadcast(callback) {
-    this.bc_callback_ = callback;
+    this.inner_.subscribe_broadcast(callback);
   }
   
   /**

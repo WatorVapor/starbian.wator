@@ -623,3 +623,5 @@ class StarBianInner {
   }
   
 }
+
+module.exports = StarBianInner;

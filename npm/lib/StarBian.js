@@ -12,6 +12,7 @@ const rs = require('jsrsasign');
 const WebCrypto = require("node-webcrypto-ossl");
 const webcrypto = new WebCrypto();
 const StarBianP2p = require('./star_bian_p2p');
+const bs58 = require('bs58');
 
 function buf2hex(buf) {
   return Array.prototype.map.call(new Uint8Array(buf), x=>(('00'+x.toString(16)).slice(-2))).join('');
@@ -57,12 +58,12 @@ class StarBian {
     if(fs.existsSync(this.channelPath_)) {
       let channelStr = fs.readFileSync(this.channelPath_, 'utf8');
       this.channel = JSON.parse(channelStr);
-      this.channel.myself = this.pubHex;
+      this.channel.myself = this.pubKeyB58;
       let saveChannel = JSON.stringify(this.channel,null, 2);
       fs.writeFileSync(this.channelPath_,saveChannel);
     } else {
       this.channel = {};
-      this.channel.myself = this.pubHex;
+      this.channel.myself = this.pubKeyB58;
       this.channel.authed = [];
       let saveChannel = JSON.stringify(this.channel,null, 2);
       fs.writeFileSync(this.channelPath_,saveChannel);
@@ -71,7 +72,7 @@ class StarBian {
     this.p2p = new StarBianP2p();
     let self = this;
     this.p2p.onReady = () => {
-      self.p2p.in(self.pubHex,(msg,channel,from) => {self._onP2PMsg(msg,channel,from)});      
+      self.p2p.in(self.pubKeyB58,(msg,channel,from) => {self._onP2PMsg(msg,channel,from)});      
       if(typeof this.onReady === 'function') {
         self.onReady();
       }
@@ -89,7 +90,7 @@ class StarBian {
    *
    */
   getPublic () {
-    return this.pubHex;
+    return this.pubKeyB58;
   }
   /**
    * add authed public key.
@@ -239,7 +240,7 @@ class StarBian {
         self.pubKey = keydata;
         self.rsPubKey = rs.KEYUTIL.getKey(keydata);
         //console.log('_createKeyPair privateKey self.rsPubKey=<' , self.rsPubKey , '>');
-        self.pubHex = self.rsPubKey.pubKeyHex;
+        self.pubKeyB58 = self.rsPubKey.pubKeyHex;
         self.pubJwk = keydata;
         toBeSaved.pubKey = keydata;
         if(toBeSaved.prvKey) {
@@ -267,7 +268,7 @@ class StarBian {
     this.rsPrvKey = rs.KEYUTIL.getKey(keyJson.prvKey);
     this.prvHex = this.rsPrvKey.prvKeyHex;
     this.rsPubKey = rs.KEYUTIL.getKey(keyJson.pubKey);
-    this.pubHex = this.rsPubKey.pubKeyHex;
+    this.pubKeyB58 = this.rsPubKey.pubKeyHex;
     this.pubJwk = keyJson.pubKey;
     let self = this;
     webcrypto.subtle.importKey(
@@ -495,7 +496,7 @@ class StarBian {
 
       let signature = {
         pubKey:self.pubJwk,
-        pubKeyHex:self.pubHex,
+        pubKeyB58:self.pubKeyB58,
         hash:hash,
         enc:'hex',
         sign:signatureHex
@@ -585,12 +586,12 @@ class StarBian {
   }
   
   sharePubKeyInside_() {	
-    console.log('sharePubKeyInside_:this.pubHex=<',this.pubHex,'>');	
-    if(!this.pubHex) {	
+    console.log('sharePubKeyInside_:this.pubKeyB58=<',this.pubKeyB58,'>');	
+    if(!this.pubKeyB58) {	
       return;	
     } 	
     let shareKey = { 
-      pubkey:this.pubHex,
+      pubkey:this.pubKeyB58,
       password:this.OneTimePassword_
     };
     let self = this;

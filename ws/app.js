@@ -9,6 +9,7 @@ const wsProxy = new StarBian();
 const crypto = require('crypto');
 const WebCrypto = require("node-webcrypto-ossl");
 const webcrypto = new WebCrypto();
+const bs58 = require('bs58');
 const WebSocket = require('ws');
 const rs = require('jsrsasign');
 const rsu = require('jsrsasign-util');
@@ -155,6 +156,8 @@ function verifyAuth(auth,cb) {
 
 function Bs58Key2RsKey(bs58Key,cb) {
   console.log('verifyAuth bs58Key=<',bs58Key,'>');
+  const pubKeyBuff = bs58.decode(bs58Key);
+  console.log('verifyAuth pubKeyBuff=<',pubKeyBuff,'>');  
   let pubKey = rs.KEYUTIL.getKey(bs58Key);	
   console.log('verifyAuth pubKey=<',pubKey,'>');
 }

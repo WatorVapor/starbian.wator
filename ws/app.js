@@ -137,7 +137,7 @@ function hex2buf(str) {
 }
 
 function verifyAuth(auth,cb) {	
-  console.log('verifyAuth auth=<',auth,'>');	
+  //console.log('verifyAuth auth=<',auth,'>');	
   if(auth) {
     Bs58Key2RsKey(auth.pubKeyB58,(pubKey) => {
       //console.log('verifyAuth pubKey=<',pubKey,'>');

@@ -15,7 +15,7 @@ class StarBian {
    */
   constructor () {
     this.inner_ = new StarBianInner();
-    this.inner_.onReady = = (priKey,pubKey,authedKey) => {
+    this.inner_.onReady = (priKey,pubKey,authedKey) => {
       this.onReady(priKey,pubKey,authedKey);
     };
   }

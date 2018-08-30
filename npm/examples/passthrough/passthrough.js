@@ -21,7 +21,7 @@ pt.onReady = (priKey,pubKey,authedKey)=> {
   },6000);
   setTimeout(function(){
     pt.passthrough('broadcast',{msg:'pass through!!!444'});
-  },6000);
+  },8000);
 };
 
 

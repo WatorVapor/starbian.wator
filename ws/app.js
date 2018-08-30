@@ -140,7 +140,11 @@ function verifyAuth(auth,cb) {
   console.log('verifyAuth auth=<',auth,'>');	
   if(auth) {
     Bs58Key2RsKey(auth.pubKeyB58,(pubKey) => {
-      //console.log('verifyAuth pubKey=<',pubKey,'>');	
+      //console.log('verifyAuth pubKey=<',pubKey,'>');
+      if(!pubKey) {
+        cb(false);
+        return;
+      }
       let signEngine = new rs.KJUR.crypto.Signature({alg: 'SHA256withECDSA'});	
       signEngine.init({xy: pubKey.pubKeyHex, curve: 'secp256r1'});	
       signEngine.updateString(auth.hash);	
@@ -155,9 +159,9 @@ function verifyAuth(auth,cb) {
 }
 
 function Bs58Key2RsKey(bs58Key,cb) {
-  console.log('Bs58Key2RsKey bs58Key=<',bs58Key,'>');
+  //console.log('Bs58Key2RsKey bs58Key=<',bs58Key,'>');
   const pubKeyBuff = bs58.decode(bs58Key);
-  console.log('Bs58Key2RsKey pubKeyBuff=<',pubKeyBuff,'>');  
+  //console.log('Bs58Key2RsKey pubKeyBuff=<',pubKeyBuff,'>');  
   webcrypto.subtle.importKey(
     'raw',
     pubKeyBuff,
@@ -169,19 +173,21 @@ function Bs58Key2RsKey(bs58Key,cb) {
     ['sign']
   )
   .then(function(pubKey){
-    console.log('Bs58Key2RsKey:pubKey=<' , pubKey , '>');
+    //console.log('Bs58Key2RsKey:pubKey=<' , pubKey , '>');
     webcrypto.subtle.exportKey('jwk', pubKey)
     .then(function(keydata){
-      console.log('Bs58Key2RsKey keydata=<' , keydata , '>');
+      //console.log('Bs58Key2RsKey keydata=<' , keydata , '>');
       let rsKey = rs.KEYUTIL.getKey(keydata);	
-      console.log('Bs58Key2RsKey rsKey=<',rsKey,'>');
+      //console.log('Bs58Key2RsKey rsKey=<',rsKey,'>');
+      cb(rsKey);
     })
     .catch(function(err){
       console.error(err);
+      cb();
     });
   })
   .catch(function(err){
     console.error(err);
+    cb();
   });
-  
 }

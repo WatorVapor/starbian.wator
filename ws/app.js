@@ -155,9 +155,26 @@ function verifyAuth(auth,cb) {
 }
 
 function Bs58Key2RsKey(bs58Key,cb) {
-  console.log('verifyAuth bs58Key=<',bs58Key,'>');
+  console.log('Bs58Key2RsKey bs58Key=<',bs58Key,'>');
   const pubKeyBuff = bs58.decode(bs58Key);
-  console.log('verifyAuth pubKeyBuff=<',pubKeyBuff,'>');  
+  console.log('Bs58Key2RsKey pubKeyBuff=<',pubKeyBuff,'>');  
+  webcrypto.subtle.importKey(
+    'raw',
+    pubKeyBuff,
+    {
+      name: 'ECDSA',
+      namedCurve: 'P-256', 
+    },
+    true, 
+    ['sign']
+  )
+  .then(function(pubKey){
+    console.log('Bs58Key2RsKey:pubKey=<' , pubKey , '>');
+  })
+  .catch(function(err){
+    console.error(err);
+  });
+  
   let pubKey = rs.KEYUTIL.getKey(bs58Key);	
   console.log('verifyAuth pubKey=<',pubKey,'>');
 }

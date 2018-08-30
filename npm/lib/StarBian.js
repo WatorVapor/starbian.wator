@@ -397,44 +397,45 @@ class StarBian {
     }
   }
 
-_bs58Key2RsKey(bs58Key,cb) {
-  //console.log('Bs58Key2RsKey bs58Key=<',bs58Key,'>');
-  const pubKeyBuff = bs58.decode(bs58Key);
-  //console.log('Bs58Key2RsKey pubKeyBuff=<',pubKeyBuff,'>');  
-  webcrypto.subtle.importKey(
-    'raw',
-    pubKeyBuff,
-    {
-      name: 'ECDSA',
-      namedCurve: 'P-256', 
-    },
-    true, 
-    ['verify']
-  )
-  .then(function(pubKey){
-    //console.log('Bs58Key2RsKey:pubKey=<' , pubKey , '>');
-    webcrypto.subtle.exportKey('jwk', pubKey)
-    .then(function(keydata){
-      //console.log('Bs58Key2RsKey keydata=<' , keydata , '>');
-      let rsKey = rs.KEYUTIL.getKey(keydata);	
-      //console.log('Bs58Key2RsKey rsKey=<',rsKey,'>');
-      cb(rsKey);
+  _bs58Key2RsKey(bs58Key,cb) {
+    //console.log('Bs58Key2RsKey bs58Key=<',bs58Key,'>');
+    const pubKeyBuff = bs58.decode(bs58Key);
+    //console.log('Bs58Key2RsKey pubKeyBuff=<',pubKeyBuff,'>');  
+    webcrypto.subtle.importKey(
+      'raw',
+      pubKeyBuff,
+      {
+        name: 'ECDSA',
+        namedCurve: 'P-256', 
+      },
+      true, 
+      ['verify']
+    )
+    .then(function(pubKey){
+      //console.log('Bs58Key2RsKey:pubKey=<' , pubKey , '>');
+      webcrypto.subtle.exportKey('jwk', pubKey)
+      .then(function(keydata){
+        //console.log('Bs58Key2RsKey keydata=<' , keydata , '>');
+        let rsKey = rs.KEYUTIL.getKey(keydata);	
+        //console.log('Bs58Key2RsKey rsKey=<',rsKey,'>');
+        cb(rsKey);
+      })
+      .catch(function(err){
+        console.error(err);
+        cb();
+      });
     })
     .catch(function(err){
       console.error(err);
       cb();
     });
-  })
-  .catch(function(err){
-    console.error(err);
-    cb();
-  });  
+  }
 
   
-  _doExchangeKey(ecdh,remotePubKeyHex) {
+  _doExchangeKey(ecdh,remotePubKey) {
     //console.log('_doExchangeKey ecdh=<',ecdh,'>');
     if(ecdh.type === 'request') {
-      this._tryExchangeKey('response',remotePubKeyHex);
+      this._tryExchangeKey('response',remotePubKey);
     }
     let self = this;
     webcrypto.subtle.importKey(

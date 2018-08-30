@@ -358,6 +358,7 @@ class StarBian {
     //console.log('verifyAuth auth=<',auth,'>');
     if(auth) {
       //console.log('verifyAuth content=<',content,'>');
+      let self = this;
       webcrypto.subtle.digest("SHA-256",Buffer.from(JSON.stringify(content),'utf8'))
       .then(function(buf) {
         //console.log('_verifyAuth buf=<' , buf , '>');
@@ -368,7 +369,7 @@ class StarBian {
           cb(false);
           return;
         }
-        let indexAuthed = this.channel.authed.indexOf(auth.pubKeyB58);
+        let indexAuthed = self.channel.authed.indexOf(auth.pubKeyB58);
         //console.log('_verifyAuth indexAuthed=<',indexAuthed,'>');
         if(indexAuthed === -1 && channel !== 'broadcast') {
           cb(false);

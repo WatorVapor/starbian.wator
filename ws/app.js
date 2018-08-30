@@ -170,8 +170,15 @@ function Bs58Key2RsKey(bs58Key,cb) {
   )
   .then(function(pubKey){
     console.log('Bs58Key2RsKey:pubKey=<' , pubKey , '>');
-    let rsKey = rs.KEYUTIL.getKey(pubKey);	
-    console.log('verifyAuth rsKey=<',rsKey,'>');
+    webcrypto.subtle.exportKey('jwk', pubKey)
+    .then(function(keydata){
+      console.log('Bs58Key2RsKey keydata=<' , keydata , '>');
+      let rsKey = rs.KEYUTIL.getKey(keydata);	
+      console.log('Bs58Key2RsKey rsKey=<',rsKey,'>');
+    })
+    .catch(function(err){
+      console.error(err);
+    });
   })
   .catch(function(err){
     console.error(err);

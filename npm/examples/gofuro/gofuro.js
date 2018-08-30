@@ -1,17 +1,11 @@
 'use strict';
 const StarBian = require('../..').StarBian;
 
-let gofuro = new StarBian();
-//console.log('gofuro=<',gofuro,'>');
-
-let priKey = gofuro.getPrivate();
-console.log('priKey=<',priKey,'>');
-
-let pubKey  = gofuro.getPublic();
-console.log('pubKey=<',pubKey,'>');
-
-let authedKey  = gofuro.getAuthed();
-console.log('authedKey=<',authedKey,'>');
+gofuro.onReady = (priKey,pubKey,authedKey) => {
+  console.log('priKey=<',priKey,'>');
+  console.log('pubKey=<',pubKey,'>');
+  console.log('authedKey=<',authedKey,'>');
+};
 
 gofuro.subscribe((msg,channel) => {
   console.log('gofuro.subscribe typeof msg=<',typeof msg,'>');

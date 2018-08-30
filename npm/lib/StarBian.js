@@ -375,7 +375,7 @@ class StarBian {
           cb(false);
           return;
         }
-        Bs58Key2RsKey(auth.pubKeyB58,(pubKey) => {
+        self._bs58Key2RsKey(auth.pubKeyB58,(pubKey) => {
           //console.log('verifyAuth pubKey=<',pubKey,'>');
           if(!pubKey) {
             cb(false);

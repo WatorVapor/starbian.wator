@@ -1,5 +1,6 @@
 'use strict';
 const StarBian = require('../..').StarBian;
+gofuro = new StarBian();
 
 gofuro.onReady = (priKey,pubKey,authedKey) => {
   console.log('priKey=<',priKey,'>');

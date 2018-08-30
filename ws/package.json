@@ -3,7 +3,7 @@
     "ipfs": "^0.31.7",
     "jsrsasign": "^8.0.12",
     "jsrsasign-util": "^1.0.0",
-    "starbian": "^0.0.19",
+    "starbian": "^0.0.20",
     "ws": "^5.2.2"
   }
 }

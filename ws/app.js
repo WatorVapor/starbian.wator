@@ -170,11 +170,11 @@ function Bs58Key2RsKey(bs58Key,cb) {
   )
   .then(function(pubKey){
     console.log('Bs58Key2RsKey:pubKey=<' , pubKey , '>');
+    let rsKey = rs.KEYUTIL.getKey(pubKey);	
+    console.log('verifyAuth rsKey=<',rsKey,'>');
   })
   .catch(function(err){
     console.error(err);
   });
   
-  let pubKey = rs.KEYUTIL.getKey(bs58Key);	
-  console.log('verifyAuth pubKey=<',pubKey,'>');
 }

@@ -240,7 +240,8 @@ class StarBian {
         self.pubKey = keydata;
         self.rsPubKey = rs.KEYUTIL.getKey(keydata);
         //console.log('_createKeyPair privateKey self.rsPubKey=<' , self.rsPubKey , '>');
-        self.pubKeyB58 = self.rsPubKey.pubKeyHex;
+        let keyBuffer = Buffer.from(self.rsPubKey.pubKeyHex,'hex');
+        self.pubKeyB58 = bs58.encode(keyBuffer);
         self.pubJwk = keydata;
         toBeSaved.pubKey = keydata;
         if(toBeSaved.prvKey) {
@@ -268,7 +269,8 @@ class StarBian {
     this.rsPrvKey = rs.KEYUTIL.getKey(keyJson.prvKey);
     this.prvHex = this.rsPrvKey.prvKeyHex;
     this.rsPubKey = rs.KEYUTIL.getKey(keyJson.pubKey);
-    this.pubKeyB58 = this.rsPubKey.pubKeyHex;
+    let keyBuffer = Buffer.from(this.rsPubKey.pubKeyHex,'hex');
+    this.pubKeyB58 = bs58.encode(keyBuffer);
     this.pubJwk = keyJson.pubKey;
     let self = this;
     webcrypto.subtle.importKey(
@@ -364,31 +366,69 @@ class StarBian {
         //console.log('_verifyAuth auth.hash=<' , auth.hash , '>');
         if(auth.hash !== hashCal) {
           cb(false);
+          return;
         }
+        let indexAuthed = this.channel.authed.indexOf(auth.pubKeyB58);
+        //console.log('_verifyAuth indexAuthed=<',indexAuthed,'>');
+        if(indexAuthed === -1 && channel !== 'broadcast') {
+          cb(false);
+          return;
+        }
+        Bs58Key2RsKey(auth.pubKeyB58,(pubKey) => {
+          //console.log('verifyAuth pubKey=<',pubKey,'>');
+          if(!pubKey) {
+            cb(false);
+            return;
+          }
+          let signEngine = new rs.KJUR.crypto.Signature({alg: 'SHA256withECDSA'});
+          signEngine.init({xy: pubKey.pubKeyHex, curve: 'secp256r1'});
+          signEngine.updateString(auth.hash);
+          //console.log('verifyAuth signEngine=<',signEngine,'>');
+          let result = signEngine.verify(auth.sign);
+          //console.log('verifyAuth result=<',result,'>');
+          cb(result);
+        });
       })
       .catch(function(err){
         console.error(err);
       });
-      let indexAuthed = this.channel.authed.indexOf(auth.pubKeyHex);
-      //console.log('_verifyAuth indexAuthed=<',indexAuthed,'>');
-      if(indexAuthed === -1 && channel !== 'broadcast') {
-        cb(false);
-      }
-
-      let pubKey = rs.KEYUTIL.getKey(auth.pubKey);
-      //console.log('verifyAuth pubKey=<',pubKey,'>');
-      let signEngine = new rs.KJUR.crypto.Signature({alg: 'SHA256withECDSA'});
-      signEngine.init({xy: pubKey.pubKeyHex, curve: 'secp256r1'});
-      signEngine.updateString(auth.hash);
-      //console.log('verifyAuth signEngine=<',signEngine,'>');
-      let result = signEngine.verify(auth.sign);
-      //console.log('verifyAuth result=<',result,'>');
-      cb(result);
     } else {
       cb(false);
     }
   }
 
+_bs58Key2RsKey(bs58Key,cb) {
+  //console.log('Bs58Key2RsKey bs58Key=<',bs58Key,'>');
+  const pubKeyBuff = bs58.decode(bs58Key);
+  //console.log('Bs58Key2RsKey pubKeyBuff=<',pubKeyBuff,'>');  
+  webcrypto.subtle.importKey(
+    'raw',
+    pubKeyBuff,
+    {
+      name: 'ECDSA',
+      namedCurve: 'P-256', 
+    },
+    true, 
+    ['verify']
+  )
+  .then(function(pubKey){
+    //console.log('Bs58Key2RsKey:pubKey=<' , pubKey , '>');
+    webcrypto.subtle.exportKey('jwk', pubKey)
+    .then(function(keydata){
+      //console.log('Bs58Key2RsKey keydata=<' , keydata , '>');
+      let rsKey = rs.KEYUTIL.getKey(keydata);	
+      //console.log('Bs58Key2RsKey rsKey=<',rsKey,'>');
+      cb(rsKey);
+    })
+    .catch(function(err){
+      console.error(err);
+      cb();
+    });
+  })
+  .catch(function(err){
+    console.error(err);
+    cb();
+  });  
 
   
   _doExchangeKey(ecdh,remotePubKeyHex) {
@@ -410,7 +450,7 @@ class StarBian {
       console.error(err);
     });
   }
-  _tryExchangeKey(type,remotePubKeyHex) {
+  _tryExchangeKey(type,remotePubKey) {
     let ecdh = {
       key:this.ECDHKeyPubJwk,
       type:type,
@@ -419,12 +459,12 @@ class StarBian {
     let self = this;
     this._signAuth(JSON.stringify(ecdh),function(auth) {
       let sentMsg = {
-        channel:remotePubKeyHex,
+        channel:remotePubKey,
         auth:auth,
         ecdh:ecdh
       };
       //console.log('_tryExchangeKey sentMsg=<' , sentMsg , '>');
-      self.p2p.out(remotePubKeyHex,sentMsg);
+      self.p2p.out(remotePubKey,sentMsg);
     });
   }
 

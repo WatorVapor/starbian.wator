@@ -89,12 +89,11 @@ module.exports = class StarBianP2p {
     //console.log('onRoomMessage::this.peer=<',this.peer,'>');
     //console.log('onRoomMessage::msg=<',msg,'>');
     let jsonData = JSON.parse(msg.data.toString('utf8'));
-    //console.log('onRoomMessage::jsonData=<',jsonData,'>');
+    console.log('onRoomMessage::jsonData=<',jsonData,'>');
     if(jsonData && jsonData.channel) {
       let cb = this._cb[jsonData.channel];
       if(typeof(cb) === 'function') {
         let channel = jsonData.channel;
-        delete jsonData.channel;
         cb(jsonData,channel,msg.from);
       } else {
         //console.log('onRoomMessage::jsonData=<',jsonData,'>');
@@ -106,7 +105,6 @@ module.exports = class StarBianP2p {
           let cb = this._cb[key];
           if(typeof(cb) === 'function') {
             let channel = jsonData.channel;
-            delete jsonData.channel;
             //console.log('onRoomMessage::channel=<',channel,'>');
             cb(jsonData,channel,msg.from);
           } else {

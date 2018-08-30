@@ -4,5 +4,7 @@
  * MIT Licensed
  */
 'use strict';
-const StarBian = require('./lib/StarBian');
-module.exports = StarBian;
+module.exports = {
+  StarBian : require('./lib/StarBian'),
+  StarBianRepeater:require('./lib/StarBianRepeater')
+}

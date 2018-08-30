@@ -1,28 +1,15 @@
 'use strict';
-const StarBian = require('../..');
+const StarBian = require('../..').StarBianRepeater;
+const channelPub = '1111111';
 
 let pt = new StarBian();
 //console.log('pt=<',pt,'>');
 
-let priKey = pt.getPrivate();
-console.log('priKey=<',priKey,'>');
+pt.onReady = (priKey,pubKey,authedKey)=> {
+  console.log('priKey=<',priKey,'>');
+  console.log('pubKey=<',pubKey,'>');
+  console.log('authedKey=<',authedKey,'>');
 
-let pubKey  = pt.getPublic();
-console.log('pubKey=<',pubKey,'>');
-
-let authedKey  = pt.getAuthed();
-console.log('authedKey=<',authedKey,'>');
-
-
-const channelPub = '1111111';
-
-pt.subscribe(channelPub,(msg,channel,peer) =>{
-  console.log('pt.subscribe msg=<',msg,'>');
-  console.log('pt.subscribe channel=<',channel,'>');
-  console.log('pt.subscribe peer=<',peer,'>');
-});
-
-pt.onReady = ()=> {
   setTimeout(function(){
     pt.passthrough(channelPub,{msg:'pass through!!!'});
   },2000);
@@ -32,4 +19,20 @@ pt.onReady = ()=> {
   setTimeout(function(){
     pt.passthrough(channelPub,{msg:'pass through!!!333'});
   },6000);
+  setTimeout(function(){
+    pt.passthrough('broadcast',{msg:'pass through!!!444'});
+  },6000);
 };
+
+
+pt.subscribe_passthrough(channelPub,(msg,channel,peer) =>{
+  console.log('pt.subscribe_passthrough msg=<',msg,'>');
+  console.log('pt.subscribe_passthrough channel=<',channel,'>');
+  console.log('pt.subscribe_passthrough peer=<',peer,'>');
+});
+
+pt.subscribe_passthrough_broadcast( (msg,channel,peer) =>{
+  console.log('pt.subscribe_passthrough_broadcast msg=<',msg,'>');
+  console.log('pt.subscribe_passthrough_broadcast channel=<',channel,'>');
+  console.log('pt.subscribe_passthrough_broadcast peer=<',peer,'>');
+});

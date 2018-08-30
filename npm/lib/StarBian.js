@@ -376,7 +376,7 @@ class StarBian {
           return;
         }
         self._bs58Key2RsKey(auth.pubKeyB58,(pubKey) => {
-          //console.log('verifyAuth pubKey=<',pubKey,'>');
+          console.log('verifyAuth pubKey=<',pubKey,'>');
           if(!pubKey) {
             cb(false);
             return;
@@ -384,9 +384,9 @@ class StarBian {
           let signEngine = new rs.KJUR.crypto.Signature({alg: 'SHA256withECDSA'});
           signEngine.init({xy: pubKey.pubKeyHex, curve: 'secp256r1'});
           signEngine.updateString(auth.hash);
-          //console.log('verifyAuth signEngine=<',signEngine,'>');
+          console.log('verifyAuth signEngine=<',signEngine,'>');
           let result = signEngine.verify(auth.sign);
-          //console.log('verifyAuth result=<',result,'>');
+          console.log('verifyAuth result=<',result,'>');
           cb(result);
         });
       })

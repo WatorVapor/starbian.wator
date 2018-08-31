@@ -523,9 +523,9 @@ class StarBianInner {
     }
     const alg = { 
       name: 'AES-GCM',
-      iv: Buffer.from(msg.iv,'base64')
+      iv: Buffer.from(msg.iv,'utf8')
     };
-    const ptUint8 = Buffer.from(msg.encrypt,'base64');
+    const ptUint8 = Buffer.from(msg.encrypt,'utf8');
     //console.log('_onEncryptedMsg this.AESKey=<' , this.AESKey , '>');
     let self = this;
     webcrypto.subtle.decrypt( 

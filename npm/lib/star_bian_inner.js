@@ -523,13 +523,13 @@ class StarBianInner {
       return;
     }
     let iv = Buffer.from(msg.iv,'base64');
-    console.log('_onEncryptedMsg iv=<' , iv , '>');
+    //console.log('_onEncryptedMsg iv=<' , iv , '>');
     const alg = { 
       name: 'AES-GCM',
       iv: iv
     };
     const ptUint8 = Buffer.from(msg.encrypt,'base64');
-    console.log('_onEncryptedMsg ptUint8=<' , ptUint8 , '>');
+    //console.log('_onEncryptedMsg ptUint8=<' , ptUint8 , '>');
     let self = this;
     webcrypto.subtle.decrypt( 
       alg,

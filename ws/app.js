@@ -140,13 +140,14 @@ function verifyAuth(auth,cb) {
       signEngine.init({xy: pubKey.pubKeyHex, curve: 'secp256r1'});	
       signEngine.updateString(auth.hash);	
       //console.log('verifyAuth signEngine=<',signEngine,'>');
-      let signBuff = Buffer.from(auth.sign,'base64').toString('hex');
-      let result = signEngine.verify(signBuff);	
-      //console.log('verifyAuth result=<',result,'>');
+      let signHex = Buffer.from(auth.sign,'base64').toString('hex');
+      console.log('verifyAuth signHex=<',signHex,'>');
+      let result = signEngine.verify(signHex);	
       if(cb) {
         cb();
       } else {
         console.log('verifyAuth not authed !!! result=<',result,'>');
+        console.log('verifyAuth not authed !!! auth=<',auth,'>');
       }
     });
   }

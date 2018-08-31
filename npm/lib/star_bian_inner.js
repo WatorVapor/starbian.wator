@@ -53,26 +53,12 @@ class StarBianInner {
     } else {
       this._loadKeyPair();
     }
-    //console.log('StarBian constructor:this.p2p=<',this.p2p,'>');
-    this.channelPath_ = 'channels.json';
-    if(fs.existsSync(this.channelPath_)) {
-      let channelStr = fs.readFileSync(this.channelPath_, 'utf8');
-      this.channel = JSON.parse(channelStr);
-      this.channel.myself = this.pubKeyB58;
-      let saveChannel = JSON.stringify(this.channel,null, 2);
-      fs.writeFileSync(this.channelPath_,saveChannel);
-    } else {
-      this.channel = {};
-      this.channel.myself = this.pubKeyB58;
-      this.channel.authed = [];
-      let saveChannel = JSON.stringify(this.channel,null, 2);
-      fs.writeFileSync(this.channelPath_,saveChannel);
-    }
+    this._loadChannel();
     this._createECDHKey();    
-    this.p2p = new StarBianP2p();
+    this.p2p_ = new StarBianP2p();
     let self = this;
-    this.p2p.onReady = () => {
-      self.p2p.in(self.pubKeyB58,(msg,channel,from) => {self._onP2PMsg(msg,channel,from)});      
+    this.p2p_.onReady = () => {
+      self.p2p_.in(self.pubKeyB58,(msg,channel,from) => {self._onP2PMsg(msg,channel,from)});
       if(typeof self.onReady === 'function') {
         self.onReady(self.prvHex,self.pubKeyB58,self.channel.authed);
       }
@@ -117,7 +103,7 @@ class StarBianInner {
           encrypt:encrypt
         };
         //console.log('publish:sentMsg=<',sentMsg,'>');
-        self.p2p.out(channel ,sentMsg);
+        self.p2p_.out(channel ,sentMsg);
       });
     });
   }
@@ -145,7 +131,7 @@ class StarBianInner {
    */
   passthrough(channel,msg) {
     //console.log('passthrough:msg =<',msg,'>');
-    this.p2p.out(channel ,msg);
+    this.p2p_.out(channel ,msg);
   }
   /**
    * subscribe_passthrough.
@@ -155,7 +141,7 @@ class StarBianInner {
    */
   subscribe_passthrough(channel,callback) {
     console.log('subscribe channel =<',channel,'>');
-    this.p2p.in(channel ,callback);
+    this.p2p_.in(channel ,callback);
   }  
   /**
    * subscribe_passthrough_broadcast.
@@ -164,14 +150,6 @@ class StarBianInner {
    */
   subscribe_passthrough_broadcast(callback) {
     this.pt_bc_callback_ = callback;
-  }
-   
-  /**
-   * recreate public key.
-   *
-   * @private
-   */
-  reCreatePubKey() {
   }
   
   /**
@@ -282,7 +260,28 @@ class StarBianInner {
       console.error(err);
     });
   }
-
+  /**
+   * _loadChannel.
+   *
+   * @private
+   */
+  _loadChannel() {
+    //console.log('StarBian constructor:this.p2p_=<',this.p2p_,'>');
+    this.channelPath_ = 'channels.json';
+    if(fs.existsSync(this.channelPath_)) {
+      let channelStr = fs.readFileSync(this.channelPath_, 'utf8');
+      this.channel = JSON.parse(channelStr);
+      this.channel.myself = this.pubKeyB58;
+      let saveChannel = JSON.stringify(this.channel,null, 2);
+      fs.writeFileSync(this.channelPath_,saveChannel);
+    } else {
+      this.channel = {};
+      this.channel.myself = this.pubKeyB58;
+      this.channel.authed = [];
+      let saveChannel = JSON.stringify(this.channel,null, 2);
+      fs.writeFileSync(this.channelPath_,saveChannel);
+    }
+  }
   /**
    * on channel msg.
    *
@@ -440,7 +439,7 @@ class StarBianInner {
         ecdh:ecdh
       };
       //console.log('_tryExchangeKey sentMsg=<' , sentMsg , '>');
-      self.p2p.out(remotePubKey,sentMsg);
+      self.p2p_.out(remotePubKey,sentMsg);
     });
   }
 
@@ -606,7 +605,8 @@ class StarBianInner {
     if(!this.pubKeyB58) {	
       return;	
     } 	
-    let shareKey = { 
+    let shareKey = {
+      ts: new Date(),
       pubkey:this.pubKeyB58,
       password:this.OneTimePassword_
     };
@@ -618,7 +618,7 @@ class StarBianInner {
         shareKey:shareKey	
       };
       console.log('sharePubKeyInside_:JSON.stringify(shareKey)=<' , JSON.stringify(shareKey) , '>');
-      self.p2p.out('broadcast',sentMsg);
+      self.p2p_.out('broadcast',sentMsg);
     });	
   }
   

@@ -141,21 +141,20 @@ function verifyAuth(auth,cb) {
   if(auth) {
     Bs58Key2RsKey(auth.pubKeyB58,(pubKey) => {
       //console.log('verifyAuth pubKey=<',pubKey,'>');
-      if(!pubKey) {
-        cb(false);
-        return;
-      }
       let signEngine = new rs.KJUR.crypto.Signature({alg: 'SHA256withECDSA'});	
       signEngine.init({xy: pubKey.pubKeyHex, curve: 'secp256r1'});	
       signEngine.updateString(auth.hash);	
-      //console.log('verifyAuth signEngine=<',signEngine,'>');	
-      let result = signEngine.verify(auth.sign);	
-      //console.log('verifyAuth result=<',result,'>');	
-      cb(result);      
+      //console.log('verifyAuth signEngine=<',signEngine,'>');
+      let signBuff = Buffer.from(auth.sign,'base64');
+      let result = signEngine.verify(signBuff);	
+      //console.log('verifyAuth result=<',result,'>');
+      if(cb) {
+        cb();
+      } else {
+        console.log('verifyAuth not authed !!! result=<',result,'>');
+      }
     });
-  } else {	
-    cb(false);	
-  }	
+  }
 }
 
 function Bs58Key2RsKey(bs58Key,cb) {
@@ -183,11 +182,9 @@ function Bs58Key2RsKey(bs58Key,cb) {
     })
     .catch(function(err){
       console.error(err);
-      cb();
     });
   })
   .catch(function(err){
     console.error(err);
-    cb();
   });
 }

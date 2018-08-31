@@ -358,9 +358,9 @@ class StarBianInner {
       webcrypto.subtle.digest("SHA-256",Buffer.from(JSON.stringify(content),'utf8'))
       .then(function(buf) {
         //console.log('_verifyAuth buf=<' , buf , '>');
-        let hashCal = buf2hex(buf);
-        //console.log('_verifyAuth hashCal=<' , hashCal , '>');
-        //console.log('_verifyAuth auth.hash=<' , auth.hash , '>');
+        let hashCal = Buffer.from(buf).toString('base64');
+        console.log('_verifyAuth hashCal=<' , hashCal , '>');
+        console.log('_verifyAuth auth.hash=<' , auth.hash , '>');
         if(auth.hash !== hashCal) {
           console.log('_verifyAuth not authed !!! hashCal=<',hashCal,'>');
           console.log('_verifyAuth not authed !!! auth.hash=<',auth.hash,'>');

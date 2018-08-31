@@ -359,8 +359,8 @@ class StarBianInner {
       .then(function(buf) {
         //console.log('_verifyAuth buf=<' , buf , '>');
         let hashCal = Buffer.from(buf).toString('base64');
-        console.log('_verifyAuth hashCal=<' , hashCal , '>');
-        console.log('_verifyAuth auth.hash=<' , auth.hash , '>');
+        //console.log('_verifyAuth hashCal=<' , hashCal , '>');
+        //console.log('_verifyAuth auth.hash=<' , auth.hash , '>');
         if(auth.hash !== hashCal) {
           console.log('_verifyAuth not authed !!! hashCal=<',hashCal,'>');
           console.log('_verifyAuth not authed !!! auth.hash=<',auth.hash,'>');
@@ -575,7 +575,7 @@ class StarBianInner {
       //console.log('_encrypt enMsg=<' , enMsg , '>');
       let enObj = {
         iv:Buffer.from(iv).toString('base64'),
-        encrypt:Buffer.from(iv)(enMsg).toString('base64')
+        encrypt:Buffer.from(enMsg).toString('base64')
       };
       cb(enObj);
     })

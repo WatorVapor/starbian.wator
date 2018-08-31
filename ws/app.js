@@ -140,9 +140,7 @@ function verifyAuth(auth,cb) {
       signEngine.init({xy: pubKey.pubKeyHex, curve: 'secp256r1'});	
       signEngine.updateString(auth.hash);	
       //console.log('verifyAuth signEngine=<',signEngine,'>');
-      let signHex = Buffer.from(auth.sign,'base64').toString('hex');
-      console.log('verifyAuth signHex=<',signHex,'>');
-      let result = signEngine.verify(signHex);	
+      let result = signEngine.verify(auth.sign);	
       if(cb) {
         cb();
       } else {

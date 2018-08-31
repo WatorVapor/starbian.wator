@@ -282,184 +282,6 @@ class StarBianInner {
       fs.writeFileSync(this.channelPath_,saveChannel);
     }
   }
-  /**
-   * on channel msg.
-   *
-   * @param {String} msg 
-   * @private
-   */
-  _onP2PMsg(msg,channel,from) {
-    console.log('_onP2PMsg::channel=<',channel,'>');
-    console.log('_onP2PMsg::msg=<',msg,'>');
-    console.log('_onP2PMsg::from=<',from,'>');
-    let self = this;
-    let content = msg.encrypt || msg.ecdh || msg.subscribe || msg.shareKey;
-    if(channel === 'broadcast') {
-      let bcAuthed = this._verifyAuth(msg.auth,content,channel,(bcAuthed)=>{
-        if(!bcAuthed) {
-          console.log('not authed _onP2PMsg::channel=<',channel,'>');
-          console.log('not authed _onP2PMsg::msg=<',msg,'>');
-          return;
-        }        
-        if(typeof self.pt_bc_callback_ === 'function') {
-          self.pt_bc_callback_(msg,channel,from);
-        }
-        if(typeof self.bc_callback_ === 'function') {
-          self.bc_callback_(msg,channel);
-        }
-      });
-      return;
-    }
-    this._verifyAuth(msg.auth,content,channel,(authed) => {
-      //console.log('_onP2PMsg::authed=<',authed,'>');
-      if(!authed) {
-        console.log('not authed _onP2PMsg::channel=<',channel,'>');
-        console.log('not authed _onP2PMsg::msg=<',msg,'>');
-        return;
-      }
-      console.log('_onP2PMsg::msg=<',msg,'>');
-      if(msg.ecdh) {
-        self._doExchangeKey(msg.ecdh,msg.auth.pubKeyB58);
-      }
-      if(msg.encrypt) {
-        self._onEncryptMsg(msg.encrypt,msg.auth.pubKeyB58);
-      }      
-    });
-  }
-
-  _verifyAuth(auth,content,channel,cb) {
-    //console.log('verifyAuth auth=<',auth,'>');
-    if(auth) {
-      //console.log('verifyAuth content=<',content,'>');
-      let self = this;
-      webcrypto.subtle.digest("SHA-256",Buffer.from(JSON.stringify(content),'utf8'))
-      .then(function(buf) {
-        //console.log('_verifyAuth buf=<' , buf , '>');
-        let hashCal = buf2hex(buf);
-        //console.log('_verifyAuth hashCal=<' , hashCal , '>');
-        //console.log('_verifyAuth auth.hash=<' , auth.hash , '>');
-        if(auth.hash !== hashCal) {
-          cb(false);
-          return;
-        }
-        let indexAuthed = self.channel.authed.indexOf(auth.pubKeyB58);
-        //console.log('_verifyAuth indexAuthed=<',indexAuthed,'>');
-        if(indexAuthed === -1 && channel !== 'broadcast') {
-          cb(false);
-          return;
-        }
-        self._bs58Key2RsKey(auth.pubKeyB58,(pubKey) => {
-          //console.log('verifyAuth pubKey=<',pubKey,'>');
-          if(!pubKey) {
-            cb(false);
-            return;
-          }
-          let signEngine = new rs.KJUR.crypto.Signature({alg: 'SHA256withECDSA'});
-          signEngine.init({xy: pubKey.pubKeyHex, curve: 'secp256r1'});
-          signEngine.updateString(auth.hash);
-          //console.log('verifyAuth signEngine=<',signEngine,'>');
-          let result = signEngine.verify(auth.sign);
-          //console.log('verifyAuth result=<',result,'>');
-          cb(result);
-        });
-      })
-      .catch(function(err){
-        console.error(err);
-      });
-    } else {
-      cb(false);
-    }
-  }
-
-  _bs58Key2RsKey(bs58Key,cb) {
-    //console.log('Bs58Key2RsKey bs58Key=<',bs58Key,'>');
-    const pubKeyBuff = bs58.decode(bs58Key);
-    //console.log('Bs58Key2RsKey pubKeyBuff=<',pubKeyBuff,'>');  
-    webcrypto.subtle.importKey(
-      'raw',
-      pubKeyBuff,
-      {
-        name: 'ECDSA',
-        namedCurve: 'P-256', 
-      },
-      true, 
-      ['verify']
-    )
-    .then(function(pubKey){
-      //console.log('Bs58Key2RsKey:pubKey=<' , pubKey , '>');
-      webcrypto.subtle.exportKey('jwk', pubKey)
-      .then(function(keydata){
-        //console.log('Bs58Key2RsKey keydata=<' , keydata , '>');
-        let rsKey = rs.KEYUTIL.getKey(keydata);	
-        //console.log('Bs58Key2RsKey rsKey=<',rsKey,'>');
-        cb(rsKey);
-      })
-      .catch(function(err){
-        console.error(err);
-        cb();
-      });
-    })
-    .catch(function(err){
-      console.error(err);
-      cb();
-    });
-  }
-
-  
-  _doExchangeKey(ecdh,remotePubKey) {
-    //console.log('_doExchangeKey ecdh=<',ecdh,'>');
-    if(ecdh.type === 'request') {
-      this._tryExchangeKey('response',remotePubKey);
-    }
-    let self = this;
-    webcrypto.subtle.importKey(
-      'jwk',
-      ecdh.key,
-      { name: 'ECDH', namedCurve: 'P-256'},
-      false,
-      []
-    ).then(key => {
-      self._onExchangeKey(key);
-    })
-    .catch(function(err){
-      console.error(err);
-    });
-  }
-  _tryExchangeKey(type,remotePubKey) {
-    let ecdh = {
-      key:this.ECDHKeyPubJwk,
-      type:type,
-      ts:new Date()
-    };
-    let self = this;
-    this._signAuth(JSON.stringify(ecdh),function(auth) {
-      let sentMsg = {
-        channel:remotePubKey,
-        auth:auth,
-        ecdh:ecdh
-      };
-      //console.log('_tryExchangeKey sentMsg=<' , sentMsg , '>');
-      self.p2p_.out(remotePubKey,sentMsg);
-    });
-  }
-
-  _onExchangeKey(remotePubKey) {
-    //console.log('_onExchangeKey remotePubKey=<' , remotePubKey , '>');
-    let self = this;
-    webcrypto.subtle.deriveKey( 
-      { name: 'ECDH', namedCurve: 'P-256', public: remotePubKey },
-      self.ECDHKey.privateKey,
-      { name: 'AES-GCM', length: 128 },
-      false,
-      ['encrypt', 'decrypt']
-    ).then(keyAES => {
-      //console.log('_onExchangeKey keyAES=<' , keyAES , '>');
-      self.AESKey = keyAES;
-    })
-    .catch(function(err){
-      console.error(err);
-    });
-  }
 
   _createECDHKey () {
     let self =this;
@@ -490,7 +312,178 @@ class StarBianInner {
       console.error(err);
     });
   }
+  
+  
+  /**
+   * on channel msg.
+   *
+   * @param {String} msg 
+   * @private
+   */
+  _onP2PMsg(msg,channel,from) {
+    //console.log('_onP2PMsg::channel=<',channel,'>');
+    //console.log('_onP2PMsg::msg=<',msg,'>');
+    //console.log('_onP2PMsg::from=<',from,'>');
+    let self = this;
+    let content = msg.encrypt || msg.ecdh || msg.subscribe || msg.shareKey;
+    if(channel === 'broadcast') {
+      this._verifyAuth(msg.auth,content,channel,() => {
+        if(typeof self.pt_bc_callback_ === 'function') {
+          self.pt_bc_callback_(msg,channel,from);
+        }
+        if(typeof self.bc_callback_ === 'function') {
+          self.bc_callback_(msg,channel);
+        }
+      });
+      return;
+    }
+    this._verifyAuth(msg.auth,content,channel,() => {
+      //console.log('_onP2PMsg::msg=<',msg,'>');
+      if(msg.ecdh) {
+        self._doExchangeKey(msg.ecdh,msg.auth.pubKeyB58);
+      }
+      if(msg.encrypt) {
+        self._onEncryptedMsg(msg.encrypt,msg.auth.pubKeyB58);
+      }
+    });
+  }
 
+  _verifyAuth(auth,content,channel,cb) {
+    //console.log('verifyAuth auth=<',auth,'>');
+    if(auth) {
+      //console.log('verifyAuth content=<',content,'>');
+      let self = this;
+      webcrypto.subtle.digest("SHA-256",Buffer.from(JSON.stringify(content),'utf8'))
+      .then(function(buf) {
+        //console.log('_verifyAuth buf=<' , buf , '>');
+        let hashCal = buf2hex(buf);
+        //console.log('_verifyAuth hashCal=<' , hashCal , '>');
+        //console.log('_verifyAuth auth.hash=<' , auth.hash , '>');
+        if(auth.hash !== hashCal) {
+          console.log('_verifyAuth not authed !!! hashCal=<',hashCal,'>');
+          console.log('_verifyAuth not authed !!! auth.hash=<',auth.hash,'>');
+          return;
+        }
+        let indexAuthed = self.channel.authed.indexOf(auth.pubKeyB58);
+        if(indexAuthed === -1 && channel !== 'broadcast') {
+          console.log('_verifyAuth not authed !!! indexAuthed=<',indexAuthed,'>');
+          console.log('_verifyAuth not authed !!! channel=<',channel,'>');
+          return;
+        }
+        self._bs58Key2RsKey(auth.pubKeyB58,(pubKey) => {
+          if(!pubKey) {
+            console.log('verifyAuth not authed !!! pubKey=<',pubKey,'>');
+            return;
+          }
+          let signEngine = new rs.KJUR.crypto.Signature({alg: 'SHA256withECDSA'});
+          signEngine.init({xy: pubKey.pubKeyHex, curve: 'secp256r1'});
+          signEngine.updateString(auth.hash);
+          //console.log('verifyAuth signEngine=<',signEngine,'>');
+          let result = signEngine.verify(auth.sign);
+          if(result) {
+            cb();
+          } else {
+            console.log('verifyAuth not authed !!! result=<',result,'>');
+          }
+        });
+      })
+      .catch(function(err){
+        console.error(err);
+      });
+    } else {
+      console.log('_verifyAuth not authed !!! content=<',content,'>');
+      console.log('_verifyAuth not authed !!! auth =<',auth,'>');
+    }
+  }
+
+  _bs58Key2RsKey(bs58Key,cb) {
+    //console.log('Bs58Key2RsKey bs58Key=<',bs58Key,'>');
+    const pubKeyBuff = bs58.decode(bs58Key);
+    //console.log('Bs58Key2RsKey pubKeyBuff=<',pubKeyBuff,'>');  
+    webcrypto.subtle.importKey(
+      'raw',
+      pubKeyBuff,
+      {
+        name: 'ECDSA',
+        namedCurve: 'P-256', 
+      },
+      true, 
+      ['verify']
+    )
+    .then(function(pubKey){
+      //console.log('Bs58Key2RsKey:pubKey=<' , pubKey , '>');
+      webcrypto.subtle.exportKey('jwk', pubKey)
+      .then(function(keydata){
+        //console.log('Bs58Key2RsKey keydata=<' , keydata , '>');
+        let rsKey = rs.KEYUTIL.getKey(keydata);	
+        //console.log('Bs58Key2RsKey rsKey=<',rsKey,'>');
+        cb(rsKey);
+      })
+      .catch(function(err){
+        console.error(err);
+      });
+    })
+    .catch(function(err){
+      console.error(err);
+    });
+  }
+
+
+  _tryExchangeKey(type,remotePubKey) {
+    let ecdh = {
+      key:this.ECDHKeyPubJwk,
+      type:type,
+      ts:new Date()
+    };
+    let self = this;
+    this._signAuth(JSON.stringify(ecdh),function(auth) {
+      let sentMsg = {
+        channel:remotePubKey,
+        auth:auth,
+        ecdh:ecdh
+      };
+      //console.log('_tryExchangeKey sentMsg=<' , sentMsg , '>');
+      self.p2p_.out(remotePubKey,sentMsg);
+    });
+  }
+  
+  _doExchangeKey(ecdh,remotePubKey) {
+    //console.log('_doExchangeKey ecdh=<',ecdh,'>');
+    if(ecdh.type === 'request') {
+      this._tryExchangeKey('response',remotePubKey);
+    }
+    let self = this;
+    webcrypto.subtle.importKey(
+      'jwk',
+      ecdh.key,
+      { name: 'ECDH', namedCurve: 'P-256'},
+      false,
+      []
+    ).then(key => {
+      self._onExchangeKey(key);
+    })
+    .catch(function(err){
+      console.error(err);
+    });
+  }
+
+  _onExchangeKey(remotePubKey) {
+    //console.log('_onExchangeKey remotePubKey=<' , remotePubKey , '>');
+    let self = this;
+    webcrypto.subtle.deriveKey( 
+      { name: 'ECDH', namedCurve: 'P-256', public: remotePubKey },
+      self.ECDHKey.privateKey,
+      { name: 'AES-GCM', length: 128 },
+      false,
+      ['encrypt', 'decrypt']
+    ).then(keyAES => {
+      //console.log('_onExchangeKey keyAES=<' , keyAES , '>');
+      self.AESKey = keyAES;
+    })
+    .catch(function(err){
+      console.error(err);
+    });
+  }
 
   _signAuth(msg,cb) {
     //console.log('_signAuth msg=<' , msg , '>');
@@ -524,7 +517,7 @@ class StarBianInner {
   };
 
   
-  _onEncryptMsg(msg,remotePubKeyHex) {
+  _onEncryptedMsg(msg,remotePubKeyHex) {
     if(!this.AESKey) {
       return;
     }
@@ -533,19 +526,19 @@ class StarBianInner {
       iv: hex2buf(msg.iv)
     };
     const ptUint8 = hex2buf(msg.encrypt);
-    //console.log('_onEncryptMsg this.AESKey=<' , this.AESKey , '>');
+    //console.log('_onEncryptedMsg this.AESKey=<' , this.AESKey , '>');
     let self = this;
     webcrypto.subtle.decrypt( 
       alg,
       this.AESKey,
       ptUint8
     ).then(plainBuff => {
-      //console.log('_onEncryptMsg plainBuff=<' , plainBuff , '>');
+      //console.log('_onEncryptedMsg plainBuff=<' , plainBuff , '>');
       let plainText = ab2utf8(plainBuff);
-      //console.log('_onEncryptMsg plainText=<' , plainText , '>');
+      //console.log('_onEncryptedMsg plainText=<' , plainText , '>');
       let plainJson = JSON.parse(plainText);
-      //console.log('_onEncryptMsg plainJson=<' , plainJson , '>');
-      //console.log('_onEncryptMsg self.callback_=<' , self.callback_ , '>');
+      //console.log('_onEncryptedMsg plainJson=<' , plainJson , '>');
+      //console.log('_onEncryptedMsg self.callback_=<' , self.callback_ , '>');
       if(typeof self.callback_ === 'function') {
         self.callback_(plainJson,remotePubKeyHex);
       }
@@ -575,7 +568,7 @@ class StarBianInner {
       alg,
       this.AESKey,
       ptUint8
-    ).then(enMsg => {
+    ).then( enMsg => {
       //console.log('_encrypt enMsg=<' , enMsg , '>');
       let enObj = {
         iv:buf2hex(iv),

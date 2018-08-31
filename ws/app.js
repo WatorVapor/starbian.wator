@@ -4,7 +4,7 @@
  * MIT Licensed
  */
 'use strict';
-const StarBian = require('starbian');
+const StarBian = require('starbian').StarBianRepeater;
 const wsProxy = new StarBian();
 const crypto = require('crypto');
 const WebCrypto = require("node-webcrypto-ossl");

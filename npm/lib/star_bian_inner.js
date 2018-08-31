@@ -519,14 +519,17 @@ class StarBianInner {
   
   _onEncryptedMsg(msg,remotePubKeyHex) {
     if(!this.AESKey) {
+      console.log('_onEncryptedMsg this.AESKey=<' , this.AESKey , '>');
       return;
     }
+    let iv = Buffer.from(msg.iv,'base64');
+    console.log('_onEncryptedMsg iv=<' , iv , '>');
     const alg = { 
       name: 'AES-GCM',
-      iv: Buffer.from(msg.iv,'utf8')
+      iv: iv
     };
-    const ptUint8 = Buffer.from(msg.encrypt,'utf8');
-    //console.log('_onEncryptedMsg this.AESKey=<' , this.AESKey , '>');
+    const ptUint8 = Buffer.from(msg.encrypt,'base64');
+    console.log('_onEncryptedMsg ptUint8=<' , ptUint8 , '>');
     let self = this;
     webcrypto.subtle.decrypt( 
       alg,

@@ -494,7 +494,7 @@ class StarBianInner {
     .then(function(buf) {
       //console.log('_signAuth buf=<' , buf , '>');
       let hash = Buffer.from(buf).toString('base64');
-      console.log('_signAuth hash=<' , hash , '>');
+      //console.log('_signAuth hash=<' , hash , '>');
       let ecSign = new rs.KJUR.crypto.ECDSA({'curve': 'secp256r1'});
       //console.log('_signAuth ecSign=<' , ecSign , '>');
       //console.log('_signAuth self.rsPrvKey=<' , self.rsPrvKey , '>');
@@ -536,9 +536,9 @@ class StarBianInner {
       this.AESKey,
       ptUint8
     ).then(plainBuff => {
-      console.log('_onEncryptedMsg plainBuff=<' , plainBuff , '>');
+      //console.log('_onEncryptedMsg plainBuff=<' , plainBuff , '>');
       let plainText = Buffer.from(plainBuff).toString('utf8');
-      console.log('_onEncryptedMsg plainText=<' , plainText , '>');
+      //console.log('_onEncryptedMsg plainText=<' , plainText , '>');
       let plainJson = JSON.parse(plainText);
       //console.log('_onEncryptedMsg plainJson=<' , plainJson , '>');
       //console.log('_onEncryptedMsg self.callback_=<' , self.callback_ , '>');

@@ -523,9 +523,9 @@ class StarBianInner {
     }
     const alg = { 
       name: 'AES-GCM',
-      iv: hex2buf(msg.iv)
+      iv: Buffer.from(msg.iv,'base64')
     };
-    const ptUint8 = hex2buf(msg.encrypt);
+    const ptUint8 = Buffer.from(msg.encrypt,'base64');
     //console.log('_onEncryptedMsg this.AESKey=<' , this.AESKey , '>');
     let self = this;
     webcrypto.subtle.decrypt( 
@@ -533,9 +533,9 @@ class StarBianInner {
       this.AESKey,
       ptUint8
     ).then(plainBuff => {
-      //console.log('_onEncryptedMsg plainBuff=<' , plainBuff , '>');
-      let plainText = ab2utf8(plainBuff);
-      //console.log('_onEncryptedMsg plainText=<' , plainText , '>');
+      console.log('_onEncryptedMsg plainBuff=<' , plainBuff , '>');
+      let plainText = Buffer.from(plainBuff).toString('utf8');
+      console.log('_onEncryptedMsg plainText=<' , plainText , '>');
       let plainJson = JSON.parse(plainText);
       //console.log('_onEncryptedMsg plainJson=<' , plainJson , '>');
       //console.log('_onEncryptedMsg self.callback_=<' , self.callback_ , '>');
@@ -571,8 +571,8 @@ class StarBianInner {
     ).then( enMsg => {
       //console.log('_encrypt enMsg=<' , enMsg , '>');
       let enObj = {
-        iv:buf2hex(iv),
-        encrypt:ab2hex(enMsg)
+        iv:Buffer.from(iv).toString('base64'),
+        encrypt:Buffer.from(iv)(enMsg).toString('base64')
       };
       cb(enObj);
     })

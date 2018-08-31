@@ -493,8 +493,8 @@ class StarBianInner {
     webcrypto.subtle.digest("SHA-256",Buffer.from(msg,'utf8'))
     .then(function(buf) {
       //console.log('_signAuth buf=<' , buf , '>');
-      let hash = buf2hex(buf);
-      //console.log('_signAuth hash=<' , hash , '>');
+      let hash = Buffer.from(buf).toString('base64');
+      console.log('_signAuth hash=<' , hash , '>');
       let ecSign = new rs.KJUR.crypto.ECDSA({'curve': 'secp256r1'});
       //console.log('_signAuth ecSign=<' , ecSign , '>');
       //console.log('_signAuth self.rsPrvKey=<' , self.rsPrvKey , '>');
@@ -503,13 +503,14 @@ class StarBianInner {
       signEngine.init({d: self.rsPrvKey.prvKeyHex, curve: 'secp256r1'});
       signEngine.updateString(hash);
       let signatureHex = signEngine.sign();
+      let signatureB64 = Buffer.from(signatureHex,'hex').toString('base64');
 
       let signature = {
         pubKey:self.pubJwk,
         pubKeyB58:self.pubKeyB58,
         hash:hash,
         enc:'hex',
-        sign:signatureHex
+        sign:signatureB64
       };
       cb(signature);
     })

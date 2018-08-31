@@ -63,16 +63,11 @@ wss.on('connection', function (ws,req) {
       let jsonMsg = JSON.parse(message);
       //console.log('jsonMsg=<', jsonMsg,'>');
       if(jsonMsg) {
-        verifyAuth(jsonMsg.auth,(good) => {
-          if(good) {
-             onAuthedMsg(jsonMsg,ws);
-          } else {
-            console.log('not authed message=<', message,'>');
-          }
+        verifyAuth(jsonMsg.auth,() => {
+          onAuthedMsg(jsonMsg,ws);
         });
       } else {
         console.log('not json message=<', message,'>');
-        return;
       }
     } catch(e){
       console.log('e=<', e,'>');
@@ -145,7 +140,7 @@ function verifyAuth(auth,cb) {
       signEngine.init({xy: pubKey.pubKeyHex, curve: 'secp256r1'});	
       signEngine.updateString(auth.hash);	
       //console.log('verifyAuth signEngine=<',signEngine,'>');
-      let signBuff = Buffer.from(auth.sign,'base64');
+      let signBuff = Buffer.from(auth.sign,'base64').toString('hex');
       let result = signEngine.verify(signBuff);	
       //console.log('verifyAuth result=<',result,'>');
       if(cb) {

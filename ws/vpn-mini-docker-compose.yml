@@ -1,0 +1,22 @@
+version: '3'
+services:
+  ipfs-dameon:
+    image: node:8
+    volumes:
+      - ./:/opt/wc
+    working_dir: "/opt/wc"
+    command: node app.js
+    networks:
+      - outside
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 32M
+        reservations:
+          cpus: '0.1'
+          memory: 16M
+networks:
+  outside:
+    external:
+      name: "host"

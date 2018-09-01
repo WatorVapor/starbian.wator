@@ -49,7 +49,7 @@ function onStarBianBroadCast(msg,channel,peer) {
 
 wss.on('connection', function (ws) {
   console.log('ws=<', ws,'>');
-  console.log('ws.headers=<', ws.headers,'>');
+  console.log('ws.upgradeReq=<', ws.upgradeReq,'>');
   ws.key = ws.headers['sec-websocket-key'];
   ws.isAlive = true;
   ws.on('pong', heartbeat);

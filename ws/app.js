@@ -48,8 +48,8 @@ function onStarBianBroadCast(msg,channel,peer) {
 }
 
 wss.on('connection', function (ws,req) {
-  console.log('req.headers=<',req.headers,'>');
-  //console.log('ws=<', ws,'>');
+  console.log('req=<',req,'>');
+  console.log('ws=<', ws,'>');
   ws.key = req.headers['sec-websocket-key'];
   ws.isAlive = true;
   ws.on('pong', heartbeat);

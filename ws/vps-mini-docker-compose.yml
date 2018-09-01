@@ -5,7 +5,7 @@ services:
     volumes:
       - ./:/usr/src/app
     working_dir: "/usr/src/app"
-    command: find / | grep node_modules
+    command: npm -g root
     networks:
       - outside
     deploy:

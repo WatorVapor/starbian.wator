@@ -47,10 +47,9 @@ function onStarBianBroadCast(msg,channel,peer) {
   });
 }
 
-wss.on('connection', function (ws,req) {
-  console.log('req=<',req,'>');
-  console.log('ws=<', ws,'>');
-  ws.key = req.headers['sec-websocket-key'];
+wss.on('connection', function (ws) {
+  //console.log('ws=<', ws,'>');
+  ws.key = ws.headers['sec-websocket-key'];
   ws.isAlive = true;
   ws.on('pong', heartbeat);
   ws.on('message', function (message) {

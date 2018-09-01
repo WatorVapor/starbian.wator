@@ -47,10 +47,13 @@ function onStarBianBroadCast(msg,channel,peer) {
   });
 }
 
-wss.on('connection', function (ws) {
+wss.on('connection', function (ws,req) {
   //console.log('ws=<', ws,'>');
   //console.log('ws.upgradeReq=<', ws.upgradeReq,'>');
   //console.log('ws.upgradeReq.headers=<', ws.upgradeReq.headers,'>');
+  if(req && req.headers) {
+    ws.key = req.headers['sec-websocket-key'];
+  }
   if(ws && ws.upgradeReq && ws.upgradeReq.headers) {
     ws.key = ws.upgradeReq.headers['sec-websocket-key'];
   }

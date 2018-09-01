@@ -48,10 +48,13 @@ function onStarBianBroadCast(msg,channel,peer) {
 }
 
 wss.on('connection', function (ws) {
-  console.log('ws=<', ws,'>');
-  console.log('ws.upgradeReq=<', ws.upgradeReq,'>');
-  console.log('ws.upgradeReq.headers=<', ws.upgradeReq.headers,'>');
-  ws.key = ws.headers['sec-websocket-key'];
+  //console.log('ws=<', ws,'>');
+  //console.log('ws.upgradeReq=<', ws.upgradeReq,'>');
+  //console.log('ws.upgradeReq.headers=<', ws.upgradeReq.headers,'>');
+  if(ws && ws.upgradeReq && ws.upgradeReq.headers) {
+    ws.key = ws.headers['sec-websocket-key'];
+  }
+  console.log('ws.key=<', ws.key,'>');
   ws.isAlive = true;
   ws.on('pong', heartbeat);
   ws.on('message', function (message) {

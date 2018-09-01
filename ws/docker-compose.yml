@@ -1,11 +1,11 @@
 version: '3'
 services:
   ipfs-dameon:
-    image: node:8
+    image: watorvapor/js-starbian
     volumes:
-      - ./:/opt/wc
-    working_dir: "/opt/wc"
-    command: node app.js
+      - ./:/home/app
+    working_dir: "/home/app"
+    command: ./run.sh
     networks:
       - outside
     deploy:

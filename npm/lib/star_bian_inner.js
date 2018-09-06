@@ -324,7 +324,7 @@ class StarBianInner {
    */
   _onP2PMsg(msg,channel,from) {
     //console.log('_onP2PMsg::channel=<',channel,'>');
-    //console.log('_onP2PMsg::msg=<',msg,'>');
+    console.log('_onP2PMsg::msg=<',msg,'>');
     //console.log('_onP2PMsg::from=<',from,'>');
     let self = this;
     let content = msg.encrypt || msg.ecdh || msg.subscribe || msg.broadcast;
@@ -353,7 +353,7 @@ class StarBianInner {
   _verifyAuth(auth,content,channel,cb) {
     //console.log('verifyAuth auth=<',auth,'>');
     if(auth) {
-      //console.log('verifyAuth content=<',content,'>');
+      console.log('verifyAuth content=<',content,'>');
       let self = this;
       webcrypto.subtle.digest("SHA-256",Buffer.from(JSON.stringify(content),'utf8'))
       .then(function(buf) {

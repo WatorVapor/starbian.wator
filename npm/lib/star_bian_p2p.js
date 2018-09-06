@@ -86,8 +86,8 @@ module.exports = class StarBianP2p {
     });
   }
   _onRoomMessage(msg) {
-    //console.log('onRoomMessage::this.peer=<',this.peer,'>');
-    //console.log('onRoomMessage::msg=<',msg,'>');
+    console.log('onRoomMessage::this.peer=<',this.peer,'>');
+    console.log('onRoomMessage::msg=<',msg,'>');
     let jsonData = JSON.parse(msg.data.toString('utf8'));
     //console.log('onRoomMessage::jsonData=<',jsonData,'>');
     if(jsonData && jsonData.channel) {

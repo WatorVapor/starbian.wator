@@ -327,7 +327,7 @@ class StarBianInner {
     //console.log('_onP2PMsg::msg=<',msg,'>');
     //console.log('_onP2PMsg::from=<',from,'>');
     let self = this;
-    let content = msg.encrypt || msg.ecdh || msg.subscribe || msg.shareKey;
+    let content = msg.encrypt || msg.ecdh || msg.subscribe || msg.broadcast;
     if(channel === 'broadcast') {
       this._verifyAuth(msg.auth,content,channel,() => {
         if(typeof self.pt_bc_callback_ === 'function') {

@@ -47,7 +47,9 @@ function onStarBianBroadCast(msg,channel,peer) {
       channel:channel,
       msg:msg
     };
-    ws.send(JSON.stringify(sentMsg));
+    if (ws.readyState === WebSocket.OPEN) {
+      ws.send(JSON.stringify(sentMsg));
+    }
   });
 }
 

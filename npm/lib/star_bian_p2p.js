@@ -24,6 +24,7 @@ const IPFS_CONF = {
   }
 };
 
+let ipfsUniq = false;
 
 module.exports = class StarBianP2p {
   constructor() {
@@ -33,7 +34,12 @@ module.exports = class StarBianP2p {
     this.number = bs58.encode(number);
     console.log('this.number=<',this.number,'>');
     try {
-      this.ipfs = new IPFS(IPFS_CONF);
+      if(ipfsUniq) {
+        this.ipfs = ipfsUniq;
+      } else {
+        this.ipfs = new IPFS(IPFS_CONF);
+        ipfsUniq = this.ipfs;
+      }
     } catch(e) {
       console.error('e=<',e,'>');
     }

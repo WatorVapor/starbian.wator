@@ -6,7 +6,34 @@ gofuro.onReady = (priKey,pubKey,authedKey) => {
   console.log('priKey=<',priKey,'>');
   console.log('pubKey=<',pubKey,'>');
   console.log('authedKey=<',authedKey,'>');
+  createAuthedPeer(authedKey);
 };
+
+const Peer = require('../..').StarBianPeer;
+
+
+function createAuthedPeer(authedKey) {
+  console.log('authedKey=<',authedKey,'>');
+  authedKey.forEach( (key) => {
+    let  peer = new Peer(key);
+    peer.subscribe(onMessage);
+  });
+}
+
+function onMessage(msg,channel) {
+  console.log('gofuro.subscribe typeof msg=<',typeof msg,'>');
+  if(typeof msg === 'string') {
+    msg = JSON.parse(msg);
+  }
+  console.log('gofuro.subscribe msg=<',msg,'>');
+  console.log('gofuro.subscribe channel=<',channel,'>');
+  if(msg.hotup) {
+    let respJson = {
+      hotted:true
+    };
+    gofuro.publish(respJson,channel);
+  }
+}
 
 /*
 gofuro.subscribe((msg,channel) => {

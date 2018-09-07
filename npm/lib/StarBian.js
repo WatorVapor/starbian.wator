@@ -3,7 +3,6 @@
  * Copyright(c) 2017 Wato Vapor <watovapor@gmail.com>
  * MIT Licensed
  */
-
 'use strict';
 
 const StarBianInner = require('./star_bian_inner');
@@ -27,22 +26,28 @@ class StarBian {
   addAuthedKey (key) {
     this.inner_.addAuthedKey(key);
   }
+}
+
+class StarBianPeer {
   /**
-   * broadcast public key with one time password.
+   * Create a new `StarBian`.
    *
    */
-  broadcastPubKey (cb) {
-    this.inner_.broadcastPubKey(cb);
+  constructor (keyChannel) {
+    this.inner_ = new StarBianInner();
+    this.keyChannel_ = keyChannel;
+    this.inner_.onReady = (priKey,pubKey,authedKey) => {
+      this.onReady(priKey,pubKey,authedKey);
+    };
   }
-  
   /**
    * publish a messege.
    *
    * @param {String} msg 
    * @param {String} channel 
    */
-  publish(msg,channel) {
-    this.inner_.publish(msg,channel);
+  publish(msg) {
+    this.inner_.publish(msg,this.keyChannel_);
   }
   /**
    * subscribe.
@@ -52,14 +57,40 @@ class StarBian {
   subscribe(callback) {
     this.inner_.subscribe(callback);
   }
+}
+
+
+class StarBianBroadcast {
   /**
-   * subscribe_broadcast.
+   * Create a new `StarBianBroadcast`.
    *
+   */
+  constructor () {
+    this.inner_ = new StarBianInner();
+    this.inner_.onReady = (priKey,pubKey,authedKey) => {
+      this.onReady(priKey,pubKey,authedKey);
+    };
+  }
+  /**
+   * broadcast public key with one time password.
+   *
+   */
+  broadcastPubKey(cb) {
+    this.inner_.broadcastPubKey(cb);
+  }
+  /**
+   * subscribe.
+   * @param {string} password
    * @param {Function} callback 
    */
-  subscribe_broadcast(callback) {
+  listenPubKey(password,callback) {
     this.inner_.subscribe_broadcast(callback);
   }
 }
 
-module.exports = StarBian;
+
+module.exports = {
+  StarBian:StarBian,
+  Peer:StarBianPeer,
+  Broadcast:StarBianBroadcast,
+};

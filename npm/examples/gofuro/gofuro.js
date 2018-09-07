@@ -8,6 +8,7 @@ gofuro.onReady = (priKey,pubKey,authedKey) => {
   console.log('authedKey=<',authedKey,'>');
 };
 
+/*
 gofuro.subscribe((msg,channel) => {
   console.log('gofuro.subscribe typeof msg=<',typeof msg,'>');
   if(typeof msg === 'string') {
@@ -34,5 +35,6 @@ gofuro.subscribe_broadcast((msg,channel) => {
     console.log('gofuro.subscribe_broadcast msg.shareKey=<',msg.shareKey,'>');
   }
 });
+*/
 
 

@@ -100,7 +100,9 @@ function onStarBianMsg(msg,channel,peer) {
       channel:channel,
       msg:msg
     };
-    client.send(JSON.stringify(sentMsg));
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify(sentMsg));
+    }
   }
 }
 

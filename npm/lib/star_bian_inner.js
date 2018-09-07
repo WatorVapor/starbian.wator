@@ -14,31 +14,6 @@ const webcrypto = new WebCrypto();
 const StarBianP2p = require('./star_bian_p2p');
 const bs58 = require('bs58');
 
-/*
-function buf2hex(buf) {
-  return Array.prototype.map.call(new Uint8Array(buf), x=>(('00'+x.toString(16)).slice(-2))).join('');
-}
-
-function hex2buf(str) {
-  return Buffer.from(str,'hex');
-}
-
-function ab2hex(array_buff) {
-  //console.log('ab2hex:array_buff=<',array_buff,'>');
-  let u8ab = new Uint8Array(array_buff);
-  //console.log('ab2hex:u8ab=<',u8ab,'>');
-  let buffer = Buffer.from(u8ab,'binary');
-  let hex = buffer.toString('hex');
-  //console.log('ab2hex:hex=<',hex,'>');
-  return hex;
-}
-
-function ab2utf8(array_buff) {
-  let u8ab = new Uint8Array(array_buff,'binary');
-  let buffer = Buffer.from(u8ab);
-  return buffer.toString('utf8');
-}
-*/
 
 class StarBianInner {
   /**

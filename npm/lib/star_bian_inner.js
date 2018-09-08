@@ -21,9 +21,10 @@ class StarBianInner {
    * Create a new `StarBianInner`.
    *
    */
-  constructor () {
+  constructor (keyChannel_ ) {
     this.crypto_ = new StarBianCrypto();    
     this.p2p_ = new StarBianP2p();
+    this.remoteChannel_ = keyChannel_;
     let self = this;
     this.p2p_.onReady = () => {
       self.p2p_.in(self.crypto_.pubKeyB58,(msg,channel,from) => {
@@ -129,19 +130,14 @@ class StarBianInner {
     //console.log('_onP2PMsg::channel=<',channel,'>');
     //console.log('_onP2PMsg::msg=<',msg,'>');
     //console.log('_onP2PMsg::from=<',from,'>');
-    let self = this;
-    let content = msg.encrypt || msg.ecdh || msg.subscribe || msg.broadcast;
-    if(channel === 'broadcast') {
-      this.crypto_._verifyAuth(msg.auth,content,channel,() => {
-        if(typeof self.pt_bc_callback_ === 'function') {
-          self.pt_bc_callback_(msg,channel,from);
-        }
-        if(typeof self.bc_callback_ === 'function') {
-          self.bc_callback_(msg,channel);
-        }
-      });
+    if(channel !== this.remoteChannel_) {
+      console.warn('_onP2PMsg:: !!!not in my eye!!! channel=<',channel,'>');
+      console.warn('_onP2PMsg:: !!!not in my eye!!! this.remoteChannel_=<',this.remoteChannel_,'>');
+      console.warn('_onP2PMsg:: !!!not in my eye!!! msg=<',msg,'>');
       return;
     }
+    let self = this;
+    let content = msg.encrypt || msg.ecdh || msg.subscribe || msg.broadcast;
     this.crypto_._verifyAuth(msg.auth,content,channel,() => {
       //console.log('_onP2PMsg::msg=<',msg,'>');
       if(msg.ecdh) {
@@ -178,75 +174,20 @@ class StarBianInner {
     if(ecdh.type === 'request') {
       this._tryExchangeKey('response',remotePubKey);
     }
-    let self = this;
-    webcrypto.subtle.importKey(
-      'jwk',
-      ecdh.key,
-      { name: 'ECDH', namedCurve: 'P-256'},
-      false,
-      []
-    ).then(key => {
-      self._onExchangeKey(key);
-    })
-    .catch(function(err){
-      console.error(err);
-    });
+    this.crypto_._exchangeKey(ecdh,remotePubKey);
   }
 
-  _onExchangeKey(remotePubKey) {
-    //console.log('_onExchangeKey remotePubKey=<' , remotePubKey , '>');
+  _onEncryptedMsg(msg,remotePubKeyHex) {
     let self = this;
-    webcrypto.subtle.deriveKey( 
-      { name: 'ECDH', namedCurve: 'P-256', public: remotePubKey },
-      self.ECDHKey.privateKey,
-      { name: 'AES-GCM', length: 128 },
-      false,
-      ['encrypt', 'decrypt']
-    ).then(keyAES => {
-      //console.log('_onExchangeKey keyAES=<' , keyAES , '>');
-      self.AESKey = keyAES;
-    })
-    .catch(function(err){
-      console.error(err);
+    this.crypto_._exchangeKey(msg,(plainMsg) => {
+      if(typeof self.callback_ === 'function') {
+        self.callback_(plainMsg,remotePubKeyHex);
+      }
     });
   }
 
 
   
-  _onEncryptedMsg(msg,remotePubKeyHex) {
-    if(!this.AESKey) {
-      console.log('_onEncryptedMsg this.AESKey=<' , this.AESKey , '>');
-      return;
-    }
-    let iv = Buffer.from(msg.iv,'base64');
-    //console.log('_onEncryptedMsg iv=<' , iv , '>');
-    const alg = { 
-      name: 'AES-GCM',
-      iv: iv
-    };
-    const ptUint8 = Buffer.from(msg.encrypt,'base64');
-    //console.log('_onEncryptedMsg ptUint8=<' , ptUint8 , '>');
-    let self = this;
-    webcrypto.subtle.decrypt( 
-      alg,
-      this.AESKey,
-      ptUint8
-    ).then(plainBuff => {
-      //console.log('_onEncryptedMsg plainBuff=<' , plainBuff , '>');
-      let plainText = Buffer.from(plainBuff).toString('utf8');
-      //console.log('_onEncryptedMsg plainText=<' , plainText , '>');
-      let plainJson = JSON.parse(plainText);
-      //console.log('_onEncryptedMsg plainJson=<' , plainJson , '>');
-      //console.log('_onEncryptedMsg self.callback_=<' , self.callback_ , '>');
-      if(typeof self.callback_ === 'function') {
-        self.callback_(plainJson,remotePubKeyHex);
-      }
-    })
-    .catch(function(err){
-      console.error(err);
-    });
-  }
-
 
   sharePubKeyTimeOut_(cb) {
     this.sharePubKeyInside_();

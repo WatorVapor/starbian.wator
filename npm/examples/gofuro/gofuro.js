@@ -13,7 +13,7 @@ const Peer = require('../..').StarBianPeer;
 
 
 function createAuthedPeer(authedKey) {
-  console.log('authedKey=<',authedKey,'>');
+  //console.log('authedKey=<',authedKey,'>');
   authedKey.forEach( (key) => {
     let  peer = new Peer(key);
     peer.subscribe(onMessage);

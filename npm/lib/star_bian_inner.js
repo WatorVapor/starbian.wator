@@ -129,7 +129,7 @@ class StarBianInner {
 
   _onEncryptedMsg(msg,remotePubKeyHex) {
     let self = this;
-    this.crypto_._exchangeKey(msg,(plainMsg) => {
+    this.crypto_._decrypt(msg,(plainMsg) => {
       if(typeof self.callback_ === 'function') {
         self.callback_(plainMsg,remotePubKeyHex);
       }

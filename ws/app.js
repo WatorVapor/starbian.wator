@@ -66,8 +66,9 @@ wss.on('connection', function (ws,req) {
     try {
       let jsonMsg = JSON.parse(message);
       console.log('jsonMsg=<', jsonMsg,'>');
+      let content = jsonMsg.encrypt || jsonMsg.ecdh || jsonMsg.subscribe || jsonMsg.broadcast;
       if(jsonMsg) {
-        wsProxy.verifyAuth(jsonMsg.auth,() => {
+        wsProxy.verifyAuth(jsonMsg.auth,content,() => {
           onAuthedMsg(jsonMsg,ws);
         });
       } else {

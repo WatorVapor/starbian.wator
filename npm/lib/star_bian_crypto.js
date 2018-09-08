@@ -238,9 +238,9 @@ class StarBianCrypto {
   }
   
   _verifyAuthCore(auth,content,cb) {
-    //console.log('verifyAuth auth=<',auth,'>');
+    console.log('verifyAuth auth=<',auth,'>');
     if(auth) {
-      //console.log('verifyAuth content=<',content,'>');
+      console.log('verifyAuth content=<',content,'>');
       let self = this;
       webcrypto.subtle.digest("SHA-256",Buffer.from(JSON.stringify(content),'utf8'))
       .then(function(buf) {
@@ -280,9 +280,9 @@ class StarBianCrypto {
   }
 
   _bs58Key2RsKey(bs58Key,cb) {
-    //console.log('Bs58Key2RsKey bs58Key=<',bs58Key,'>');
+    console.log('Bs58Key2RsKey bs58Key=<',bs58Key,'>');
     const pubKeyBuff = bs58.decode(bs58Key);
-    //console.log('Bs58Key2RsKey pubKeyBuff=<',pubKeyBuff,'>');  
+    console.log('Bs58Key2RsKey pubKeyBuff=<',pubKeyBuff,'>');  
     webcrypto.subtle.importKey(
       'raw',
       pubKeyBuff,

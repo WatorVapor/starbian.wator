@@ -280,9 +280,9 @@ class StarBianCrypto {
   }
 
   _bs58Key2RsKey(bs58Key,cb) {
-    console.log('Bs58Key2RsKey bs58Key=<',bs58Key,'>');
+    //console.log('Bs58Key2RsKey bs58Key=<',bs58Key,'>');
     const pubKeyBuff = bs58.decode(bs58Key);
-    console.log('Bs58Key2RsKey pubKeyBuff=<',pubKeyBuff,'>');  
+    //console.log('Bs58Key2RsKey pubKeyBuff=<',pubKeyBuff,'>');  
     webcrypto.subtle.importKey(
       'raw',
       pubKeyBuff,
@@ -294,12 +294,12 @@ class StarBianCrypto {
       ['verify']
     )
     .then(function(pubKey){
-      console.log('Bs58Key2RsKey:pubKey=<' , pubKey , '>');
+      //console.log('Bs58Key2RsKey:pubKey=<' , pubKey , '>');
       webcrypto.subtle.exportKey('jwk', pubKey)
       .then(function(keydata){
-        console.log('Bs58Key2RsKey keydata=<' , keydata , '>');
+        //console.log('Bs58Key2RsKey keydata=<' , keydata , '>');
         let rsKey = rs.KEYUTIL.getKey(keydata);	
-        console.log('Bs58Key2RsKey rsKey=<',rsKey,'>');
+        //console.log('Bs58Key2RsKey rsKey=<',rsKey,'>');
         cb(rsKey);
       })
       .catch(function(err){

@@ -221,7 +221,7 @@ class StarBianCrypto {
     if(!this.ECDHKeyPubJwk) {
       return;
     }
-    console.log('onKeyReadyOne_::this.onKeyReady=<',this.onKeyReady,'>');
+    //console.log('onKeyReadyOne_::this.onKeyReady=<',this.onKeyReady,'>');
     if(typeof this.onKeyReady === 'function') {
       this.onKeyReady(this.prvKey,this.pubKey,this.channel.authed);
     }

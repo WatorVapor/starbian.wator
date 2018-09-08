@@ -40,6 +40,4 @@ class StarBianPeer {
 }
 
 
-module.exports = {
-  Peer:StarBianPeer
-};
+module.exports = StarBianPeer;

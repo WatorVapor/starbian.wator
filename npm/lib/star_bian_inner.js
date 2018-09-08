@@ -46,7 +46,7 @@ class StarBianInner {
     //console.log('publish:channel =<',channel,'>');
     let self = this;
     this.crypto_._encrypt(JSON.stringify(msg),function(encrypt) {
-      console.log('publish:encrypt=<',encrypt,'>');
+      //console.log('publish:encrypt=<',encrypt,'>');
       self.crypto_._signAuth(JSON.stringify(encrypt),function(auth) {
         let sentMsg = {
           channel:channel,
@@ -89,7 +89,7 @@ class StarBianInner {
     let self = this;
     let content = msg.encrypt || msg.ecdh || msg.subscribe || msg.broadcast;
     this.crypto_._verifyAuthCore(msg.auth,content,() => {
-      console.log('_onP2PMsg::msg=<',msg,'>');
+      //console.log('_onP2PMsg::msg=<',msg,'>');
       if(msg.ecdh) {
         self._doExchangeKey(msg.ecdh,msg.auth.pubKeyB58);
       }

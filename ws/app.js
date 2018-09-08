@@ -65,7 +65,7 @@ wss.on('connection', function (ws,req) {
     //console.log('received: message=<', message,'>');
     try {
       let jsonMsg = JSON.parse(message);
-      console.log('jsonMsg=<', jsonMsg,'>');
+      //console.log('jsonMsg=<', jsonMsg,'>');
       let content = jsonMsg.encrypt || jsonMsg.ecdh || jsonMsg.subscribe || jsonMsg.broadcast;
       if(jsonMsg) {
         wsProxy.verifyAuth(jsonMsg.auth,content,() => {
@@ -130,65 +130,4 @@ function onAuthedMsg(jsonMsg,ws) {
     console.log('onAuthedMsg jsonMsg=<',jsonMsg,'>');
   }
 }
-
-/*
-function buf2hex(buf) {
-  return Array.prototype.map.call(new Uint8Array(buf), x=>(('00'+x.toString(16)).slice(-2))).join('');
-}
-function hex2buf(str) {
-  return Buffer.from(str,'hex');
-}
-
-function verifyAuth(auth,cb) {	
-  //console.log('verifyAuth auth=<',auth,'>');	
-  if(auth) {
-    Bs58Key2RsKey(auth.pubKeyB58,(pubKey) => {
-      //console.log('verifyAuth pubKey=<',pubKey,'>');
-      let signEngine = new rs.KJUR.crypto.Signature({alg: 'SHA256withECDSA'});	
-      signEngine.init({xy: pubKey.pubKeyHex, curve: 'secp256r1'});	
-      signEngine.updateString(auth.hash);	
-      //console.log('verifyAuth signEngine=<',signEngine,'>');
-      let result = signEngine.verify(auth.sign);	
-      if(cb) {
-        cb();
-      } else {
-        console.log('verifyAuth not authed !!! result=<',result,'>');
-        console.log('verifyAuth not authed !!! auth=<',auth,'>');
-      }
-    });
-  }
-}
-
-function Bs58Key2RsKey(bs58Key,cb) {
-  //console.log('Bs58Key2RsKey bs58Key=<',bs58Key,'>');
-  const pubKeyBuff = bs58.decode(bs58Key);
-  //console.log('Bs58Key2RsKey pubKeyBuff=<',pubKeyBuff,'>');  
-  webcrypto.subtle.importKey(
-    'raw',
-    pubKeyBuff,
-    {
-      name: 'ECDSA',
-      namedCurve: 'P-256', 
-    },
-    true, 
-    ['verify']
-  )
-  .then(function(pubKey){
-    //console.log('Bs58Key2RsKey:pubKey=<' , pubKey , '>');
-    webcrypto.subtle.exportKey('jwk', pubKey)
-    .then(function(keydata){
-      //console.log('Bs58Key2RsKey keydata=<' , keydata , '>');
-      let rsKey = rs.KEYUTIL.getKey(keydata);	
-      //console.log('Bs58Key2RsKey rsKey=<',rsKey,'>');
-      cb(rsKey);
-    })
-    .catch(function(err){
-      console.error(err);
-    });
-  })
-  .catch(function(err){
-    console.error(err);
-  });
-}
-*/
 

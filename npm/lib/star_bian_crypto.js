@@ -201,11 +201,11 @@ class StarBianCrypto {
     });
   }
   onKeyReadyOne_() {
-    console.log('onKeyReadyOne_::this.channel=<',this.channel,'>');
-    console.log('onKeyReadyOne_::this.pubKey=<',this.pubKey,'>');
-    console.log('onKeyReadyOne_::this.prvKey=<',this.prvKey,'>');
-    console.log('onKeyReadyOne_::this.ECDHKey=<',this.ECDHKey,'>');
-    console.log('onKeyReadyOne_::this.ECDHKeyPubJwk=<',this.ECDHKeyPubJwk,'>');
+    //console.log('onKeyReadyOne_::this.channel=<',this.channel,'>');
+    //console.log('onKeyReadyOne_::this.pubKey=<',this.pubKey,'>');
+    //console.log('onKeyReadyOne_::this.prvKey=<',this.prvKey,'>');
+    //console.log('onKeyReadyOne_::this.ECDHKey=<',this.ECDHKey,'>');
+    //console.log('onKeyReadyOne_::this.ECDHKeyPubJwk=<',this.ECDHKeyPubJwk,'>');
     if(!this.channel) {
       return;
     }
@@ -221,7 +221,8 @@ class StarBianCrypto {
     if(!this.ECDHKeyPubJwk) {
       return;
     }
-    if(this.onKeyReady === 'function') {
+    console.log('onKeyReadyOne_::this.onKeyReady=<',this.onKeyReady,'>');
+    if(typeof this.onKeyReady === 'function') {
       this.onKeyReady(this.prvKey,this.pubKey,this.channel.authed);
     }
   }

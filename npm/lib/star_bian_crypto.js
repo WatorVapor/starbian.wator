@@ -31,7 +31,7 @@ class StarBianCrypto {
       this._loadKeyPair();
     }
     this._loadChannel();
-    this._createECDHKey();    
+    this._createECDHKey();
   }
   /**
    * create key pair.
@@ -63,6 +63,7 @@ class StarBianCrypto {
         if(toBeSaved.pubKey) {
            fs.writeFileSync(self.keyPath_,JSON.stringify(toBeSaved,undefined,2));
         }
+        self.onKeyReadyOne_();
       })
       .catch(function(err){
         console.error(err);
@@ -80,6 +81,7 @@ class StarBianCrypto {
         if(toBeSaved.prvKey) {
            fs.writeFileSync(self.keyPath_,JSON.stringify(toBeSaved,undefined,2));
         }
+        self.onKeyReadyOne_();
       })
       .catch(function(err){
         console.error(err);
@@ -119,6 +121,7 @@ class StarBianCrypto {
     .then(function(privateKey){
       //console.log('_loadKeyPair:privateKey=<' , privateKey , '>');
       self.prvKey = privateKey;
+      self.onKeyReadyOne_();
     })
     .catch(function(err){
       console.error(err);
@@ -136,6 +139,7 @@ class StarBianCrypto {
     .then(function(publicKey){
       //console.log('_loadKeyPair:publicKey=<' , publicKey , '>');
       self.pubKey = publicKey;
+      self.onKeyReadyOne_();
     })
     .catch(function(err){
       console.error(err);
@@ -162,6 +166,7 @@ class StarBianCrypto {
       let saveChannel = JSON.stringify(this.channel,null, 2);
       fs.writeFileSync(this.channelPath_,saveChannel);
     }
+    this.onKeyReadyOne_();
   }
 
   _createECDHKey () {
@@ -177,6 +182,7 @@ class StarBianCrypto {
     .then(function(key){
       self.ECDHKey = key;
       self._exportECDHPubKey(key.publicKey);
+      self.onKeyReadyOne_();
     })
     .catch(function(err){
       console.error(err);
@@ -188,10 +194,31 @@ class StarBianCrypto {
     .then(function(keydata){
       //console.log('_exportECDHPubKey keydata=<' , keydata , '>');
       self.ECDHKeyPubJwk = keydata;
+      self.onKeyReadyOne_();
     })
     .catch(function(err){
       console.error(err);
     });
+  }
+  onKeyReadyOne_() {
+    if(!this.channel) {
+      return;
+    }
+    if(!this.pubKey) {
+      return;
+    }
+    if(!this.prvKey) {
+      return;
+    }
+    if(!this.ECDHKey) {
+      return;
+    }
+    if(!this.ECDHKeyPubJwk) {
+      return;
+    }
+    if(this.onKeyReady === 'function') {
+      this.onKeyReady(this.prvKey,this.pubKey,this.channel.authed);
+    }
   }
   
   _verifyAuth(auth,content,channel,cb) {

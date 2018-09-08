@@ -5,7 +5,7 @@
  */
 'use strict';
 
-const StarBianInner = require('./star_bian_inner');
+const StarBianPeer = require('./StarBianPeer');
 
 class StarBianBroadcast {
   /**
@@ -13,10 +13,10 @@ class StarBianBroadcast {
    *
    */
   constructor () {
-    this.inner_ = new StarBianInner();
-    this.inner_.onReady = (priKey,pubKey,authedKey) => {
+    this.peer_ = new StarBianPeer('broadcast');
+    this.peer_.onReady = () => {
       if(typeof this.onReady === 'function') {
-        this.onReady(priKey,pubKey,authedKey);
+        this.onReady();
       }
     };
   }
@@ -38,6 +38,4 @@ class StarBianBroadcast {
 }
 
 
-module.exports = {
-  Broadcast:StarBianBroadcast
-};
+module.exports = StarBianBroadcast;

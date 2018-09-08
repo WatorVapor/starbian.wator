@@ -201,6 +201,11 @@ class StarBianCrypto {
     });
   }
   onKeyReadyOne_() {
+    console.log('onKeyReadyOne_::this.channel=<',this.channel,'>');
+    console.log('onKeyReadyOne_::this.pubKey=<',this.pubKey,'>');
+    console.log('onKeyReadyOne_::this.prvKey=<',this.prvKey,'>');
+    console.log('onKeyReadyOne_::this.ECDHKey=<',this.ECDHKey,'>');
+    console.log('onKeyReadyOne_::this.ECDHKeyPubJwk=<',this.ECDHKeyPubJwk,'>');
     if(!this.channel) {
       return;
     }

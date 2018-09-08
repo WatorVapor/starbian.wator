@@ -15,7 +15,7 @@ class StarBian {
    */
   constructor () {
     this.crypto_ = new StarBianCrypto();
-    this.crypto_.onReady = (priKey,pubKey,authedKey) => {
+    this.crypto_.onKeyReady = (priKey,pubKey,authedKey) => {
       this.onReady(priKey,pubKey,authedKey);
     };
   }

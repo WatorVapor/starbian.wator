@@ -34,22 +34,7 @@ class StarBianInner {
         self.onReady();
       }
     };
-  }
-  /**
-   * broadcast public key with one time password.
-   *
-   */
-  broadcastPubKey (cb) {
-    this.sharePubKeyCounter = 10;
-    this.OneTimePassword_ = Math.floor(Math.random()*(9999-1111)+1111);
-    this.OneTimeCB_ = cb;
-    let self = this;
-    setTimeout(function() {
-      self.OneTimeCB_(self.sharePubKeyCounter,self.OneTimePassword_);
-      self.sharePubKeyTimeOut_();
-    },0);
-  }
-  
+  }  
   /**
    * publish a messege.
    *
@@ -81,42 +66,7 @@ class StarBianInner {
   subscribe(callback) {
     this.callback_ = callback;
   }
-  /**
-   * subscribe.
-   *
-   * @param {Function} callback 
-   */
-  subscribe_broadcast(callback) {
-    this.bc_callback_ = callback;
-  }
-  
-  /**
-   * pass through a messege.
-   *
-   * @param {String} msg 
-   */
-  passthrough(channel,msg) {
-    //console.log('passthrough:msg =<',msg,'>');
-    this.p2p_.out(channel ,msg);
-  }
-  /**
-   * subscribe_passthrough.
-   *
-   * @param {String} channel 
-   * @param {Function} callback 
-   */
-  subscribe_passthrough(channel,callback) {
-    console.log('subscribe channel =<',channel,'>');
-    this.p2p_.in(channel ,callback);
-  }  
-  /**
-   * subscribe_passthrough_broadcast.
-   *
-   * @param {Function} callback 
-   */
-  subscribe_passthrough_broadcast(callback) {
-    this.pt_bc_callback_ = callback;
-  }
+
   
  
   

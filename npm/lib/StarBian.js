@@ -38,7 +38,9 @@ class StarBianPeer {
     this.inner_ = new StarBianInner();
     this.keyChannel_ = keyChannel;
     this.inner_.onReady = (priKey,pubKey,authedKey) => {
-      this.onReady(priKey,pubKey,authedKey);
+      if(typeof this.onReady === 'function') {
+        this.onReady(priKey,pubKey,authedKey);
+      }
     };
   }
   /**
@@ -69,7 +71,9 @@ class StarBianBroadcast {
   constructor () {
     this.inner_ = new StarBianInner();
     this.inner_.onReady = (priKey,pubKey,authedKey) => {
-      this.onReady(priKey,pubKey,authedKey);
+      if(typeof this.onReady === 'function') {
+        this.onReady(priKey,pubKey,authedKey);
+      }
     };
   }
   /**

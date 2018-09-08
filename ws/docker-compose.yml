@@ -3,8 +3,9 @@ services:
   ipfs-dameon:
     image: watorvapor/js-starbian
     volumes:
-      - ./:/home/app
-    working_dir: "/home/app"
+      - ../ws:/home/app/ws
+      - ../npm:/home/app/npm
+    working_dir: "/home/app/ws"
     command: ./run.sh
     networks:
       - outside

@@ -406,6 +406,40 @@ class StarBianCrypto {
     });
   } 
 
+  _decrypt(msg,cb) {
+    if(!this.AESKey) {
+      console.log('_onEncryptedMsg this.AESKey=<' , this.AESKey , '>');
+      return;
+    }
+    let iv = Buffer.from(msg.iv,'base64');
+    //console.log('_onEncryptedMsg iv=<' , iv , '>');
+    const alg = { 
+      name: 'AES-GCM',
+      iv: iv
+    };
+    const ptUint8 = Buffer.from(msg.encrypt,'base64');
+    //console.log('_onEncryptedMsg ptUint8=<' , ptUint8 , '>');
+    let self = this;
+    webcrypto.subtle.decrypt( 
+      alg,
+      this.AESKey,
+      ptUint8
+    ).then(plainBuff => {
+      //console.log('_onEncryptedMsg plainBuff=<' , plainBuff , '>');
+      let plainText = Buffer.from(plainBuff).toString('utf8');
+      //console.log('_onEncryptedMsg plainText=<' , plainText , '>');
+      let plainJson = JSON.parse(plainText);
+      //console.log('_onEncryptedMsg plainJson=<' , plainJson , '>');
+      //console.log('_onEncryptedMsg self.callback_=<' , self.callback_ , '>');
+      if(typeof cb=== 'function') {
+        cb(plainJson);
+      }
+    })
+    .catch(function(err){
+      console.error(err);
+    });
+  }
+
 
 }
 

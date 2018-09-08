@@ -209,10 +209,10 @@ class StarBianCrypto {
     if(!this.channel) {
       return;
     }
-    if(!this.pubKey) {
+    if(!this.pubKeyB58) {
       return;
     }
-    if(!this.prvKey) {
+    if(!this.prvHex) {
       return;
     }
     if(!this.ECDHKey) {
@@ -223,7 +223,7 @@ class StarBianCrypto {
     }
     //console.log('onKeyReadyOne_::this.onKeyReady=<',this.onKeyReady,'>');
     if(typeof this.onKeyReady === 'function') {
-      this.onKeyReady(this.prvKey,this.pubKey,this.channel.authed);
+      this.onKeyReady(this.prvHex,this.pubKeyB58,this.channel.authed);
     }
   }
   

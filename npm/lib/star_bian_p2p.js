@@ -8,7 +8,7 @@ let nowTag = new Date();
 let dNowTag = crypto.createHash('sha224');
 dNowTag.update(nowTag.toISOString());
 const pubsubRepos = bs58.encode(dNowTag.digest('hex'));
-console.log('pubsubRepos=<',pubsubRepos,'>');
+//console.log('pubsubRepos=<',pubsubRepos,'>');
 
 const IPFS_CONF = {
   repo: '.ipfs_pubsub_room_data',

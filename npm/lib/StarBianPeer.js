@@ -12,11 +12,11 @@ class StarBianPeer {
    *
    */
   constructor (keyChannel) {
-    this.inner_ = new StarBianInner();
+    this.inner_ = new StarBianInner(keyChannel);
     this.keyChannel_ = keyChannel;
-    this.inner_.onReady = (priKey,pubKey,authedKey) => {
+    this.inner_.onReady = () => {
       if(typeof this.onReady === 'function') {
-        this.onReady(priKey,pubKey,authedKey);
+        this.onReady();
       }
     };
   }

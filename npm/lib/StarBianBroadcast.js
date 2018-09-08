@@ -35,6 +35,40 @@ class StarBianBroadcast {
   listenPubKey(password,callback) {
     this.inner_.subscribe_broadcast(callback);
   }
+
+  sharePubKeyTimeOut_(cb) {
+    this.sharePubKeyInside_();
+    this.OneTimeCB_(this.sharePubKeyCounter,this.OneTimePassword_);
+    this.sharePubKeyCounter--;
+    if(this.sharePubKeyCounter >= 0) {
+      let self = this;
+      setTimeout(function() {
+        self.sharePubKeyTimeOut_(cb);
+      },10000);
+    }
+  }
+  
+  sharePubKeyInside_() {	
+    console.log('sharePubKeyInside_:this.pubKeyB58=<',this.pubKeyB58,'>');	
+    if(!this.pubKeyB58) {	
+      return;	
+    } 	
+    let shareKey = {
+      ts: new Date(),
+      pubkey:this.pubKeyB58,
+      password:this.OneTimePassword_
+    };
+    let self = this;
+    this._signAuth(JSON.stringify(shareKey),function(auth) {	
+      let sentMsg = {	
+        channel:'broadcast',	
+        auth:auth,
+        shareKey:shareKey	
+      };
+      console.log('sharePubKeyInside_:JSON.stringify(shareKey)=<' , JSON.stringify(shareKey) , '>');
+      self.p2p_.out('broadcast',sentMsg);
+    });	
+  }
 }
 
 

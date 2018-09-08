@@ -8,12 +8,7 @@
 const StarBian = require('../npm').StarBianRepeater;
 
 const wsProxy = new StarBian();
-const crypto = require('crypto');
-const WebCrypto = require("node-webcrypto-ossl");
-const webcrypto = new WebCrypto();
-const bs58 = require('bs58');
 const WebSocket = require('ws');
-const rs = require('jsrsasign');
 const wss = new WebSocket.Server({host:'127.0.0.1', port: 19080 });
 let wsClients = {};
 
@@ -70,9 +65,9 @@ wss.on('connection', function (ws,req) {
     //console.log('received: message=<', message,'>');
     try {
       let jsonMsg = JSON.parse(message);
-      //console.log('jsonMsg=<', jsonMsg,'>');
+      console.log('jsonMsg=<', jsonMsg,'>');
       if(jsonMsg) {
-        verifyAuth(jsonMsg.auth,() => {
+        wsProxy.verifyAuth(jsonMsg.auth,() => {
           onAuthedMsg(jsonMsg,ws);
         });
       } else {
@@ -135,6 +130,7 @@ function onAuthedMsg(jsonMsg,ws) {
   }
 }
 
+/*
 function buf2hex(buf) {
   return Array.prototype.map.call(new Uint8Array(buf), x=>(('00'+x.toString(16)).slice(-2))).join('');
 }
@@ -193,3 +189,5 @@ function Bs58Key2RsKey(bs58Key,cb) {
     console.error(err);
   });
 }
+*/
+

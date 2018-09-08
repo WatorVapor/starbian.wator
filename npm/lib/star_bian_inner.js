@@ -53,7 +53,7 @@ class StarBianInner {
           auth:auth,
           encrypt:encrypt
         };
-        console.log('publish:sentMsg=<',sentMsg,'>');
+        //console.log('publish:sentMsg=<',sentMsg,'>');
         self.p2p_.out(channel ,sentMsg);
       });
     });

@@ -238,9 +238,9 @@ class StarBianCrypto {
   }
   
   _verifyAuthCore(auth,content,cb) {
-    console.log('verifyAuth auth=<',auth,'>');
+    //console.log('verifyAuth auth=<',auth,'>');
     if(auth) {
-      console.log('verifyAuth content=<',content,'>');
+      //console.log('verifyAuth content=<',content,'>');
       let self = this;
       webcrypto.subtle.digest("SHA-256",Buffer.from(JSON.stringify(content),'utf8'))
       .then(function(buf) {

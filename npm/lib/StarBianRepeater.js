@@ -14,7 +14,6 @@ class StarBianRepeater {
    *
    */
   constructor () {
-    this.crypto_ = new StarBianCrypto();    
     this.p2p_ = new StarBianP2p();
     let self = this;
     this.p2p_.onReady = () => {

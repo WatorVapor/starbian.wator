@@ -9,10 +9,11 @@
 const fs = require('fs');
 const crypto = require('crypto');
 const rs = require('jsrsasign');
+const bs58 = require('bs58');
 const WebCrypto = require("node-webcrypto-ossl");
 const webcrypto = new WebCrypto();
 const StarBianP2p = require('./star_bian_p2p');
-const bs58 = require('bs58');
+const StarBianCrypto = require('./star_bian_crypto.js');
 
 
 class StarBianInner {
@@ -21,17 +22,7 @@ class StarBianInner {
    *
    */
   constructor () {
-    if(!fs.existsSync('.keys/')) {
-      fs.mkdirSync('.keys/');
-    }
-    this.keyPath_ = '.keys/key.json';
-    if(!fs.existsSync(this.keyPath_)) {
-      this._createKeyPair();
-    } else {
-      this._loadKeyPair();
-    }
-    this._loadChannel();
-    this._createECDHKey();    
+    this.crypto_ = new StarBianCrypto();    
     this.p2p_ = new StarBianP2p();
     let self = this;
     this.p2p_.onReady = () => {
@@ -40,11 +31,6 @@ class StarBianInner {
         self.onReady(self.prvHex,self.pubKeyB58,self.channel.authed);
       }
     };
-  }
-  addAuthedKey (key) {
-    this.channel.authed.push(key);
-    let saveChannel = JSON.stringify(this.channel,null, 2);
-    fs.writeFileSync(this.channelPath_,saveChannel);
   }
   /**
    * broadcast public key with one time password.

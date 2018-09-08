@@ -5,9 +5,7 @@
  */
 'use strict';
 
-const StarBianInner = require('./star_bian_inner');
 const StarBianCrypto = require('./star_bian_crypto.js');
-
 class StarBian {
   /**
    * Create a new `StarBian`.
@@ -29,6 +27,7 @@ class StarBian {
   }
 }
 
+const StarBianInner = require('./star_bian_inner');
 class StarBianPeer {
   /**
    * Create a new `StarBian`.

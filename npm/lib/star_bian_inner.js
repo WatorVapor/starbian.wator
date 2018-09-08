@@ -81,9 +81,10 @@ class StarBianInner {
     //console.log('_onP2PMsg::msg=<',msg,'>');
     //console.log('_onP2PMsg::from=<',from,'>');
     if(channel !== this.remoteChannel_) {
-      console.warn('_onP2PMsg:: !!!not in my eye!!! channel=<',channel,'>');
-      console.warn('_onP2PMsg:: !!!not in my eye!!! this.remoteChannel_=<',this.remoteChannel_,'>');
       console.warn('_onP2PMsg:: !!!not in my eye!!! msg=<',msg,'>');
+      console.warn('_onP2PMsg:: !!!not in my eye!!! channel=<',channel,'>');
+      console.warn('_onP2PMsg:: !!!not in my eye!!! from=<',from,'>');
+      console.warn('_onP2PMsg:: !!!not in my eye!!! this.remoteChannel_=<',this.remoteChannel_,'>');
       return;
     }
     let self = this;

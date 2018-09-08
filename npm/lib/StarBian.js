@@ -6,6 +6,7 @@
 'use strict';
 
 const StarBianInner = require('./star_bian_inner');
+const StarBianCrypto = require('./star_bian_crypto.js');
 
 class StarBian {
   /**
@@ -13,8 +14,8 @@ class StarBian {
    *
    */
   constructor () {
-    this.inner_ = new StarBianInner();
-    this.inner_.onReady = (priKey,pubKey,authedKey) => {
+    this.crypto_ = new StarBianCrypto();
+    this.crypto_.onReady = (priKey,pubKey,authedKey) => {
       this.onReady(priKey,pubKey,authedKey);
     };
   }
@@ -24,7 +25,7 @@ class StarBian {
    *
    */
   addAuthedKey (key) {
-    this.inner_.addAuthedKey(key);
+    this.crypto_.addAuthedKey(key);
   }
 }
 

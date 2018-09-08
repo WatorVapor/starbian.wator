@@ -52,7 +52,10 @@ class StarBianRepeater {
    */
   subscribe_passthrough_broadcast(callback) {
     this.pt_bc_callback_ = callback;
-  }  
+  }
+  
+  verifyAuth(auth,cb) {	
+  }
 
   /**
    * on channel msg.

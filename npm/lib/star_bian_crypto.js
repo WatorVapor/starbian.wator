@@ -338,6 +338,41 @@ class StarBianCrypto {
     });
   };
 
+  _exchangeKey(ecdh,remotePubKey) {
+    let self = this;
+    webcrypto.subtle.importKey(
+      'jwk',
+      ecdh.key,
+      { name: 'ECDH', namedCurve: 'P-256'},
+      false,
+      []
+    ).then(key => {
+      self._onExchangeKey(key);
+    })
+    .catch(function(err){
+      console.error(err);
+    });
+  }
+
+  _onExchangeKey(remotePubKey) {
+    //console.log('_onExchangeKey remotePubKey=<' , remotePubKey , '>');
+    let self = this;
+    webcrypto.subtle.deriveKey( 
+      { name: 'ECDH', namedCurve: 'P-256', public: remotePubKey },
+      self.ECDHKey.privateKey,
+      { name: 'AES-GCM', length: 128 },
+      false,
+      ['encrypt', 'decrypt']
+    ).then(keyAES => {
+      //console.log('_onExchangeKey keyAES=<' , keyAES , '>');
+      self.AESKey = keyAES;
+    })
+    .catch(function(err){
+      console.error(err);
+    });
+  }
+    
+  
   _encrypt(msg,cb) {
     if(!this.AESKey) {
       return;
@@ -370,6 +405,8 @@ class StarBianCrypto {
       console.error(err);
     });
   } 
+
+
 }
 
 module.exports = StarBianCrypto;

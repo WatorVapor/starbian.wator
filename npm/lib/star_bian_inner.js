@@ -46,7 +46,7 @@ class StarBianInner {
     //console.log('publish:channel =<',channel,'>');
     let self = this;
     this.crypto_._encrypt(JSON.stringify(msg),function(encrypt) {
-      //console.log('publish:encrypt=<',encrypt,'>');
+      console.log('publish:encrypt=<',encrypt,'>');
       self.crypto_._signAuth(JSON.stringify(encrypt),function(auth) {
         let sentMsg = {
           channel:channel,

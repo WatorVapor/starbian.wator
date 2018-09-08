@@ -16,11 +16,13 @@ function createAuthedPeer(authedKey) {
   //console.log('authedKey=<',authedKey,'>');
   authedKey.forEach( (key) => {
     let  peer = new Peer(key);
-    peer.subscribe(onMessage);
+    peer.subscribe((msg,channel) => {
+      onMessage(msg,channel,peer);
+    });
   });
 }
 
-function onMessage(msg,channel) {
+function onMessage(msg,channel,peer) {
   console.log('gofuro.subscribe typeof msg=<',typeof msg,'>');
   if(typeof msg === 'string') {
     msg = JSON.parse(msg);
@@ -31,7 +33,7 @@ function onMessage(msg,channel) {
     let respJson = {
       hotted:true
     };
-    gofuro.publish(respJson,channel);
+    peer.publish(respJson);
   }
 }
 

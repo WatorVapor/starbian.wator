@@ -27,6 +27,4 @@ class StarBian {
   }
 }
 
-module.exports = {
-  StarBian:StarBian
-};
+module.exports = StarBian;

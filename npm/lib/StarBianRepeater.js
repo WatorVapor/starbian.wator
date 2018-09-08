@@ -57,7 +57,7 @@ class StarBianRepeater {
   }
   
   verifyAuth(auth,content,cb) {
-    this.crypto_.verifyAuth(auth,content,cb);
+    this.crypto_._verifyAuthCore(auth,content,cb);
   }
 
   /**

@@ -7,6 +7,7 @@
 'use strict';
 
 const StarBianP2p = require('./star_bian_p2p');
+const StarBianCrypto = require('./star_bian_crypto');
 
 class StarBianRepeater {
   /**
@@ -15,6 +16,7 @@ class StarBianRepeater {
    */
   constructor () {
     this.p2p_ = new StarBianP2p();
+    this.crypto_ = new StarBianP2p();
     let self = this;
     this.p2p_.onReady = () => {
       self.p2p_.in('broadcast',(msg,channel,from) => {
@@ -54,7 +56,8 @@ class StarBianRepeater {
     this.pt_bc_callback_ = callback;
   }
   
-  verifyAuth(auth,cb) {	
+  verifyAuth(auth,content,cb) {
+    this.crypto_.verifyAuth(auth,content,cb);
   }
 
   /**

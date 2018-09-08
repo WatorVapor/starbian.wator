@@ -32,7 +32,7 @@ module.exports = class StarBianP2p {
     d.update('!!欢迎来到StarBian!!');
     let number = d.digest('hex');
     this.number = bs58.encode(number);
-    console.log('this.number=<',this.number,'>');
+    //console.log('this.number=<',this.number,'>');
     try {
       if(ipfsUniq) {
         this.ipfs = ipfsUniq;
@@ -67,22 +67,22 @@ module.exports = class StarBianP2p {
       if (err) {
         throw err
       }
-      console.log('identity=<',identity,'>');
+      //console.log('identity=<',identity,'>');
       self.peer = identity.id;
     });
     this.room = Room(this.ipfs, 'wai-' + this.number);
     this.room.on('peer joined', (peer) => {
-      console.log('Peer joined the room', peer);
+      //console.log('Peer joined the room', peer);
       if(typeof self.onJoint === 'function') {
         self.onJoint(peer);
       }
     });
     this.room.on('peer left', (peer) => {
-      console.log('Peer left...', peer);
+      //console.log('Peer left...', peer);
     });
     // now started to listen to room
     this.room.on('subscribed', () => {
-      console.log('Now connected!');
+      //console.log('Now connected!');
       if(typeof self.onReady === 'function') {
         self.onReady();
       }

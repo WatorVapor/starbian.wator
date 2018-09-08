@@ -294,12 +294,12 @@ class StarBianCrypto {
       ['verify']
     )
     .then(function(pubKey){
-      //console.log('Bs58Key2RsKey:pubKey=<' , pubKey , '>');
+      console.log('Bs58Key2RsKey:pubKey=<' , pubKey , '>');
       webcrypto.subtle.exportKey('jwk', pubKey)
       .then(function(keydata){
-        //console.log('Bs58Key2RsKey keydata=<' , keydata , '>');
+        console.log('Bs58Key2RsKey keydata=<' , keydata , '>');
         let rsKey = rs.KEYUTIL.getKey(keydata);	
-        //console.log('Bs58Key2RsKey rsKey=<',rsKey,'>');
+        console.log('Bs58Key2RsKey rsKey=<',rsKey,'>');
         cb(rsKey);
       })
       .catch(function(err){

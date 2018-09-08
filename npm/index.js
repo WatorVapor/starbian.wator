@@ -5,8 +5,8 @@
  */
 'use strict';
 module.exports = {
-  StarBian : require('./lib/StarBian').StarBian,
-  StarBianPeer : require('./lib/StarBianPeer').Peer,
-  StarBianBroadCast : require('./lib/StarBianBroadcast').BroadCast,
+  StarBian : require('./lib/StarBian'),
+  StarBianPeer : require('./lib/StarBianPeer'),
+  StarBianBroadCast : require('./lib/StarBianBroadcast'),
   StarBianRepeater:require('./lib/StarBianRepeater')
 }

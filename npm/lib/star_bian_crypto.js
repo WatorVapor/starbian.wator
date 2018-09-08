@@ -314,16 +314,16 @@ class StarBianCrypto {
 
 
   _signAuth(msg,cb) {
-    //console.log('_signAuth msg=<' , msg , '>');
+    console.log('_signAuth msg=<' , msg , '>');
     let self = this;
     webcrypto.subtle.digest("SHA-256",Buffer.from(msg,'utf8'))
     .then(function(buf) {
-      //console.log('_signAuth buf=<' , buf , '>');
+      console.log('_signAuth buf=<' , buf , '>');
       let hash = Buffer.from(buf).toString('base64');
-      //console.log('_signAuth hash=<' , hash , '>');
+      console.log('_signAuth hash=<' , hash , '>');
       let ecSign = new rs.KJUR.crypto.ECDSA({'curve': 'secp256r1'});
-      //console.log('_signAuth ecSign=<' , ecSign , '>');
-      //console.log('_signAuth self.rsPrvKey=<' , self.rsPrvKey , '>');
+      console.log('_signAuth ecSign=<' , ecSign , '>');
+      console.log('_signAuth self.rsPrvKey=<' , self.rsPrvKey , '>');
 
       let signEngine = new rs.KJUR.crypto.Signature({alg: 'SHA256withECDSA'});
       signEngine.init({d: self.rsPrvKey.prvKeyHex, curve: 'secp256r1'});

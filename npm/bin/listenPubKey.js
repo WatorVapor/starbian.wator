@@ -9,8 +9,6 @@ let broadcast = new BroadCast();
 //console.log('broadcast=<',broadcast,'>');
 
 
-let password = false;
-let hitPubKey = false;
 
 /*
 broadcast.listenPubKey((msg,channel) => {
@@ -34,6 +32,7 @@ broadcast.listenPubKey((msg,channel) => {
 */
 
 let hitPubKey = false;
+let password = false;
 
 let onMatchedPubKey = (pubKey) => {
   console.log('onMatchedPubKey pubKey=<',pubKey,'>');

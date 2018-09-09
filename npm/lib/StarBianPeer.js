@@ -37,6 +37,11 @@ class StarBianPeer {
   subscribe(callback) {
     this.inner_.subscribe(callback);
   }
+
+  // private
+  sendThough_(msg) {
+    this.inner_.sendThough(msg,this.keyChannel_);
+  }
 }
 
 

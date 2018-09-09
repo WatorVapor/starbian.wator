@@ -74,7 +74,7 @@ class StarBianInner {
    * @param {String} channel 
    */
   sendThough(msg,channel) {
-    self.p2p_.out(channel ,msg);
+    this.p2p_.out(channel ,msg);
   }
  
   

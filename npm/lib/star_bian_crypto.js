@@ -477,7 +477,7 @@ class StarBianCrypto {
   
   
   signAssist(auth,cb) {
-    console.log('signAssist auth=<' , auth , '>');
+    //console.log('signAssist auth=<' , auth , '>');
     let now = new Date();
     let ts = now.toISOString();
     let msgJson = {orig:auth.hash,ts:ts};

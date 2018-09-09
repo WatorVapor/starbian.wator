@@ -4,15 +4,16 @@ const BroadCast = require('..').StarBianBroadCast;
 const StarBian = require('..').StarBian;
 
 let starbian = new StarBian();
-//console.log('listenKey=<',listenKey,'>');
-let listenKey = new BroadCast();
-//console.log('listenKey=<',listenKey,'>');
+//console.log('starbian=<',starbian,'>');
+let broadcast = new BroadCast();
+//console.log('broadcast=<',broadcast,'>');
 
 
 let password = false;
 let hitPubKey = false;
 
-listenKey.subscribe_broadcast((msg,channel) => {
+/*
+broadcast.listenPubKey((msg,channel) => {
   //console.log('searchKey.subscribe_broadcast typeof msg=<',typeof msg,'>');
   if(typeof msg === 'string') {
     msg = JSON.parse(msg);
@@ -30,7 +31,10 @@ listenKey.subscribe_broadcast((msg,channel) => {
     }
   }
 });
-
+*/
+let onMatchedPubKey = (pubKey) => {
+  console.log('onMatchedPubKey pubKey=<',pubKey,'>');
+}
 
 process.stdin.setEncoding('utf8');
 let doReadInput = () => {
@@ -48,6 +52,7 @@ let doReadInput = () => {
       } else {
         password = chunk.trim();
         console.log('search with <',password,'>');
+        broadcast.listenPubKey(password,onMatchedPubKey);
       }
     }
   });
@@ -57,7 +62,7 @@ process.stdin.on('end', () => {
   process.stdout.write('end');
 });
 
-listenKey.onReady = () => {
+broadcast.onReady = () => {
   setTimeout(doReadInput,1);
 }
 

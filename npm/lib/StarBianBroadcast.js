@@ -70,7 +70,7 @@ class StarBianBroadcast {
   sharePubKeyTimeOut_(cb) {
     this.sharePubKeyInside_();
     if(typeof this.OneTimeCB_ === 'function') {
-      this.OneTimeCB_(this.sharePubKeyCounter);
+      this.OneTimeCB_(this.sharePubKeyCounter,this.OneTimePassword_);
       this.sharePubKeyCounter--;
       if(this.sharePubKeyCounter >= 0) {
         let self = this;

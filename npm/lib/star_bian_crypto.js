@@ -522,7 +522,7 @@ class StarBianCrypto {
         console.log('verifyAssist  not authed !!! assist.hash=<' , assist.hash , '>');
         console.log('verifyAssist: not authed !!! assist.orig=<',assist.orig,'>');
       } else {
-        self.Bs58Key2RsKey(assist.pubKeyB58,(pubKey) => {
+        self._bs58Key2RsKey(assist.pubKeyB58,(pubKey) => {
           //console.log('verifyAssist pubKey=<' , pubKey , '>');
           let signEngine = new rs.KJUR.crypto.Signature({alg: 'SHA256withECDSA'});
           signEngine.init({xy: pubKey.pubKeyHex, curve: 'secp256r1'});

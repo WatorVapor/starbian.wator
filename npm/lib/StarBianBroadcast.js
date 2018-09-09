@@ -88,7 +88,7 @@ class StarBianBroadcast {
   
   sharePubKeyMining_(cb) {	
     console.log('sharePubKeyMining_:this.crypto_.pubKeyB58=<',this.crypto_.pubKeyB58,'>');	
-    if(!_insideCrypto.pubKeyB58) {	
+    if(!this.crypto_.pubKeyB58) {	
       return;	
     }
     let self = this;

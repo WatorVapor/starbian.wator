@@ -97,7 +97,7 @@ class StarBianInner {
     let self = this;
     let content = msg.encrypt || msg.ecdh || msg.subscribe || msg.broadcast;
     this.crypto_._verifyAuthCore(msg.auth,content,() => {
-      //console.log('_onP2PMsg::msg=<',msg,'>');
+      console.log('_onP2PMsg::msg=<',msg,'>');
       if(msg.ecdh) {
         self._doExchangeKey(msg.ecdh,msg.auth.pubKeyB58);
       }

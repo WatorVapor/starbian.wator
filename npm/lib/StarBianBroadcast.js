@@ -23,6 +23,7 @@ class StarBianBroadcast {
         this.onReady();
       }
     };
+    let self = this;
     this.cast_.subscribe( (msg) => {
       self.onBroadCast_(msg)
     });

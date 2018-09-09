@@ -445,6 +445,69 @@ class StarBianCrypto {
   }
 
 
+  miningAuth(msg,cb) {
+    //console.log('signAuth msg=<' , msg , '>');
+    let self = this;
+    webcrypto.subtle.digest("SHA-256", Buffer.from(msg,'utf8'))
+    .then(function(buf) {
+      let hash = base64js.fromByteArray(new Uint8Array(buf));
+      //console.log('signAuth hash=<' , hash , '>');
+      let ecSign = new rs.KJUR.crypto.ECDSA({'curve': 'secp256r1'});
+      //console.log('signAuth ecSign=<' , ecSign , '>');
+      //console.log('signAuth self.prvKeyHex=<' , self.prvKeyHex , '>');
+      let signEngine = new rs.KJUR.crypto.Signature({alg: 'SHA256withECDSA'});
+      signEngine.init({d: self.rsPrvKey.prvKeyHex, curve: 'secp256r1'});
+      signEngine.updateString(hash);
+      let signatureHex = signEngine.sign();
+      //console.log('signAuth signatureHex=<' , signatureHex , '>');
+      let hashSign = rs.KJUR.crypto.Util.sha256(signatureHex);
+      let signature = {
+        pubKeyB58:self.pubKeyB58,
+        hash:hash,
+        sign:signatureHex,
+        hashSign:hashSign
+      };
+      cb(signature);
+    })
+    .catch(function(err){
+      console.error(err);
+    });
+  }
+  signAssist(auth,cb) {
+    console.log('signAssist auth=<' , auth , '>');
+    let now = new Date();
+    let ts = now.toISOString();
+    let msgJson = {orig:auth.hash,ts:ts};
+    let msg = JSON.stringify(msgJson);
+    let self = this;
+    webcrypto.subtle.digest("SHA-256", Buffer.from(msg,'utf8'))
+    .then(function(buf) {
+      let hash = base64js.fromByteArray(new Uint8Array(buf));
+      //console.log('signAssist hash=<' , hash , '>');
+      let ecSign = new rs.KJUR.crypto.ECDSA({'curve': 'secp256r1'});
+      //console.log('signAssist ecSign=<' , ecSign , '>');
+      //console.log('signAssist self.prvKeyHex=<' , self.prvKeyHex , '>');
+      let signEngine = new rs.KJUR.crypto.Signature({alg: 'SHA256withECDSA'});
+      signEngine.init({d: self.rsPrvKey.prvKeyHex, curve: 'secp256r1'});
+      signEngine.updateString(hash);
+      let signatureHex = signEngine.sign();
+      //console.log('signAssist signatureHex=<' , signatureHex , '>');
+      let hashSign = rs.KJUR.crypto.Util.sha256(signatureHex);
+      let signature = {
+        pubKeyB58:self.pubKeyB58,
+        hash:hash,
+        orig:msgJson,
+        sign:signatureHex,
+        hashSign:hashSign
+      };
+      cb(signature);
+    })
+    .catch(function(err){
+      console.error(err);
+    });
+  }  
+  
+  
 }
 
 module.exports = StarBianCrypto;

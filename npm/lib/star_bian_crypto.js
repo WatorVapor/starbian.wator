@@ -512,7 +512,7 @@ class StarBianCrypto {
   
 
   verifyAssist(assist,cb) {
-    console.log('verifyAssist assist=<' , assist ,'>');
+    //console.log('verifyAssist assist=<' , assist ,'>');
     let self = this;
     webcrypto.subtle.digest("SHA-256", Buffer.from(JSON.stringify(assist.orig),'utf8'))
     .then(function(buf){

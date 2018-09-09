@@ -32,8 +32,12 @@ broadcast.listenPubKey((msg,channel) => {
   }
 });
 */
+
+let hitPubKey = false;
+
 let onMatchedPubKey = (pubKey) => {
   console.log('onMatchedPubKey pubKey=<',pubKey,'>');
+  hitPubKey = pubKey;
 }
 
 process.stdin.setEncoding('utf8');

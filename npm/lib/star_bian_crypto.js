@@ -473,6 +473,9 @@ class StarBianCrypto {
       console.error(err);
     });
   }
+  
+  
+  
   signAssist(auth,cb) {
     console.log('signAssist auth=<' , auth , '>');
     let now = new Date();
@@ -507,6 +510,37 @@ class StarBianCrypto {
     });
   }  
   
+
+  verifyAssist(assist,cb) {
+    console.log('verifyAssist assist=<' , assist ,'>');
+    let self = this;
+    webcrypto.subtle.digest("SHA-256", Buffer.from(JSON.stringify(assist.orig),'utf8'))
+    .then(function(buf){
+      let hashCal = Buffer.from(buf).toString('base64');
+      if(hashCal !== assist.hash) {
+        console.log('verifyAssist  not authed !!! hashCal=<' , hashCal , '>');
+        console.log('verifyAssist  not authed !!! assist.hash=<' , assist.hash , '>');
+        console.log('verifyAssist: not authed !!! assist.orig=<',assist.orig,'>');
+      } else {
+        self.Bs58Key2RsKey(assist.pubKeyB58,(pubKey) => {
+          //console.log('verifyAssist pubKey=<' , pubKey , '>');
+          let signEngine = new rs.KJUR.crypto.Signature({alg: 'SHA256withECDSA'});
+          signEngine.init({xy: pubKey.pubKeyHex, curve: 'secp256r1'});
+          signEngine.updateString(assist.hash);
+          let result = signEngine.verify(assist.sign);
+          if(result) {
+            cb(result);
+          } else {
+            console.log('verifyAssist not authed !!! result=<' , result , '>');
+            console.log('verifyAssist not authed !!! assist=<' , assist , '>');
+          }
+        });
+      }
+    })
+    .catch(function(err){
+      console.error(err);
+    });
+  }  
   
 }
 

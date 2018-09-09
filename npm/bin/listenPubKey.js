@@ -37,6 +37,7 @@ let password = false;
 let onMatchedPubKey = (pubKey) => {
   console.log('onMatchedPubKey pubKey=<',pubKey,'>');
   hitPubKey = pubKey;
+  console.log('hit a key =<',hitPubKey,'>  save it yes/no?');
 }
 
 process.stdin.setEncoding('utf8');

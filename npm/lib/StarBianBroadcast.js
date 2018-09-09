@@ -82,10 +82,10 @@ class StarBianBroadcast {
     }
   }
   sharePubKeyTimeOutPreStage_() {	
-    this.cast_.sendThough_(JSON.stringify(this.sharedKeyMsgPreStage));
+    this.cast_.sendThough_(this.sharedKeyMsgPreStage);
   }
   sharePubKeyInside_() {
-    this.cast_.sendThough_(JSON.stringify(this.sharedKeyMsg));
+    this.cast_.sendThough_(this.sharedKeyMsg);
   }
   
   sharePubKeyMining_(cb) {	

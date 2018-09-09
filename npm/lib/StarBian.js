@@ -13,8 +13,11 @@ class StarBian {
    */
   constructor () {
     this.crypto_ = new StarBianCrypto();
+    let self = this;
     this.crypto_.onKeyReady = (priKey,pubKey,authedKey) => {
-      this.onReady(priKey,pubKey,authedKey);
+      if(typeof self.onReady === 'function') {
+        self.onReady(priKey,pubKey,authedKey);
+      }
     };
   }
   /**

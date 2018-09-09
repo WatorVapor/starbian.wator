@@ -105,7 +105,7 @@ class StarBianInner {
         self._onEncryptedMsg(msg.encrypt,msg.auth.pubKeyB58);
       }
       if(msg.broadcast) {
-        self._onBroadcastMsg(msg.broadcast,msg.auth,msg.assist);
+        self._onBroadcastMsg(msg);
       }
     });
   }
@@ -147,9 +147,9 @@ class StarBianInner {
     });
   }
 
-  _onBroadcastMsg(msg,auth,assist) {
+  _onBroadcastMsg(msg) {
     if(typeof this.callback_ === 'function') {
-      this.callback_(msg,auth,assist);
+      this.callback_(msg);
     }
   }
   

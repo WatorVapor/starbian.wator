@@ -87,7 +87,7 @@ class StarBianBroadcast {
   }
   
   sharePubKeyMining_(cb) {	
-    console.log('sharePubKeyMining_:_insideCrypto.pubKeyB58=<',_insideCrypto.pubKeyB58,'>');	
+    console.log('sharePubKeyMining_:this.crypto_.pubKeyB58=<',this.crypto_.pubKeyB58,'>');	
     if(!_insideCrypto.pubKeyB58) {	
       return;	
     }
@@ -97,10 +97,10 @@ class StarBianBroadcast {
     this.OneTimePassword_ = Math.floor(Math.random()*(99999-11111)+11111);
     let shareKey = { 
       ts:ts,
-      pubkey:_insideCrypto.pubKeyB58,
+      pubkey:this.crypto_.pubKeyB58,
       password:this.OneTimePassword_
     };
-    _insideCrypto.miningAuth(JSON.stringify(shareKey),(auth)=> {
+    this.crypto_.miningAuth(JSON.stringify(shareKey),(auth)=> {
       if(auth.hashSign.startsWith(StarBian.SHARE_PUBKEY_DIFFCULTY)) {
         //console.log('good lucky !!! sharePubKeyMining_:auth=<',auth,'>');
         //console.log('good lucky !!! sharePubKeyMining_:shareKey=<',shareKey,'>');
@@ -139,7 +139,7 @@ class StarBianBroadcast {
   
   mineAssist_(shareKey,auth) {
     let self = this;
-    _insideCrypto.signAssist(auth,(assisted) => {
+    this.crypto_.signAssist(auth,(assisted) => {
       console.log('onShareKey_ assisted =<' , assisted ,'>');
       if(assisted.hashSign.startsWith(StarBian.SHARE_PUBKEY_DIFFCULTY)) {
         //console.log('good lucky !!! onShareKey_:assisted=<',assisted,'>');
@@ -173,7 +173,7 @@ class StarBianBroadcast {
       return;
     }
     let self = this;
-    _insideCrypto.verifyAssist(assist,(result) => {
+    this.crypto_.verifyAssist(assist,(result) => {
       console.log('verifyAssist_ result =<' , result ,'>');
       cb();
     });

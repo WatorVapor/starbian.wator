@@ -450,7 +450,7 @@ class StarBianCrypto {
     let self = this;
     webcrypto.subtle.digest("SHA-256", Buffer.from(msg,'utf8'))
     .then(function(buf) {
-      let hash = base64js.fromByteArray(new Uint8Array(buf));
+      let hash = Buffer.from(buf).toString('base64');
       //console.log('signAuth hash=<' , hash , '>');
       let ecSign = new rs.KJUR.crypto.ECDSA({'curve': 'secp256r1'});
       //console.log('signAuth ecSign=<' , ecSign , '>');
@@ -482,7 +482,7 @@ class StarBianCrypto {
     let self = this;
     webcrypto.subtle.digest("SHA-256", Buffer.from(msg,'utf8'))
     .then(function(buf) {
-      let hash = base64js.fromByteArray(new Uint8Array(buf));
+      let hash = Buffer.from(buf).toString('base64');
       //console.log('signAssist hash=<' , hash , '>');
       let ecSign = new rs.KJUR.crypto.ECDSA({'curve': 'secp256r1'});
       //console.log('signAssist ecSign=<' , ecSign , '>');

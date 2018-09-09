@@ -57,7 +57,7 @@ class StarBianBroadcast {
 
   // private
   onBroadCast_(msg) {
-    console.log('StarBianBroadcastt onBroadCast_:: msg=<',msg,'>');
+    //console.log('StarBianBroadcastt onBroadCast_:: msg=<',msg,'>');
     if(msg.broadcast && msg.broadcast.pubkey) {
       this.onShareKey_(msg.broadcast,msg.auth,msg.assist);
     }

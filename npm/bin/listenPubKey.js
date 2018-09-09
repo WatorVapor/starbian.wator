@@ -1,14 +1,18 @@
 #!/usr/bin/env node
 'use strict';
-const StarBian = require('..');
+const BroadCast = require('..').StarBianBroadCast;
+const StarBian = require('..').StarBian;
 
-let searchKey = new StarBian();
-//console.log('searchKey=<',searchKey,'>');
+let starbian = new StarBian();
+//console.log('listenKey=<',listenKey,'>');
+let listenKey = new BroadCast();
+//console.log('listenKey=<',listenKey,'>');
+
 
 let password = false;
 let hitPubKey = false;
 
-searchKey.subscribe_broadcast((msg,channel) => {
+listenKey.subscribe_broadcast((msg,channel) => {
   //console.log('searchKey.subscribe_broadcast typeof msg=<',typeof msg,'>');
   if(typeof msg === 'string') {
     msg = JSON.parse(msg);
@@ -36,7 +40,7 @@ let doReadInput = () => {
     if (chunk !== null) {
       if(hitPubKey) {
         if(chunk.trim() === 'yes') {
-          searchKey.addAuthedKey(hitPubKey);
+          starbian.addAuthedKey(hitPubKey);
           hitPubKey = false;
           password = false;
           process.exit(0);
@@ -53,7 +57,7 @@ process.stdin.on('end', () => {
   process.stdout.write('end');
 });
 
-searchKey.onReady = () => {
+listenKey.onReady = () => {
   setTimeout(doReadInput,1);
 }
 

@@ -67,7 +67,15 @@ class StarBianInner {
     this.callback_ = callback;
   }
 
-  
+  /**
+   * sendThough a messege.
+   *
+   * @param {String} msg 
+   * @param {String} channel 
+   */
+  sendThough(msg,channel) {
+    self.p2p_.out(channel ,msg);
+  }
  
   
   /**

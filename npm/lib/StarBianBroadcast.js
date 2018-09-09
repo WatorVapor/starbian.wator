@@ -126,7 +126,7 @@ class StarBianBroadcast {
       this.mineAssist_(shareKey,auth);
       return;
     }
-    console.log('onShareKey_ shareKey =<' , shareKey ,'>');
+    //console.log('onShareKey_ shareKey =<' , shareKey ,'>');
     let self = this;
     this.verifyAssist_(auth,assist,() => {
       //console.log('onShareKey_ self.targetPubKeyPassword_ =<' , self.targetPubKeyPassword_ ,'>');
@@ -143,7 +143,7 @@ class StarBianBroadcast {
   mineAssist_(shareKey,auth) {
     let self = this;
     this.crypto_.signAssist(auth,(assisted) => {
-      console.log('onShareKey_ assisted =<' , assisted ,'>');
+      //console.log('onShareKey_ assisted =<' , assisted ,'>');
       if(assisted.hashSign.startsWith(SHARE_PUBKEY_DIFFCULTY)) {
         //console.log('good lucky !!! onShareKey_:assisted=<',assisted,'>');
         self.sharedKeyMsg =  {	

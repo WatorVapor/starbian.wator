@@ -104,6 +104,9 @@ class StarBianInner {
       if(msg.encrypt) {
         self._onEncryptedMsg(msg.encrypt,msg.auth.pubKeyB58);
       }
+      if(msg.broadcast) {
+        self._onBroadcastMsg(msg.broadcast,msg.auth,msg.assist);
+      }
     });
   }
 
@@ -142,6 +145,12 @@ class StarBianInner {
         self.callback_(plainMsg,remotePubKeyHex);
       }
     });
+  }
+
+  _onBroadcastMsg(msg,auth,assist) {
+    if(typeof this.callback_ === 'function') {
+      this.callback_(msg,auth,assist);
+    }
   }
   
 }

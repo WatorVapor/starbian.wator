@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 'use strict';
-const StarBian = require('..');
+const StarBian = require('..').StarBianBroadCast;
 
 let broadcast = new StarBian();
 //console.log('broadcast=<',broadcast,'>');

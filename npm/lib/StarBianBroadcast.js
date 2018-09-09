@@ -7,6 +7,7 @@
 
 const StarBianPeer = require('./StarBianPeer');
 const StarBianCrypto = require('./star_bian_crypto');
+const SHARE_PUBKEY_DIFFCULTY = '0';
 
 
 class StarBianBroadcast {
@@ -15,7 +16,6 @@ class StarBianBroadcast {
    *
    */
   constructor () {
-    this.SHARE_PUBKEY_DIFFCULTY = '0';
     this.cast_ = new StarBianPeer('broadcast');
     this.crypto_ = new StarBianCrypto();
     this.cast_.onReady = () => {
@@ -40,7 +40,7 @@ class StarBianBroadcast {
         self.OneTimeCB_(self.sharePubKeyCounter,self.OneTimePassword_);
         self.sharePubKeyTimeOutPreStage_();
       } else {
-        self.OneTimeCB_(10,'-----');
+        //self.OneTimeCB_(10,'-----');
       }
     });
   }
@@ -103,7 +103,7 @@ class StarBianBroadcast {
       password:this.OneTimePassword_
     };
     this.crypto_.miningAuth(JSON.stringify(shareKey),(auth)=> {
-      if(auth.hashSign.startsWith(this.SHARE_PUBKEY_DIFFCULTY)) {
+      if(auth.hashSign.startsWith(SHARE_PUBKEY_DIFFCULTY)) {
         //console.log('good lucky !!! sharePubKeyMining_:auth=<',auth,'>');
         //console.log('good lucky !!! sharePubKeyMining_:shareKey=<',shareKey,'>');
         self.sharedKeyMsgPreStage =  {	
@@ -143,7 +143,7 @@ class StarBianBroadcast {
     let self = this;
     this.crypto_.signAssist(auth,(assisted) => {
       console.log('onShareKey_ assisted =<' , assisted ,'>');
-      if(assisted.hashSign.startsWith(self.SHARE_PUBKEY_DIFFCULTY)) {
+      if(assisted.hashSign.startsWith(SHARE_PUBKEY_DIFFCULTY)) {
         //console.log('good lucky !!! onShareKey_:assisted=<',assisted,'>');
         self.sharedKeyMsg =  {	
           channel:'broadcast',	
@@ -161,11 +161,11 @@ class StarBianBroadcast {
   verifyAssist_(auth,assist,cb) {
     //console.log('verifyAssist_ auth =<' , auth ,'>');
     //console.log('verifyAssist_ assist =<' , assist ,'>');
-    if(!auth.hashSign.startsWith(this.SHARE_PUBKEY_DIFFCULTY)) {
+    if(!auth.hashSign.startsWith(SHARE_PUBKEY_DIFFCULTY)) {
       console.log('verifyAssist_ !!! bad hash auth =<' , auth ,'>');
       return;
     }
-    if(!assist.hashSign.startsWith(this.SHARE_PUBKEY_DIFFCULTY)) {
+    if(!assist.hashSign.startsWith(SHARE_PUBKEY_DIFFCULTY)) {
       console.log('verifyAssist_ !!! bad hash assist =<' , assist ,'>');
       return;
     }

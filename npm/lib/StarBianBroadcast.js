@@ -177,7 +177,7 @@ class StarBianBroadcast {
     }
     let self = this;
     this.crypto_.verifyAssist(assist,(result) => {
-      console.log('verifyAssist_ result =<' , result ,'>');
+      //console.log('verifyAssist_ result =<' , result ,'>');
       cb();
     });
   }  

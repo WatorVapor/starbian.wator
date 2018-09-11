@@ -37,14 +37,17 @@ function onStarBianBroadCast(msg,channel,peer) {
   console.log('onStarBianBroadCast:msg=<',msg,'>');
   console.log('onStarBianBroadCast:channel=<',channel,'>');
   //console.log('onStarBianBroadCast:peer=<',peer,'>');
-  wss.clients.forEach(function each(ws) {
-    let sentMsg = {
-      channel:channel,
-      msg:msg
-    };
-    if (ws.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify(sentMsg));
-    }
+  let content = msg.broadcast;
+  wsProxy.verifyAuth(msg.auth,content,() => {
+    wss.clients.forEach(function each(ws) {
+      let sentMsg = {
+        channel:channel,
+        msg:msg
+      };
+      if (ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify(sentMsg));
+      }
+    });
   });
 }
 

@@ -34,8 +34,8 @@ wsProxy.onReady = () =>{
   wsProxy.subscribe_passthrough_broadcast(onStarBianBroadCast);
 };
 function onStarBianBroadCast(msg,channel,peer) {
-  //console.log('onStarBianBroadCast:msg=<',msg,'>');
-  //console.log('onStarBianBroadCast:channel=<',channel,'>');
+  console.log('onStarBianBroadCast:msg=<',msg,'>');
+  console.log('onStarBianBroadCast:channel=<',channel,'>');
   //console.log('onStarBianBroadCast:peer=<',peer,'>');
   wss.clients.forEach(function each(ws) {
     let sentMsg = {

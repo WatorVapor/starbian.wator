@@ -10,6 +10,8 @@ dNowTag.update(nowTag.toISOString());
 const pubsubRepos = bs58.encode(dNowTag.digest('hex'));
 //console.log('pubsubRepos=<',pubsubRepos,'>');
 
+const WELCOME_MESSAGE = '小兔子乖乖，把门儿打开。'
+
 const IPFS_CONF = {
   repo: '.ipfs_pubsub_room_data',
   EXPERIMENTAL: {
@@ -29,7 +31,7 @@ let ipfsUniq = false;
 module.exports = class StarBianP2p {
   constructor() {
     let d = new crypto.createHash('sha224');
-    d.update('!!欢迎来到StarBian!!');
+    d.update(WELCOME_MESSAGE);
     let number = d.digest('hex');
     this.number = bs58.encode(number);
     //console.log('this.number=<',this.number,'>');

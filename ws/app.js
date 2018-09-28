@@ -99,8 +99,13 @@ function onStarBianMsg(msg,channel,peer) {
       channel:channel,
       msg:msg
     };
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify(sentMsg));
+    let iClient = Object.keys(client);
+    for(let i = 0;i < iClient.length;i++) {
+      let key = iClient[i];
+      let ws = client[key];
+      if (ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify(sentMsg));
+      }
     }
   }
 }

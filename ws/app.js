@@ -112,13 +112,11 @@ function removeWSClients(key) {
   for(let i =0;i < indexWS.length;i++) {
     let wsChannels = indexWS[i];
     let wsc = wsClients[wsChannels];
-    if(wsc && wsc.key) {
-      if(wsc.key === key) {
-        delete wsClients[wsChannels];
-      }
+    if(wsc && wsc[key]) {
+      delete wsClients[wsChannels][key];
     }
   }
-  //console.log('wsClients=<',wsClients,'>');
+  console.log('wsClients=<',wsClients,'>');
 }
 
 function addWSClients(channel,ws) {
@@ -129,7 +127,7 @@ function addWSClients(channel,ws) {
   //wsClients[channel];
   wsClients[channel] = wsClients[channel] || {};
   wsClients[channel][key] = ws;
-  console.log('wsClients=<',wsClients,'>');
+  //console.log('wsClients=<',wsClients,'>');
 }
 
 

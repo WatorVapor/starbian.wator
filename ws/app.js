@@ -121,11 +121,21 @@ function removeWSClients(key) {
   //console.log('wsClients=<',wsClients,'>');
 }
 
+function addWSClients(channel,ws) {
+  //console.log('addWSClients ws=<',ws,'>');
+  let key = ws.key;
+  console.log('addWSClients key=<',key,'>');
+  console.log('addWSClients channel=<',channel,'>');
+  //wsClients[channel];
+  console.log('wsClients=<',wsClients,'>');
+}
+
+
 function onAuthedMsg(jsonMsg,ws) {
   if(jsonMsg.channel) {
     if(jsonMsg.subscribe) {
       wsProxy.subscribe_passthrough(jsonMsg.channel,onStarBianMsg);
-      wsClients[jsonMsg.channel] = ws;
+      addWSClients(jsonMsg.channel,ws);
     } else {
       wsProxy.passthrough(jsonMsg.channel,jsonMsg);
     }

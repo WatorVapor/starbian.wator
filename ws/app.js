@@ -127,6 +127,8 @@ function addWSClients(channel,ws) {
   console.log('addWSClients key=<',key,'>');
   console.log('addWSClients channel=<',channel,'>');
   //wsClients[channel];
+  wsClients[channel] = wsClients[channel] || {};
+  wsClients[channel][key] = ws;
   console.log('wsClients=<',wsClients,'>');
 }
 

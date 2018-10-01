@@ -78,6 +78,12 @@ module.exports = class StarBianP2p {
       }
       console.log('config=<',config,'>');
     });
+    this.ipfs.bootstrap.list((err, bootstrap) => {
+      if (err) {
+        throw err
+      }
+      console.log('bootstrap=<',bootstrap,'>');
+    });
     this.room = Room(this.ipfs, 'wai-' + this.number);
     this.room.on('peer joined', (peer) => {
       //console.log('Peer joined the room', peer);

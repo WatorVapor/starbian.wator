@@ -69,7 +69,7 @@ module.exports = class StarBianP2p {
       if (err) {
         throw err
       }
-      //console.log('identity=<',identity,'>');
+      console.log('identity=<',identity,'>');
       self.peer = identity.id;
     });
     this.room = Room(this.ipfs, 'wai-' + this.number);

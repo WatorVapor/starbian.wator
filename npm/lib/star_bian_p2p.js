@@ -88,7 +88,7 @@ module.exports = class StarBianP2p {
     });
     this.room = Room(this.ipfs, 'wai-' + this.number);
     this.room.on('peer joined', (peer) => {
-      //console.log('Peer joined the room', peer);
+      console.log('Peer joined the room', peer);
       if(typeof self.onJoint === 'function') {
         self.onJoint(peer);
       }

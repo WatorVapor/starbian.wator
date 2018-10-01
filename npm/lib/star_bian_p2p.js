@@ -94,11 +94,11 @@ module.exports = class StarBianP2p {
       }
     });
     this.room.on('peer left', (peer) => {
-      //console.log('Peer left...', peer);
+      console.log('Peer left...', peer);
     });
     // now started to listen to room
     this.room.on('subscribed', () => {
-      //console.log('Now connected!');
+      console.log('Now connected!');
       if(typeof self.onReady === 'function') {
         self.onReady();
       }

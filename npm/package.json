@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "bs58": "^4.0.1",
-    "ipfs": "^0.31.7",
+    "ipfs": ">=0.32.0",
     "ipfs-pubsub-room": "^1.4.0",
     "jsrsasign": "^8.0.12",
     "node-webcrypto-ossl": "^1.0.37"

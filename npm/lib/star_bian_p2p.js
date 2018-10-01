@@ -72,6 +72,12 @@ module.exports = class StarBianP2p {
       console.log('identity=<',identity,'>');
       self.peer = identity.id;
     });
+    this.ipfs.config.get('Addresses.Swarm',(err, config) => {
+      if (err) {
+        throw err
+      }
+      console.log('config=<',config,'>');
+    });
     this.room = Room(this.ipfs, 'wai-' + this.number);
     this.room.on('peer joined', (peer) => {
       //console.log('Peer joined the room', peer);

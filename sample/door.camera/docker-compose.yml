@@ -1,6 +1,6 @@
 version: '3'
 services:
-  ipfs-dameon:
+  door-camera:
     image: node
     volumes:
       - ./:/home/app

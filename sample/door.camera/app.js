@@ -37,7 +37,7 @@ onReadAllSetting = () => {
     console.log('e=<' , e , '>');    
   }
   console.log('media=<' , media , '>');
-  setting.push({key:'wator-starbian-rtc-media-setting',media})
+  setting.push({key:'wator-starbian-rtc-media-setting',value:media})
   return setting;
 };
 

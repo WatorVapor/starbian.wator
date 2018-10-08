@@ -45,13 +45,13 @@ const fs = require('fs');
 
 onSettingMyKey = (key) => {
   console.log('onSettingMyKey::key=<' , key , '>');    
-  let channels = {};
+  let keys = {};
   try {
-    channels = require('./channels.json');
+    channels = require('./keys.json');
   } catch(e) {
     console.log('e=<' , e , '>');    
   }
-  console.log('channels=<' , channels , '>');
-  channels.myself = key;
-  fs.writeFileSync('./channels.json', JSON.stringify(channels,undefined,2), 'utf8');
+  console.log('keys=<' , keys , '>');
+  keys.myself = key;
+  fs.writeFileSync('./channels.json', JSON.stringify(keys,undefined,2), 'utf8');
 };

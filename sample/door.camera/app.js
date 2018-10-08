@@ -11,11 +11,25 @@ wss.on('connection', function connection(ws) {
       let setting = onReadAllSetting();
       ws.send(JSON.stringify(setting));
     }
+    if(msgJson && msgJson.cmd === 'set',msgJson.myKey) {
+      onSettingMyKey(msgJson.myKey);
+    }
   });
   //ws.send('something');
 });
 
 onReadAllSetting = () => {
+  let channels = {};
+  try {
+    channels = require('./channels.json');
+  } catch(e) {
+    console.log('e=<' , e , '>');    
+  }
+  console.log('channels=<' , channels , '>');
+};
+
+onSettingMyKey = (key) => {
+  console.log('onSettingMyKey::key=<' , key , '>');    
   let channels = {};
   try {
     channels = require('./channels.json');

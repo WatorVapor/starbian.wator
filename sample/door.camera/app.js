@@ -14,6 +14,9 @@ wss.on('connection', function connection(ws) {
     if(msgJson && msgJson.cmd === 'set',msgJson.myKey) {
       onSettingMyKey(msgJson.myKey);
     }
+    if(msgJson && msgJson.cmd === 'tts' && msgJson.text) {
+      onSay(msgJson.text,msgJson.volume);
+    }
   });
   //ws.send('something');
 });
@@ -55,3 +58,9 @@ onSettingMyKey = (key) => {
   keys.myself = key;
   fs.writeFileSync('./keys.json', JSON.stringify(keys,undefined,2), 'utf8');
 };
+
+onSay = (text,volume) => {
+  console.log('onSay text=<' , text , '>');
+  console.log('onSay volume=<' , volume , '>');
+}
+

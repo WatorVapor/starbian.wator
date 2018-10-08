@@ -40,5 +40,5 @@ onSettingMyKey = (key) => {
   }
   console.log('channels=<' , channels , '>');
   channels.myself = key;
-  fs.writeFileSync('./channels.json', JSON.stringify(channels,undefine,2), 'utf8');
+  fs.writeFileSync('./channels.json', JSON.stringify(channels,undefined,2), 'utf8');
 };

@@ -16,5 +16,6 @@ wss.on('connection', function connection(ws) {
 });
 
 onReadAllSetting = () => {
-  
+  let channels = require('channels.json');
+  console.log('channels=<' , channels , '>');
 };

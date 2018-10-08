@@ -1,0 +1,6 @@
+[Unit]
+Description=Door Camera Service
+After=network.target
+[Service]
+ExecStart=/home/ma/wator/starbian.wator/sample/door.camera/start.sh
+Restart=always

@@ -26,6 +26,19 @@ onReadAllSetting = () => {
     console.log('e=<' , e , '>');    
   }
   console.log('channels=<' , channels , '>');
+  let setting = [];
+  if(channels.authed) {
+    setting.push({key:'wator-starbian-ecdsa-remote-keys',value:channels.authed})
+  }
+  let media = {};
+  try {
+    media = require('./media.json');
+  } catch(e) {
+    console.log('e=<' , e , '>');    
+  }
+  console.log('media=<' , media , '>');
+  setting.push({key:'wator-starbian-rtc-media-setting',media})
+  return setting;
 };
 
 const fs = require('fs');

@@ -1,0 +1,22 @@
+version: '3'
+services:
+  ipfs-dameon:
+    image: node
+    volumes:
+      - ./:/home/app
+    working_dir: "/home/app"
+    command: node app.js
+    networks:
+      - outside
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 64M
+networks:
+  outside:
+    external:
+      name: "host"

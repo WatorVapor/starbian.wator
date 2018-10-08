@@ -28,6 +28,8 @@ onReadAllSetting = () => {
   console.log('channels=<' , channels , '>');
 };
 
+const fs = require('fs');
+
 onSettingMyKey = (key) => {
   console.log('onSettingMyKey::key=<' , key , '>');    
   let channels = {};
@@ -37,4 +39,6 @@ onSettingMyKey = (key) => {
     console.log('e=<' , e , '>');    
   }
   console.log('channels=<' , channels , '>');
+  channels.myself = key;
+  fs.writeFileSync('./channels.json', JSON.stringify(channels,undefine,2), 'utf8');
 };

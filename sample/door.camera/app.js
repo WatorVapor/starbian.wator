@@ -59,11 +59,23 @@ onSettingMyKey = (key) => {
   fs.writeFileSync('./keys.json', JSON.stringify(keys,undefined,2), 'utf8');
 };
 
-const process = require('child_process');
+const execSync = require("child_process").execSync; 
 
+const PLAYLIST = [
+  {text:'こんにちは、呼び出します。',sound:'audio/33.wav'},
+  {text:'毎度お疲れ様です。呼び出します',sound:'audio/44.wav'},
+  {text:'少々お待ちください。',sound:'audio/22.wav'},
+  {text:'主人は、不在と思います。',sound:'audio/11.wav'},
+]
 onSay = (text,volume) => {
   console.log('onSay text=<' , text , '>');
   console.log('onSay volume=<' , volume , '>');
-  let play = 'ffplay ./'
+  for(let i = 0 i < PLAYLIST.length;i++) {
+    let playPair = PLAYLIST[i];
+    if(playPair.text === text) {
+      let playSheel = 'aplay ' + playPair.sound;
+      execSync(playSheel);
+    }
+  }
 }
 

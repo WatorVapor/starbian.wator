@@ -70,7 +70,7 @@ const PLAYLIST = [
 onSay = (text,volume) => {
   console.log('onSay text=<' , text , '>');
   console.log('onSay volume=<' , volume , '>');
-  for(let i = 0 i < PLAYLIST.length;i++) {
+  for(let i = 0 ;i < PLAYLIST.length;i++) {
     let playPair = PLAYLIST[i];
     if(playPair.text === text) {
       let playSheel = 'aplay ' + playPair.sound;

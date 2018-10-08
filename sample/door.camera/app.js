@@ -7,6 +7,14 @@ wss.on('connection', function connection(ws) {
     console.log('message=<' , message , '>');
     let msgJson = JSON.parse(message);
     console.log('msgJson=<' , msgJson , '>');
+    if(msgJson && msgJson.cmd === 'readall') {
+      let setting = onReadAllSetting();
+      ws.send(JSON.stringify(setting));
+    }
   });
   //ws.send('something');
 });
+
+onReadAllSetting = () => {
+  
+};

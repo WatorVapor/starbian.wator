@@ -59,8 +59,11 @@ onSettingMyKey = (key) => {
   fs.writeFileSync('./keys.json', JSON.stringify(keys,undefined,2), 'utf8');
 };
 
+const process = require('child_process');
+
 onSay = (text,volume) => {
   console.log('onSay text=<' , text , '>');
   console.log('onSay volume=<' , volume , '>');
+  let play = 'ffplay ./'
 }
 

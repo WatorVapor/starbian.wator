@@ -1,2 +1,3 @@
 const execSync = require("child_process").execSync; 
-let execSync('ping www.wator.xyz');
+let log = execSync('ping www.wator.xyz');
+console.log('log=<',log,'>');

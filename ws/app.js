@@ -151,7 +151,7 @@ function onAuthedMsg(jsonMsg,ws) {
 
 const intervalMemory = setInterval(() =>{
   const used = process.memoryUsage();
-  console.log('intervalMemory used=<',used,'>');
+  //console.log('intervalMemory used=<',used,'>');
 }, 60000);
 
 

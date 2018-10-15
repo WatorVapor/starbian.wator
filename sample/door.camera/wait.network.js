@@ -24,7 +24,10 @@ while(true) {
 console.log('ok websocket is good');
 */
 const net = require('net');
-const client = net.createConnection({ host:'127.0.0.1',port: 18080 });
+const client = net.createConnection({ host:'127.0.0.1',port: 18081 });
 client.on('connect', function(){
   console.log('client:connected');
+});
+client.on('error', function(error){
+  console.log('client:error=<',error,'>');
 });

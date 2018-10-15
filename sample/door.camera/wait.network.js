@@ -10,24 +10,13 @@ while(true) {
 }
 console.log('ok network is good');
 
-const net = require('net');
-const client = new net.Socket();
-const option = { 
-  host:'127.0.0.1',
-  port: 18080
-};
-//console.log('client=<',client,'>');
 while(true) {
   try {
-    client.connect(option, () => {
-      console.log('ok websocket is good');
-      process.exit(0);
-    });
-    client.on('error', function(err) {
-      console.error('e=<',e,'>');
-    });
+    let log = execSync('netstat -l | grep "localhost:18080"');
+    console.log('log=<',log,'>');
+    break;
   } catch(e) {
-    console.error('e=<',e,'>');
+    //console.error('e=<',e,'>');
   }
 }
-//console.log('client=<',client,'>');
+console.log('ok websocket is good');

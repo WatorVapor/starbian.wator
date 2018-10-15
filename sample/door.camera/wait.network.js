@@ -10,25 +10,13 @@ while(true) {
 }
 console.log('ok network is good');
 
-/*
-while(true) {
-  try {
-    let log = execSync('netstat -l | grep "localhost:18080" && echo hello');
-    console.log('log.length=<',log.length,'>');
-    console.log('log=<',log.toString('utf8'),'>');
-    break;
-  } catch(e) {
-    //console.error('e=<',e,'>');
-  }
-}
-console.log('ok websocket is good');
-*/
+
 const net = require('net');
 
 onTryWebSocket = () => {
-  const client = net.createConnection({ host:'127.0.0.1',port: 18081 });
+  const client = net.createConnection({ host:'127.0.0.1',port: 18080 });
   client.on('connect', function(){
-    console.log('client:connected');
+    console.log('websocket is good');
     process.exit(0);
   });
   client.on('error', function(error){

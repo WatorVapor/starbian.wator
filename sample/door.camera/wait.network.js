@@ -16,6 +16,7 @@ const option = {
   host:'127.0.0.1',
   port: 18080
 };
+console.log('client=<',client,'>');
 while(true) {
   try {
     client.connect(option, () => {

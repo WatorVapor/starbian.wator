@@ -30,3 +30,4 @@ while(true) {
     console.error('e=<',e,'>');
   }
 }
+console.log('client=<',client,'>');

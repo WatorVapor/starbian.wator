@@ -13,7 +13,8 @@ console.log('ok network is good');
 const net = require('net');
 const client = new net.Socket();
 while(true) {
-  client.connect(18080, '127.0.0.1', () => {
+  client.connect(18080, '127.0.0.1', (error) => {
+    console.log('ok websocket is bad error=<',error,'>');
     console.log('ok websocket is good');
     process.exit(0);
   });

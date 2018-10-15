@@ -10,6 +10,7 @@ while(true) {
 }
 console.log('ok network is good');
 
+/*
 while(true) {
   try {
     let log = execSync('netstat -l | grep "localhost:18080" && echo hello');
@@ -21,3 +22,9 @@ while(true) {
   }
 }
 console.log('ok websocket is good');
+*/
+const client = net.createConnection({ host:'127.0.0.1',port: 18080 });
+
+client.on('connect', function(){
+  console.log('client:connected');
+});

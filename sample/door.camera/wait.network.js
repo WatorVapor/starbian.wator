@@ -18,6 +18,9 @@ while(true) {
       console.log('ok websocket is good');
       process.exit(0);
     });
+    client.on('error', (e) => {
+      console.error('e=<',e,'>');
+    });
   } catch(e) {
     console.error('e=<',e,'>');
   }

@@ -12,7 +12,7 @@ console.log('ok network is good');
 
 while(true) {
   try {
-    let log = execSync('netstat -l | grep "localhost:18080"');
+    let log = execSync('netstat -l | grep "localhost:18081"');
     console.log('log.length=<',log.length,'>');
     console.log('log=<',log.toString('utf8'),'>');
     break;

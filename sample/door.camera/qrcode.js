@@ -1,2 +1,3 @@
 const qrcode = require('qrcode-terminal');
-qrcode.generate('This will be a QRCode, eh!');
+const key = require('./keys.json');
+qrcode.generate(key.myself);

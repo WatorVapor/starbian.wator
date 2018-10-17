@@ -1,1 +1,3 @@
-ssh -L [::]:9223:localhost:9222 localhost -N
+ssh -L [::]:9223:localhost:9222 localhost -N  
+
+http://[2400:2412:13e0:9d00:a01:ff:feef:abcd]:9223/

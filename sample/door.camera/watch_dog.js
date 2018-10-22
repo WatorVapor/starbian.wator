@@ -1,8 +1,10 @@
 const execSync = require("child_process").execSync;
+const kCheckInterval = 100 * 60;
 
 onCheckPing = () => {
   try {
     let log = execSync('ping -c 1 www.wator.xyz');
+    console.log('onCheckPing:log=<',log,'>');
   } catch(e) {
     console.error('e=<',e,'>');
   }
@@ -10,16 +12,16 @@ onCheckPing = () => {
 
 const net = require('net');
 
-onTryWebSocket = () => {
+onCheckWS = () => {
   const client = net.createConnection({ host:'127.0.0.1',port: 18080 });
   client.on('connect', function(){
     console.log('websocket is good');
   });
   client.on('error', function(error){
-    console.log('client:error=<',error,'>');
+    console.log('onCheckWS:error=<',error,'>');
   });
 }
 
-setInterval(onCheckPing,1000*60);
+setInterval(onCheckPing,kCheckInterval);
 
-setInterval(onTryWebSocket,1000*60);
+setInterval(onCheckWS,kCheckInterval);

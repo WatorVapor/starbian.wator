@@ -1,5 +1,6 @@
 const execSync = require("child_process").execSync;
 const kCheckInterval = 100 * 60;
+let badCounter = 0;
 
 onCheckPing = () => {
   try {
@@ -7,6 +8,7 @@ onCheckPing = () => {
     console.log('onCheckPing:log=<',log.toString('utf-8'),'>');
   } catch(e) {
     console.error('e=<',e,'>');
+    badCounter++;
   }
 }
 
@@ -19,9 +21,17 @@ onCheckWS = () => {
   });
   client.on('error', function(error){
     console.log('onCheckWS:error=<',error,'>');
+    badCounter++;
   });
 }
 
 setInterval(onCheckPing,kCheckInterval);
 
 setInterval(onCheckWS,kCheckInterval);
+
+onErrorCheck = () => {
+  console.log('onErrorCheck:badCounter=<',badCounter,'>');
+  if(badCounter > 2) {
+    execSync('reboot');
+  }
+}

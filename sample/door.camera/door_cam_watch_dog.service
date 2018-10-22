@@ -3,3 +3,5 @@ Description=Door Camera Watch Dog Service
 [Service]
 ExecStart=/home/ma/wator/starbian.wator/sample/door.camera/watch_dog.sh
 Restart=always
+[Install]
+WantedBy=multi-user.target

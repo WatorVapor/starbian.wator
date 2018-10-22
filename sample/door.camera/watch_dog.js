@@ -4,7 +4,7 @@ const kCheckInterval = 100 * 60;
 onCheckPing = () => {
   try {
     let log = execSync('ping -c 1 www.wator.xyz');
-    console.log('onCheckPing:log=<',log,'>');
+    console.log('onCheckPing:log=<',log.toString('utf-8'),'>');
   } catch(e) {
     console.error('e=<',e,'>');
   }

@@ -32,6 +32,6 @@ setInterval(onCheckWS,kCheckInterval);
 onErrorCheck = () => {
   console.log('onErrorCheck:badCounter=<',badCounter,'>');
   if(badCounter > 2) {
-    execSync('reboot');
+    execSync('sync;reboot');
   }
 }

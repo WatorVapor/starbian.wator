@@ -16,6 +16,8 @@ onCheckChromium = () => {
   try {
     let chromium = execSync('ps ax | grep chromium-browser | wc -l');
     console.log('onCheckChromium:chromium=<',chromium.toString('utf-8'),'>');
+    let counterChromium = parseInt(chromium.toString('utf-8'));
+    console.log('onCheckChromium:counterChromium=<',counterChromium,'>');
   } catch(e) {
     console.error('e=<',e,'>');
     badCounter++;

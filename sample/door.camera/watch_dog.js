@@ -18,6 +18,9 @@ onCheckChromium = () => {
     console.log('onCheckChromium:chromium=<',chromium.toString('utf-8'),'>');
     let counterChromium = parseInt(chromium.toString('utf-8'));
     console.log('onCheckChromium:counterChromium=<',counterChromium,'>');
+    if(counterChromium < 3) {
+      badCounter++;
+    }
   } catch(e) {
     console.error('e=<',e,'>');
     badCounter++;

@@ -28,7 +28,7 @@ onCheckChromium = () => {
     }
   } catch(e) {
     console.error('e=<',e,'>');
-    badCounter++;
+    badCounterChromium++;
   }
 }
 

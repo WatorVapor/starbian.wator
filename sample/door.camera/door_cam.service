@@ -5,4 +5,4 @@ After=network.target
 ExecStart=/home/ma/wator/starbian.wator/sample/door.camera/start.sh
 Restart=always
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target

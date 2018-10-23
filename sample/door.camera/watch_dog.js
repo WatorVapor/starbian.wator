@@ -38,7 +38,7 @@ onCheckWS = () => {
 
 onErrorCheck = () => {
   console.log('onErrorCheck:badCounter=<',badCounter,'>');
-  if(badCounter > 3 {
+  if(badCounter > 3) {
     execSync('sync;reboot');
   }
 }

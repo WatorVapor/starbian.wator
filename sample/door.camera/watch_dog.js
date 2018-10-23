@@ -14,7 +14,7 @@ onCheckPing = () => {
 
 onCheckChromium = () => {
   try {
-    let chromium = execSync('ps ax | grep chromium-browser');
+    let chromium = execSync('ps ax | grep chromium-browser | wc -l');
     console.log('onCheckChromium:chromium=<',chromium.toString('utf-8'),'>');
   } catch(e) {
     console.error('e=<',e,'>');

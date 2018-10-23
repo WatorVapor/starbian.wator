@@ -4,13 +4,24 @@ let badCounter = 0;
 
 onCheckPing = () => {
   try {
-    let log = execSync('ping -c 1 www.wator.xyz');
-    console.log('onCheckPing:log=<',log.toString('utf-8'),'>');
+    let ping = execSync('ping -c 1 www.wator.xyz');
+    console.log('onCheckPing:ping=<',ping.toString('utf-8'),'>');
   } catch(e) {
     console.error('e=<',e,'>');
     badCounter++;
   }
 }
+
+onCheckChromium = () => {
+  try {
+    let chromium = execSync('ps ax | grep chromium-browser | wc -l');
+    console.log('onCheckChromium:chromium=<',chromium.toString('utf-8'),'>');
+  } catch(e) {
+    console.error('e=<',e,'>');
+    badCounter++;
+  }
+}
+
 
 const net = require('net');
 
@@ -25,13 +36,17 @@ onCheckWS = () => {
   });
 }
 
-setInterval(onCheckPing,kCheckInterval);
-
-setInterval(onCheckWS,kCheckInterval);
-
 onErrorCheck = () => {
   console.log('onErrorCheck:badCounter=<',badCounter,'>');
-  if(badCounter > 2) {
+  if(badCounter > 3 {
     execSync('sync;reboot');
   }
 }
+
+
+
+setInterval(onCheckPing,kCheckInterval);
+setInterval(onCheckChromium,kCheckInterval);
+setInterval(onCheckWS,kCheckInterval);
+setInterval(onErrorCheck,kCheckInterval);
+

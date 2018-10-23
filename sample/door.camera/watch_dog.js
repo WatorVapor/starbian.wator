@@ -43,12 +43,15 @@ onCheckWS = () => {
 
 onErrorCheck = () => {
   console.log('onErrorCheck:badCounter=<',badCounter,'>');
-  if(badCounter > 3) {
+  if(badCounter > 6) {
     execSync('sync;reboot');
   }
 }
 
-
+setTimeout(onCheckPing,1000);
+setTimeout(onCheckChromium,1000);
+setTimeout(onCheckWS,1000);
+setTimeout(onErrorCheck,1000);
 
 setInterval(onCheckPing,kCheckInterval);
 setInterval(onCheckChromium,kCheckInterval);

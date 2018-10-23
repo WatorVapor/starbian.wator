@@ -1,5 +1,5 @@
 const execSync = require("child_process").execSync;
-const kCheckInterval = 1000 * 60 *1;
+const kCheckInterval = 1000 * 60 *5;
 let badCounterPing = 0;
 let badCounterChromium = 0;
 let badCounterWS = 0;

@@ -1,5 +1,5 @@
 const execSync = require("child_process").execSync;
-const kCheckInterval = 100 * 60;
+const kCheckInterval = 1000 * 60;
 let badCounter = 0;
 
 onCheckPing = () => {

@@ -36,7 +36,7 @@ int main (int argc, char **argv) {
   cv::cvtColor( image, gray, cv::COLOR_BGR2GRAY );
   vector<cv::Rect> faces;
   cascade.detectMultiScale( gray, faces, 1.1,  
-                            2, 0 | cv::CASCADE_SCALE_IMAGE, cv::Size(30, 30) );
+                            2, 0 | cv::CASCADE_SCALE_IMAGE, cv::Size(8, 8) );
   DUMP_VAR(faces.size());
   return 0;
 }

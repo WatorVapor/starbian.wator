@@ -155,7 +155,7 @@ void detect_face_main(void) {
     if(fileName.empty() == false) {
       runDetectFace(sDetectImagePath);
     }
-    deleteFile(const string &path);
+    deleteFile(fileName);
     bDetectIsRunning = false;
   }
 }

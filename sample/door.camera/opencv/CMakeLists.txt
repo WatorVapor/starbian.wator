@@ -10,7 +10,6 @@ add_executable(door.camera.face.app
 )
 FIND_PACKAGE( OpenCV REQUIRED )
 FIND_PACKAGE( Boost COMPONENTS 
-  program_options
   system
   REQUIRED 
 )

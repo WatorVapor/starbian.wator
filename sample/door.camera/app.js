@@ -89,6 +89,12 @@ onSay = (text,volume) => {
 
 const DATAOFFSET = 'data:image/png;base64,'.length;
 
+const redis = require("redis");
+const pub = redis.createClient();
+const pubChannel = 'door.camera.image';
+const sub = redis.createClient();
+const subChannel = 'door.camera.face';
+
 onPicture =  (binary) => {
   try {
     //console.log('onPicture binary=<' , binary , '>');
@@ -98,8 +104,15 @@ onPicture =  (binary) => {
     let now = new Date();
     let fileName = '/tmp/door_camera/image/image.' + now.getTime() + '.png';
     fs.writeFileSync(fileName,binaryBuff);
-    
+    pub.publish(pubChannel,fileName);
   } catch(e) {
     console.error('onPicture e=<' , e , '>');
   }  
 };
+
+sub.subscribe(subChannel);
+sub.on("message", (channel, message) =>{
+  console.log('message channel=<' , channel , '>');
+  console.log('message message=<' , message , '>');
+});
+

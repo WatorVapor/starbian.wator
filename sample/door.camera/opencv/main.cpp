@@ -11,7 +11,7 @@ using namespace std;
 
 #include "opencv2/opencv.hpp"
 
-const string cascade_name("/opt/local/share/opencv/haarcascades/haarcascade_frontalface_alt.xml");
+const string cascade_name("/usr/share/opencv/haarcascades/haarcascade_frontalface_alt2.xml");
 
 
 int main (int argc, char **argv) {

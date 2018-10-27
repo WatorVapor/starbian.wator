@@ -1,5 +1,27 @@
 const execSync = require("child_process").execSync; 
 
+const redis = require("redis");
+const sub = redis.createClient();
+const subChannel = 'door.camera.face';
+const pub = redis.createClient();
+const pubChannel = 'door.camera.person.detected';
+
+sub.subscribe(subChannel);
+sub.on("message", (channel, message) =>{
+  //console.log('message channel=<' , channel , '>');
+  //console.log('message message=<' , message , '>');
+  try {
+    let detected = parseInt(message);
+    //console.log('message detected=<' , detected , '>');
+    if(detected > 0) {
+      onFaceDetected();
+    }
+  } catch(e) {
+    console.error('message e=<' , e , '>');
+  }  
+});
+
+
 const PLAYLIST = [
   {text:'こんにちは、呼び出します。',sound:'audio/33.wav'},
   {text:'毎度お疲れ様です。呼び出します',sound:'audio/44.wav'},
@@ -22,26 +44,6 @@ onSay = (text,volume) => {
   }
 };
 
-const redis = require("redis");
-const sub = redis.createClient();
-const subChannel = 'door.camera.face';
-const pub = redis.createClient();
-const pubChannel = 'door.camera.person.detected';
-
-sub.subscribe(subChannel);
-sub.on("message", (channel, message) =>{
-  //console.log('message channel=<' , channel , '>');
-  //console.log('message message=<' , message , '>');
-  try {
-    let detected = parseInt(message);
-    console.log('message detected=<' , detected , '>');
-    if(detected > 0) {
-      onFaceDetected();
-    }
-  } catch(e) {
-    console.error('message e=<' , e , '>');
-  }  
-});
 
 const FaceDetectNotifyIntervalMS = 1000 * 10;
 const FaceDetectNotifyCounter = 1;

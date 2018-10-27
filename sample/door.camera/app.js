@@ -97,7 +97,7 @@ onPicture =  (binary) => {
     console.log('onPicture binaryBuff=<' , binaryBuff , '>');
     let now = new Date();
     let fileName = '/tmp/image.' + now.getTime() + '.png';
-    fs.writeFileSync(fileName,binaryBuff);
+    //fs.writeFileSync(fileName,binaryBuff);
     
   } catch(e) {
     console.error('onPicture e=<' , e , '>');

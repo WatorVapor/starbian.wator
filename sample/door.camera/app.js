@@ -96,7 +96,7 @@ onPicture =  (binary) => {
     let binaryBuff = Buffer.from(base64, 'base64');
     console.log('onPicture binaryBuff=<' , binaryBuff , '>');
     let now = new Date();
-    let fileName = '/run/user/1001/image.' + now.getTime() + '.png';
+    let fileName = '/tmp/door_camera/image/image.' + now.getTime() + '.png';
     fs.writeFileSync(fileName,binaryBuff);
     
   } catch(e) {

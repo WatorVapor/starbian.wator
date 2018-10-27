@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 project(door.camera.face)
+
+include_directories(./redisclient/src)
 add_executable(door.camera.face.app
   main.cpp
 )

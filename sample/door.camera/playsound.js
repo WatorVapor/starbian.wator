@@ -25,6 +25,8 @@ onSay = (text,volume) => {
 const redis = require("redis");
 const sub = redis.createClient();
 const subChannel = 'door.camera.face';
+const pub = redis.createClient();
+const pubChannel = 'door.camera.person.detected';
 
 sub.subscribe(subChannel);
 sub.on("message", (channel, message) =>{
@@ -63,6 +65,7 @@ onFaceDetected = () => {
     console.log('onFaceDectect ForbiddenTalking=<',ForbiddenTalking,'>');
     if(!ForbiddenTalking && faceDectectedCounter > FaceDetectNotifyCounter) {
       sayHello();
+      pub.publish(pubChannel,'1');
     }
     faceDectectedCounter = 0;
     if(!sayByebyeTimeout) {

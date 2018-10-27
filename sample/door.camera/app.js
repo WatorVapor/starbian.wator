@@ -118,10 +118,14 @@ sub.on("message", (channel, message) =>{
   console.log('message channel=<' , channel , '>');
   console.log('message message=<' , message , '>');
   let face = {detected:message};
-  wss.clients.forEach(function each(ws) {
-    if (ws.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify(face));
-    }
-  });
+  try {
+    wss.clients.forEach(function each(ws) {
+      if (ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify(face));
+      }
+    });
+  } catch(e) {
+    console.error('message e=<' , e , '>');
+  }  
 });
 

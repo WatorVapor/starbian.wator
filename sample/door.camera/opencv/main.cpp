@@ -140,7 +140,7 @@ void runDetectFace(const string &fileName) {
   std::cout << faces.size() <<std::endl;
 }
 
-voide detect_face_main(void) {
+void detect_face_main(void) {
   while(true) {
     {
       std::unique_lock<std::mutex> lk(mtxImagePath);

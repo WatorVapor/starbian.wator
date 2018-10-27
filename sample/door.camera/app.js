@@ -19,7 +19,7 @@ wss.on('connection', function connection(ws) {
     if(msgJson && msgJson.cmd === 'tts' && msgJson.text) {
       onSay(msgJson.text,msgJson.volume);
     }
-    console.log('msgJson.cmd=<' , msgJson.cmd , '>');
+    //console.log('msgJson.cmd=<' , msgJson.cmd , '>');
     if(msgJson && msgJson.cmd === 'png' && msgJson.binary) {
       onPicture(msgJson.binary);
     }
@@ -102,7 +102,7 @@ onPicture =  (binary) => {
     //console.log('onPicture binary=<' , binary , '>');
     let base64 = binary.substr(DATAOFFSET);
     let binaryBuff = Buffer.from(base64, 'base64');
-    console.log('onPicture binaryBuff=<' , binaryBuff , '>');
+    //console.log('onPicture binaryBuff=<' , binaryBuff , '>');
     let now = new Date();
     let fileName = '/tmp/door_camera/image/image.' + now.getTime() + '.png';
     fs.writeFileSync(fileName,binaryBuff);
@@ -115,9 +115,13 @@ onPicture =  (binary) => {
 
 sub.subscribe(subChannel);
 sub.on("message", (channel, message) =>{
-  console.log('message channel=<' , channel , '>');
-  console.log('message message=<' , message , '>');
-  let face = {detected:message};
+  //console.log('message channel=<' , channel , '>');
+  //console.log('message message=<' , message , '>');
+  let face = {detected:false};
+  let detected = parseInt(message);
+  if(detected > 0) {
+    face.detected = true;
+  }
   try {
     wss.clients.forEach(function each(ws) {
       if (ws.readyState === WebSocket.OPEN) {

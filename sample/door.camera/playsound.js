@@ -102,7 +102,7 @@ sayTTS = (text_array) => {
   let maxRandom = text_array.length;
   let index = Math.floor(Math.random()*(maxRandom));
   let txt = text_array[index];
-  onSay(txt);
+  onSay(txt,0.5);
 }
 
 

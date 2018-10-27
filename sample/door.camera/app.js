@@ -117,17 +117,17 @@ sub.subscribe(subChannel);
 sub.on("message", (channel, message) =>{
   //console.log('message channel=<' , channel , '>');
   //console.log('message message=<' , message , '>');
-  let sent = {face:{ detected:false }};
-  let detected = parseInt(message);
-  if(detected > 0) {
-    sent.face.detected = true;
-  }
   try {
-    wss.clients.forEach(function each(ws) {
-      if (ws.readyState === WebSocket.OPEN) {
-        ws.send(JSON.stringify(sent));
-      }
-    });
+    let detected = parseInt(message);
+    console.log('message detected=<' , detected , '>');
+    if(detected > 0) {
+      let sent = {face:{ detected:false }};
+      wss.clients.forEach(function each(ws) {
+        if (ws.readyState === WebSocket.OPEN) {
+          ws.send(JSON.stringify(sent));
+        }
+      });
+    }
   } catch(e) {
     console.error('message e=<' , e , '>');
   }  

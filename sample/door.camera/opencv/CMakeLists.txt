@@ -13,7 +13,7 @@ FIND_PACKAGE( Boost REQUIRED )
 
 target_link_libraries(door.camera.face.app
   ${OpenCV_LIBS}
-  ${Boost_LIBS}
+  ${Boost_LIBRARIES}
   pthread
 )
 #  opencv_video

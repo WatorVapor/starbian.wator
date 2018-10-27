@@ -6,7 +6,7 @@
 #include <atomic>
 using namespace std;
 
-#if 0
+#if 1
 #define DUMP_VAR(x)                                                            \
   {                                                                            \
     std::cout << __func__ << ":" << __LINE__ << "::" << #x << "=<" << x << ">" \
@@ -110,6 +110,8 @@ int main (int argc, char **argv) {
   string fileName = string(argv[1]);
   //string fileName = "/tmp/facedetect1.png";
   DUMP_VAR(fileName);
+  
+  
   cv::Mat image = cv::imread(fileName, CV_LOAD_IMAGE_COLOR);
   DUMP_VAR(fileName);
   if(! image.data ) {
@@ -127,5 +129,11 @@ int main (int argc, char **argv) {
   cascade.detectMultiScale( gray, faces );
   DUMP_VAR(faces.size());
   std::cout << faces.size() <<std::endl;
+
+  thread pub(redis_pub_main);
+  thread sub(redis_sub_main);
+  pub.join();
+  pub.join();
+  
   return 0;
 }

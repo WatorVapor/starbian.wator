@@ -122,6 +122,7 @@ void RedisEntryClient::onMessageAPI(const std::vector<char> &buf) {
 static cv::CascadeClassifier cascade;
 
 void runDetectFace(const string &fileName) {
+  auto start = std::chrono::system_clock::now();
   cv::Mat image = cv::imread(fileName, CV_LOAD_IMAGE_COLOR);
   DUMP_VAR(fileName);
   if(! image.data ) {
@@ -139,6 +140,9 @@ void runDetectFace(const string &fileName) {
   if(publish &&publish->isConnected()) {
     publish->publish(strConstDoorFaceChannelName, std::to_string(faces.size()));
   }
+  auto end = std::chrono::system_clock::now();
+  auto escaped = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+  DUMP_VAR(escaped.count());
 }
 
 void detect_face_main(void) {

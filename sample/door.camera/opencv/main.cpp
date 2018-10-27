@@ -119,6 +119,7 @@ void RedisEntryClient::onMessageAPI(const std::vector<char> &buf) {
   }
 }
 
+static cv::CascadeClassifier cascade;
 
 void runDetectFace(const string &fileName) {
   cv::Mat image = cv::imread(fileName, CV_LOAD_IMAGE_COLOR);
@@ -127,10 +128,6 @@ void runDetectFace(const string &fileName) {
     DUMP_VAR(fileName);
     return ;
   }
-  cv::CascadeClassifier cascade;
-  DUMP_VAR(cascade.empty());
-  cascade.load( cascade_name );
-  DUMP_VAR(cascade.empty());
 
   cv::Mat gray;
   cv::cvtColor( image, gray, cv::COLOR_BGR2GRAY );
@@ -141,6 +138,9 @@ void runDetectFace(const string &fileName) {
 }
 
 void detect_face_main(void) {
+  DUMP_VAR(cascade.empty());
+  cascade.load( cascade_name );
+  DUMP_VAR(cascade.empty());
   while(true) {
     {
       std::unique_lock<std::mutex> lk(mtxImagePath);

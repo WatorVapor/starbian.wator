@@ -24,7 +24,7 @@ int main (int argc, char **argv) {
   }
   string fileName = string(argv[1];
 */
-  string fileName = "/tmp/door_camera/image/image.1540617849915.png";
+  string fileName = "/tmp/facedetect1.png";
   DUMP_VAR(fileName);
   cv::Mat image = cv::imread(fileName, CV_LOAD_IMAGE_COLOR);
   if(! image.data ) {

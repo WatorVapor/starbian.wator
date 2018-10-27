@@ -13,7 +13,7 @@ onSay = (text,volume) => {
     for(let i = 0 ;i < PLAYLIST.length;i++) {
       let playPair = PLAYLIST[i];
       if(playPair.text === text) {
-        let playSheel = 'aplay ' + playPair.sound;
+        let playSheel = 'play ' + playPair.sound;
         execSync(playSheel);
       }
     }

@@ -135,6 +135,10 @@ void runDetectFace(const string &fileName) {
   cascade.detectMultiScale( gray, faces );
   DUMP_VAR(faces.size());
   std::cout << faces.size() <<std::endl;
+  auto publish = gPublishRef.lock();
+  if(publish &&publish->isConnected()) {
+    publish->publish(strConstDoorFaceChannelName, result);
+  }
 }
 
 void detect_face_main(void) {

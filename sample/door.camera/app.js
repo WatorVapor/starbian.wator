@@ -107,6 +107,7 @@ onPicture =  (binary) => {
     pub.publish(pubChannel,fileName);
   } catch(e) {
     console.error('onPicture e=<' , e , '>');
+    execSync('rm -f /tmp/door_camera/image/image.*')
   }  
 };
 

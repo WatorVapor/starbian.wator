@@ -137,7 +137,7 @@ void runDetectFace(const string &fileName) {
   std::cout << faces.size() <<std::endl;
   auto publish = gPublishRef.lock();
   if(publish &&publish->isConnected()) {
-    publish->publish(strConstDoorFaceChannelName, result);
+    publish->publish(strConstDoorFaceChannelName, faces.size().toString());
   }
 }
 

@@ -95,7 +95,7 @@ const redis = require("redis");
 const pub = redis.createClient();
 const pubChannel = 'door.camera.image';
 const sub = redis.createClient();
-const subChannel = 'door.camera.face';
+const subChannel = 'door.camera.person.detected';
 
 onPicture =  (binary) => {
   try {

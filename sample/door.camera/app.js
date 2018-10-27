@@ -4,9 +4,9 @@ const wss = new WebSocket.Server({ host:'127.0.0.1',port: 18080 });
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
-    console.log('message=<' , message , '>');
+    //console.log('message=<' , message , '>');
     let msgJson = JSON.parse(message);
-    console.log('msgJson=<' , msgJson , '>');
+    //console.log('msgJson=<' , msgJson , '>');
     if(msgJson && msgJson.cmd === 'readall') {
       let setting = onReadAllSetting();
       ws.send(JSON.stringify(setting));
@@ -16,6 +16,10 @@ wss.on('connection', function connection(ws) {
     }
     if(msgJson && msgJson.cmd === 'tts' && msgJson.text) {
       onSay(msgJson.text,msgJson.volume);
+    }
+    console.log('msgJson.cmd=<' , msgJson.cmd , '>');
+    if(msgJson && msgJson.cmd === 'png' && msgJson.binary) {
+      onPicture(msgJson.binary);
     }
   });
   //ws.send('something');
@@ -81,5 +85,21 @@ onSay = (text,volume) => {
   } catch(e) {
     console.error('onSay e=<' , e , '>');
   }
-}
+};
 
+const DATAOFFSET = 'data:image/png;base64,'.length;
+
+onPicture =  (binary) => {
+  try {
+    //console.log('onPicture binary=<' , binary , '>');
+    let base64 = binary.substr(DATAOFFSET);
+    let binaryBuff = Buffer.from(base64, 'base64');
+    console.log('onPicture binaryBuff=<' , binaryBuff , '>');
+    let now = new Date();
+    let fileName = '/tmp/image.' + now.getTime() + '.png';
+    fs.writeFileSync(fileName,binaryBuff);
+    
+  } catch(e) {
+    console.error('onPicture e=<' , e , '>');
+  }  
+};

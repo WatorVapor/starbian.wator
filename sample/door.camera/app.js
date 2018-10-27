@@ -9,7 +9,10 @@ wss.on('connection', function connection(ws) {
     //console.log('msgJson=<' , msgJson , '>');
     if(msgJson && msgJson.cmd === 'readall') {
       let setting = onReadAllSetting();
-      ws.send(JSON.stringify(setting));
+      let sent = {
+        setting:setting
+      };
+      ws.send(JSON.stringify(sent));
     }
     if(msgJson && msgJson.cmd === 'set',msgJson.myKey) {
       onSettingMyKey(msgJson.myKey);
@@ -115,5 +118,7 @@ sub.subscribe(subChannel);
 sub.on("message", (channel, message) =>{
   console.log('message channel=<' , channel , '>');
   console.log('message message=<' , message , '>');
+  let face = {}
+  ws.send(JSON.stringify(setting));
 });
 

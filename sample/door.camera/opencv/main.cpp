@@ -135,10 +135,11 @@ void runDetectFace(const string &fileName) {
   vector<cv::Rect> faces;
   cascade.detectMultiScale( gray, faces );
   DUMP_VAR(faces.size());
-  std::cout << faces.size() <<std::endl;
-  auto publish = gPublishRef.lock();
-  if(publish &&publish->isConnected()) {
-    publish->publish(strConstDoorFaceChannelName, std::to_string(faces.size()));
+  if(faces.size() > 0) {
+    auto publish = gPublishRef.lock();
+    if(publish &&publish->isConnected()) {
+      publish->publish(strConstDoorFaceChannelName, std::to_string(faces.size()));
+    }
   }
   auto end = std::chrono::system_clock::now();
   auto escaped = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);

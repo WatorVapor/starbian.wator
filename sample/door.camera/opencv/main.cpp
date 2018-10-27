@@ -10,7 +10,7 @@ using namespace std;
   }
 
 #include "opencv2/opencv.hpp"
-#include "opencv2/objdetect.hpp" 
+//#include "opencv2/objdetect.hpp" 
 
 const string cascade_name("/opt/local/share/opencv/haarcascades/haarcascade_frontalface_default.xml");
 

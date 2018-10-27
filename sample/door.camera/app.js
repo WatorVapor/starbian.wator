@@ -118,7 +118,7 @@ sub.subscribe(subChannel);
 sub.on("message", (channel, message) =>{
   console.log('message channel=<' , channel , '>');
   console.log('message message=<' , message , '>');
-  let face = {}
-  ws.send(JSON.stringify(setting));
+  let face = {detected:message};
+  ws.send(JSON.stringify(face));
 });
 

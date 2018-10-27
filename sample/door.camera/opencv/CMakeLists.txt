@@ -19,13 +19,3 @@ target_link_libraries(door.camera.face.app
   ${Boost_LIBRARIES}
   pthread
 )
-#  opencv_video
-#  opencv_videostab
-#  opencv_highgui
-#  opencv_objdetect
-#  opencv_imgproc
-#  opencv_ts
-#  opencv_superres
-#  opencv_stitching
-#  opencv_photo
-#  opencv_legacy

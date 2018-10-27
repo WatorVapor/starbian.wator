@@ -10,7 +10,6 @@ using namespace std;
   }
 
 #include "opencv2/opencv.hpp"
-//#include "opencv2/objdetect.hpp" 
 
 const string cascade_name("/opt/local/share/opencv/haarcascades/haarcascade_frontalface_default.xml");
 
@@ -22,7 +21,7 @@ int main (int argc, char **argv) {
     DUMP_VAR(argv[0]);
     return 0;
   }
-  string fileName = string(argv[1];
+  string fileName = string(argv[1]);
   //string fileName = "/tmp/facedetect1.png";
   DUMP_VAR(fileName);
   cv::Mat image = cv::imread(fileName, CV_LOAD_IMAGE_COLOR);

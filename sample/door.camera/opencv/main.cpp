@@ -25,12 +25,15 @@ int main (int argc, char **argv) {
   //string fileName = "/tmp/facedetect1.png";
   DUMP_VAR(fileName);
   cv::Mat image = cv::imread(fileName, CV_LOAD_IMAGE_COLOR);
+  DUMP_VAR(fileName);
   if(! image.data ) {
     DUMP_VAR(fileName);
     return 0;
   }
   cv::CascadeClassifier cascade;
-  cascade.load( cascade_name ) ;
+  DUMP_VAR(cascade.empty());
+  cascade.load( cascade_name );
+  DUMP_VAR(cascade.empty());
 
   cv::Mat gray;
   cv::cvtColor( image, gray, cv::COLOR_BGR2GRAY );

@@ -1,2 +1,12 @@
+OBJDir = object
+
+.PHONY : all
 all:
-  g++ main.cpp -o door.face
+	mkdir -p $(OBJDir)
+	cd $(OBJDir) && cmake ../
+	cd $(OBJDir) && make
+	
+clean:
+	rm -f *.o *.app
+	rm -rf object
+  

@@ -7,4 +7,6 @@ target_link_libraries(door.camera.face.app
   opencv_video
   opencv_videostab
   opencv_highgui
+  opencv_objdetect
+  opencv_imgproc
 )

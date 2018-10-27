@@ -101,14 +101,15 @@ void redis_pub_main(void) {
 }
 
 int main (int argc, char **argv) {
-  
+/*  
   if( argc < 2){
     DUMP_VAR(argc);
     DUMP_VAR(argv[0]);
     return 0;
   }
   string fileName = string(argv[1]);
-  //string fileName = "/tmp/facedetect1.png";
+*/
+  string fileName = "/tmp/facedetect1.png";
   DUMP_VAR(fileName);
   
   

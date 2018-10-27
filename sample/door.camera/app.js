@@ -1,7 +1,6 @@
 const WebSocket = require('ws');
 
 const wss = new WebSocket.Server({ host:'127.0.0.1',port: 18080 });
-
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
     //console.log('message=<' , message , '>');
@@ -119,6 +118,10 @@ sub.on("message", (channel, message) =>{
   console.log('message channel=<' , channel , '>');
   console.log('message message=<' , message , '>');
   let face = {detected:message};
-  ws.send(JSON.stringify(face));
+  wss.clients.forEach(function each(ws) {
+    if (ws.readyState === WebSocket.OPEN) {
+      ws.send(JSON.stringify(face));
+    }
+  });
 });
 

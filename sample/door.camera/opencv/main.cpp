@@ -3,12 +3,15 @@
 #include <vector>
 using namespace std;
 
+#if 0
 #define DUMP_VAR(x)                                                            \
   {                                                                            \
     std::cout << __func__ << ":" << __LINE__ << "::" << #x << "=<" << x << ">" \
               << std::endl;                                                    \
   }
-
+#else 
+#define DUMP_VAR(x) 
+#endif
 #include "opencv2/opencv.hpp"
 
 const string cascade_name("/usr/share/opencv/haarcascades/haarcascade_frontalface_alt2.xml");
@@ -40,5 +43,6 @@ int main (int argc, char **argv) {
   vector<cv::Rect> faces;
   cascade.detectMultiScale( gray, faces );
   DUMP_VAR(faces.size());
+  std::cout << faces.size() <<std::endl;
   return 0;
 }

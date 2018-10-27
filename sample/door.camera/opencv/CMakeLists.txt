@@ -12,6 +12,7 @@ FIND_PACKAGE( OpenCV REQUIRED )
 
 target_link_libraries(door.camera.face.app
   ${OpenCV_LIBS}
+  pthread
 )
 #  opencv_video
 #  opencv_videostab

@@ -9,7 +9,11 @@ add_executable(door.camera.face.app
   main.cpp
 )
 FIND_PACKAGE( OpenCV REQUIRED )
-FIND_PACKAGE( Boost REQUIRED )
+FIND_PACKAGE( Boost COMPONENTS 
+  program_options
+  system
+  REQUIRED 
+)
 
 target_link_libraries(door.camera.face.app
   ${OpenCV_LIBS}

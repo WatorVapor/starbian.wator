@@ -13,7 +13,7 @@ sub.on("message", (channel, message) =>{
   //console.log('message message=<' , message , '>');
   try {
     let detected = parseInt(message);
-    //console.log('message detected=<' , detected , '>');
+    console.log('message detected=<' , detected , '>');
     if(detected > 0) {
       onFaceDetected();
     }
@@ -46,7 +46,7 @@ onSay = (text,volume) => {
 };
 
 
-const FaceDetectNotifyIntervalMS = 1000 * 10;
+const FaceDetectNotifyIntervalMS = 1000 * 3;
 const FaceDetectNotifyCounter = 1;
 let faceDectectedCounter = 0;
 let prevFaceDetectTime = new Date();

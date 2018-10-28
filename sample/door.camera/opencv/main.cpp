@@ -109,6 +109,11 @@ static std::condition_variable cvImagePath;
 void RedisEntryClient::onMessageAPI(const std::vector<char> &buf) {
   string msg(buf.begin(),buf.end());
   DUMP_VAR(msg);
+  static auto prev = std::chrono::system_clock::now();
+  auto now = std::chrono::system_clock::now();
+  auto escapedCaptureFrame = std::chrono::duration_cast<std::chrono::milliseconds>(now - prev);
+  DUMP_VAR(escapedCaptureFrame.count());
+
   std::lock_guard<std::mutex> guard(mtxImagePath);
   sDetectImagePath.push_back(msg);
   cvImagePath.notify_one();  

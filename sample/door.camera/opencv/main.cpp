@@ -103,20 +103,15 @@ void deleteFile(const string &path) {
   ::system(cmd.c_str());
 }
 
-static std::atomic<bool> bDetectIsRunning(false);
-static string sDetectImagePath;
+static vector<string> sDetectImagePath;
 static std::mutex mtxImagePath; 
 static std::condition_variable cvImagePath;
 void RedisEntryClient::onMessageAPI(const std::vector<char> &buf) {
   string msg(buf.begin(),buf.end());
   DUMP_VAR(msg);
-  if(bDetectIsRunning) {
-    deleteFile(msg);
-  } else {
-    std::lock_guard<std::mutex> guard(mtxImagePath);
-    sDetectImagePath = msg;
-    cvImagePath.notify_one();
-  }
+  std::lock_guard<std::mutex> guard(mtxImagePath);
+  sDetectImagePath.push_back(msg);
+  cvImagePath.notify_one();  
 }
 
 static cv::CascadeClassifier cascade;
@@ -149,21 +144,22 @@ void detect_face_main(void) {
   cascade.load( cascade_name );
   DUMP_VAR(cascade.empty());
   while(true) {
-    {
-      std::unique_lock<std::mutex> lk(mtxImagePath);
-      cvImagePath.wait(lk);
-    }
-    bDetectIsRunning = true;
     string fileName;
     {
       std::lock_guard<std::mutex> guard(mtxImagePath);
-      fileName = sDetectImagePath;
+      if(!sDetectImagePath.empty()) {
+        fileName = sDetectImagePath.front();
+        DUMP_VAR(sDetectImagePath.size());
+        sDetectImagePath.clear();
+      }
     }
-    if(fileName.empty() == false) {
-      runDetectFace(sDetectImagePath);
+    if(fileName.empty()) {
+      std::unique_lock<std::mutex> lk(mtxImagePath);
+      cvImagePath.wait(lk);
+    } else {
+      runDetectFace(fileName);
+      deleteFile(fileName);
     }
-    deleteFile(fileName);
-    bDetectIsRunning = false;
   }
 }
 

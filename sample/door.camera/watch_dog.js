@@ -56,6 +56,7 @@ onErrorCheck = () => {
   console.log('onErrorCheck:badCounterPing=<',badCounterPing,'>');
   console.log('onErrorCheck:badCounterChromium=<',badCounterChromium,'>');
   console.log('onErrorCheck:badCounterWS=<',badCounterWS,'>');
+  console.log('onErrorCheck:badCounterCapture=<',badCounterCapture,'>');
   if(badCounterPing > 3 || badCounterChromium > 3 || badCounterWS > 3 || badCounterCapture > 5) {
     execSync('sync;reboot');
   }

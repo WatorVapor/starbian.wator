@@ -13,7 +13,7 @@ sub.on("message", (channel, message) =>{
   //console.log('message message=<' , message , '>');
   try {
     let detected = parseInt(message);
-    console.log('message detected=<' , detected , '>');
+    //console.log('message detected=<' , detected , '>');
     if(detected > 0) {
       onFaceDetected();
     }

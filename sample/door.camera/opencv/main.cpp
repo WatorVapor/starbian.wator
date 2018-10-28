@@ -113,7 +113,7 @@ void RedisEntryClient::onMessageAPI(const std::vector<char> &buf) {
   auto now = std::chrono::system_clock::now();
   auto escapedCaptureFrame = std::chrono::duration_cast<std::chrono::milliseconds>(now - prev);
   DUMP_VAR(escapedCaptureFrame.count());
-
+  prev = now;
   std::lock_guard<std::mutex> guard(mtxImagePath);
   sDetectImagePath.push_back(msg);
   cvImagePath.notify_one();  

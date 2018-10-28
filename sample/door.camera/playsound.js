@@ -5,6 +5,7 @@ const sub = redis.createClient();
 const subChannel = 'door.camera.face';
 const pub = redis.createClient();
 const pubChannel = 'door.camera.person.detected';
+const aliveChannel = 'door.camera.alive';
 
 sub.subscribe(subChannel);
 sub.on("message", (channel, message) =>{

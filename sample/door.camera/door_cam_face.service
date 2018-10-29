@@ -1,0 +1,8 @@
+[Unit]
+Description=Door Camera Face Detect Service
+After=network.target
+[Service]
+ExecStart=/home/ma/wator/starbian.wator/sample/door.camera/face.sh
+Restart=always
+[Install]
+WantedBy=default.target

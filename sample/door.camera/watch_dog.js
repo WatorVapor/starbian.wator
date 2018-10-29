@@ -1,5 +1,5 @@
 const execSync = require("child_process").execSync;
-const kCheckInterval = 1000 * 60 *5;
+const kCheckInterval = 1000 * 60 *2;
 let badCounterPing = 0;
 let badCounterChromium = 0;
 let badCounterWS = 0;
@@ -47,22 +47,41 @@ onCheckWS = () => {
   });
 }
 
+let badCounterCapture = 0;
+onCheckCapture = () => {
+  badCounterCapture++;
+}
+
 onErrorCheck = () => {
   console.log('onErrorCheck:badCounterPing=<',badCounterPing,'>');
   console.log('onErrorCheck:badCounterChromium=<',badCounterChromium,'>');
   console.log('onErrorCheck:badCounterWS=<',badCounterWS,'>');
-  if(badCounterPing > 3 || badCounterChromium > 3 || badCounterWS > 3) {
+  console.log('onErrorCheck:badCounterCapture=<',badCounterCapture,'>');
+  if(badCounterPing > 3 || badCounterChromium > 3 || badCounterWS > 3 || badCounterCapture > 5) {
     execSync('sync;reboot');
   }
 }
 
+
+
 setTimeout(onCheckPing,1000);
 setTimeout(onCheckChromium,1000);
 setTimeout(onCheckWS,1000);
+setTimeout(onCheckCapture,1000);
 setTimeout(onErrorCheck,1000);
 
 setInterval(onCheckPing,kCheckInterval);
 setInterval(onCheckChromium,kCheckInterval);
 setInterval(onCheckWS,kCheckInterval);
+setInterval(onCheckCapture,kCheckInterval);
 setInterval(onErrorCheck,kCheckInterval);
+
+const redis = require("redis");
+const sub = redis.createClient();
+const subChannel = 'door.camera.image';
+sub.subscribe(subChannel);
+sub.on("message", (channel, message) =>{
+  badCounterCapture = 0;
+});
+
 

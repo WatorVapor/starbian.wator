@@ -4,6 +4,9 @@
     <meta charset="utf-8">
     <title>Wator Lambda</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:100,600">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   </head>
   <body>
     <div class="container-fluid">
@@ -11,15 +14,17 @@
         <div class="col-5">
           <div class="card card-default text-center bg-secondary">
             <div class="card-header">
-              My Public key
+              Public Key
             </div>
             <div class="card-body">
               <pre class="card-text text-success" id="text-this-device-key" style="white-space: pre-wrap ; font-size: x-large;">
                 {{ pub_key }}
               </pre>
-              <button type="button" class="btn btn-primary btn-sm mt-sm-1 pull-right btn-clipboard" id="btn-copy-key" data-clipboard-target="#text-this-device-key">Copy</button>
+              <button type="button" class="btn btn-primary btn-sm mt-sm-1 pull-right btn-clipboard" id="btn-copy-key" data-clipboard-target="#text-this-device-key">
+                <i class="fas fa-copy"></i>
+              </button>
               <button type="button" class="btn btn-success btn-sm mt-sm-1 pull-right" id="btn-qrcode-key" onclick="onQRCodePubKey(this)">
-                QRCode
+                <i class="fas fa-print"></i><i class="fas fa-qrcode"></i>
               </button>
               <br/>
               <button type="button" class="btn btn-warning btn-sm pull-left mt-sm-3" id="btn-share-key" onclick="onSharedPubKey(this)">
@@ -44,8 +49,13 @@
               <textarea class="form-control input-sm" id="text-remote-device-key" rows="5" ></textarea>
               <br/>
               <p class="d-none pull-left bg-warning" id="text-share-key-onetime-password-verified-counter"></p>
-              <button type="button" class="btn btn-success btn-sm pull-right" id="btn-add-key" onclick="onAddRemoteKey(this)">+ Key of remote Device</button>
-              <button type="button" class="btn btn-warning btn-sm pull-right" id="btn-read-qrcode" onclick="onReadQRCode(this)">ReadQRCode</button>
+              <button type="button" class="btn btn-success btn-sm pull-right" id="btn-add-key" onclick="onAddRemoteKey(this)">
+                <i class="fas fa-plus-circle"></i>
+              </button>
+              <button type="button" class="btn btn-warning btn-sm pull-right" id="btn-read-qrcode" onclick="onReadQRCode(this)">
+                <i class="fas fa-camera-retro"></i>
+                <i class="fas fa-qrcode"></i>
+              </button>
             </div>
             <div class="card-body">
               <div class="input-group mb-xs-1">
@@ -65,8 +75,36 @@
           <video id="qrcode-preview"></video>
         </div>
       </div>
+      
+      <hr/>
     
-    
+      <div class="row mt-lg-1 justify-content-center">
+        <div class="col-10" id="vue-ui-remote-device-keys">
+          <div class="row mt-lg-1 justify-content-center" v-for="remote in remoteDeviceKeys">
+            <div class="card card-default text-center">
+              <div class="card-body">
+                <h6 class="card-title"><small class="remote-key">{{ remote.key }}</small></h6>
+                <div class="row mt-lg-1 justify-content-center">
+                  <div class="col-6">
+                    <a type="button" class="btn btn-danger btn-block" onclick="onRemoveRemoteKey(this)">
+                      <i class="material-icons">remove_circle</i>
+                    </a>
+                  </div>
+                  <div class="col-6">
+                    <a type="button" class="btn btn-danger btn-block" onclick="onQRCodeRemoteKey(this)">
+                      <i class="fas fa-qrcode"></i>
+                    </a>
+                  </div>
+                </div>
+                <div class="row mt-lg-1 justify-content-center">
+                  <div class="qrcode-remote-key"></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>    
     
     </div>
    
@@ -84,8 +122,11 @@
     <script src="https://cdn.jsdelivr.net/npm/base-58@0.0.1/Base58.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue" type="text/javascript"></script>
     <script src="https://www.wator.xyz/wator/starbian/js/starbian.js" type="text/javascript"></script>
-
-    <script src="./vue-comp-key.js"></script>
-    <script src="./index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js" integrity="sha256-9MzwK2kJKBmsJFdccXoIDDtsbWFh8bjYK/C7UjB1Ay0=" crossorigin="anonymous"></script>
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+    <script type="text/javascript">
+      new ClipboardJS('.btn-clipboard');
+    </script>
+    <script src="./admin.js"></script>
   </body>
 </html>

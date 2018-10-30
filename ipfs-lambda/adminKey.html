@@ -11,10 +11,15 @@
   <body>
     <div class="container-fluid">
       <div class="row mt-lg-2 justify-content-center">
+        <div class="col-10 text-center">
+          <h2>Exchange Public Key of <i>THIS</i> Browser And Remote Device</h2>
+        </div>
+      </div>
+      <div class="row mt-lg-2 justify-content-center">
         <div class="col-5">
           <div class="card card-default text-center bg-secondary">
             <div class="card-header">
-              Public Key
+              Public ECDSA Key
             </div>
             <div class="card-body">
               <pre class="card-text text-success" id="text-this-device-key" style="white-space: pre-wrap ; font-size: x-large;">
@@ -43,7 +48,7 @@
         <div class="col-5">
           <div class="card card-default text-center bg-info">
             <div class="card-header">
-              Remote Device Public key
+              Remote Device ECDSA Public key
             </div>
             <div class="card-body">
               <textarea class="form-control input-sm" id="text-remote-device-key" rows="5" ></textarea>
@@ -79,6 +84,9 @@
       <hr/>
     
       <div class="row mt-lg-1 justify-content-center">
+        <div class="col-10 text-center">
+          <h1>Binding Device</h1>
+        </div>
         <div class="col-10" id="vue-ui-remote-device-keys">
           <div class="row mt-lg-1 justify-content-center" v-for="remote in remoteDeviceKeys">
             <div class="card card-default text-center">
@@ -105,6 +113,14 @@
           </div>
         </div>
       </div>    
+      <hr/>
+      <div class="row mt-lg-2 justify-content-center">
+        <div class="col-10 text-center">
+          <h3>ECDSA Asymmetric Cryptography System Provides Security</h3>
+          <h3>(Like Bitcoins)</h3>
+          <img class="img-fluid img-thumbnail" src="./ecdsa.png"></img>
+        </div>
+      </div>
     
     </div>
    

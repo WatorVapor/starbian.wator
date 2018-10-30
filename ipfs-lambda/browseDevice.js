@@ -130,7 +130,6 @@ function onAddRemoteKey(elem) {
     console.log('onAddRemoteKey textKey=<' , textKey , '>');
     if(textKey) {
       StarBian.addRemoteKey(textKey.trim());
-      location.reload(true);
     }
   } catch(e) {
     console.error(e);
@@ -171,7 +170,6 @@ function onRemoveRemoteKey (elem) {
     if(textKey) {
       console.log('onRemoveRemoteKey textKey=<' , textKey , '>');
       StarBian.removeRemoteKey(textKey.trim());
-      location.reload(true);
     }
   } catch(e) {
     console.error(e);

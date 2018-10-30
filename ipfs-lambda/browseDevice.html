@@ -10,97 +10,19 @@
   </head>
   <body>
     <div class="container-fluid">
-      <div class="row mt-lg-2 justify-content-center">
-        <div class="col-5">
-          <div class="card card-default text-center bg-secondary">
-            <div class="card-header">
-              Public Key
-            </div>
-            <div class="card-body">
-              <pre class="card-text text-success" id="text-this-device-key" style="white-space: pre-wrap ; font-size: x-large;">
-                {{ pub_key }}
-              </pre>
-              <button type="button" class="btn btn-primary btn-sm mt-sm-1 pull-right btn-clipboard" id="btn-copy-key" data-clipboard-target="#text-this-device-key">
-                <i class="fas fa-copy"></i>
-              </button>
-              <button type="button" class="btn btn-success btn-sm mt-sm-1 pull-right" id="btn-qrcode-key" onclick="onQRCodePubKey(this)">
-                <i class="fas fa-print"></i><i class="fas fa-qrcode"></i>
-              </button>
-              <br/>
-              <button type="button" class="btn btn-warning btn-sm pull-left mt-sm-3" id="btn-share-key" onclick="onSharedPubKey(this)">
-                <i class="material-icons">dialpad</i><i class="material-icons">share</i>
-              </button>
-              <h3 class="ml-lg-3 pull-left bg-success text-danger d-none" id="text-share-key-onetime-password">8182</h3>
-              <div class="progress mr-lg-3 d-none" id="top-share-key-onetime-progress">
-                <div id="text-share-key-onetime-progress" class="progress-bar progress-bar-striped progress-bar-animated " 
-                    role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                  100
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-5">
-          <div class="card card-default text-center bg-info">
-            <div class="card-header">
-              Remote Device Public key
-            </div>
-            <div class="card-body">
-              <textarea class="form-control input-sm" id="text-remote-device-key" rows="5" ></textarea>
-              <br/>
-              <p class="d-none pull-left bg-warning" id="text-share-key-onetime-password-verified-counter"></p>
-              <button type="button" class="btn btn-success btn-sm pull-right" id="btn-add-key" onclick="onAddRemoteKey(this)">
-                <i class="fas fa-plus-circle"></i>
-              </button>
-              <button type="button" class="btn btn-warning btn-sm pull-right" id="btn-read-qrcode" onclick="onReadQRCode(this)">
-                <i class="fas fa-camera-retro"></i>
-                <i class="fas fa-qrcode"></i>
-              </button>
-            </div>
-            <div class="card-body">
-              <div class="input-group mb-xs-1">
-                <input type="text" class="form-control" placeholder="password show on remote device" aria-label="one time password" aria-describedby="button-addon2">
-                <div class="input-group-append">
-                  <button class="btn btn-danger btn-sm" type="button" onclick="onSearchPubKey(this)" id="button-addon2"><i class="material-icons">search</i></button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row mt-lg-2 justify-content-center">
-        <div id="qrcode-pubkey"></div>
-        <div class="preview-container">
-          <video id="qrcode-preview"></video>
-        </div>
-      </div>
-      
-      <hr/>
-    
-      <div class="row mt-lg-1 justify-content-center">
+      <div class="row mt-lg-3 justify-content-center">
         <div class="col-10" id="vue-ui-remote-device-keys">
-          <div class="row mt-lg-1 justify-content-center" v-for="remote in remoteDeviceKeys">
+          <div class="row mt-lg-3 justify-content-center" v-for="remote in remoteDeviceKeys">
             <div class="card card-default text-center">
               <div class="card-body">
                 <h6 class="card-title"><small class="remote-key">{{ remote.key }}</small></h6>
                 <div class="row mt-lg-1 justify-content-center">
-                  <div class="col-6">
-                    <a type="button" class="btn btn-danger btn-block" onclick="onRemoveRemoteKey(this)">
-                      <i class="material-icons">remove_circle</i>
-                    </a>
+                  <div class="col-4">
+                    <i class="material-icons" style="color:red">error</i>
+                    <i class="material-icons" style="color:green">radio_button_checked</i>
                   </div>
-                  <div class="col-6">
-                    <a type="button" class="btn btn-danger btn-block" onclick="onQRCodeRemoteKey(this)">
-                      <i class="fas fa-qrcode"></i>
-                    </a>
-                  </div>
-                </div>
-                <div class="row mt-lg-1 justify-content-center">
-                  <div class="qrcode-remote-key"></div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>

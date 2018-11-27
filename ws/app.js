@@ -173,7 +173,7 @@ const intervalMemory = setInterval(() =>{
     console.log('exit  too many memory! intervalMemory percentage=<',percentage,'>');
     process.exit(0);
   }
-}, 1000);
+}, 60*1000);
 
 
 

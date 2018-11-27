@@ -6,6 +6,8 @@ services:
       - ../ws:/home/app/ws
       - ../npm:/home/app/npm
     working_dir: "/home/app/ws"
+    environment:
+      - MMAX=256M 
     command: ./run.sh
     networks:
       - outside

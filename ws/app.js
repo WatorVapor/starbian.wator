@@ -163,11 +163,13 @@ if(typeof constMaxMemoryStr === 'string') {
 
 const intervalMemory = setInterval(() =>{
   const used = process.memoryUsage();
-  console.log('intervalMemory used=<',used,'>');
-  console.log('intervalMemory constMaxMemory=<',constMaxMemory,'>');
+  //console.log('intervalMemory used=<',used,'>');
+  //console.log('intervalMemory constMaxMemory=<',constMaxMemory,'>');
   let percentage = 100*(used.rss + used.heapUsed + used.external) / constMaxMemory;
-  console.log('intervalMemory percentage=<',percentage,'>');
+  //console.log('intervalMemory percentage=<',percentage,'>');
   if(percentage > 80) {
+    console.log('intervalMemory used=<',used,'>');
+    console.log('intervalMemory constMaxMemory=<',constMaxMemory,'>');
     console.log('exit  too many memory! intervalMemory percentage=<',percentage,'>');
     process.exit(0);
   }

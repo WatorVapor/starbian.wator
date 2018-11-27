@@ -165,6 +165,8 @@ const intervalMemory = setInterval(() =>{
   const used = process.memoryUsage();
   console.log('intervalMemory used=<',used,'>');
   console.log('intervalMemory constMaxMemory=<',constMaxMemory,'>');
+  let percentage = 100*(used.rss + used.heapUsed + used.external) / constMaxMemory;
+  console.log('intervalMemory percentage=<',percentage,'>');
 }, 1000);
 
 

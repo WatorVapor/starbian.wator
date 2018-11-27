@@ -150,12 +150,15 @@ function onAuthedMsg(jsonMsg,ws) {
 }
 
 const constMaxMemoryStr = process.env.MMAX;
-let constMaxMemory = parseInt(constMaxMemoryStr);
-if(constMaxMemoryStr.endsWith('M')) {
-  constMaxMemory = constMaxMemory * 1024*1024;
-}
-if(constMaxMemoryStr.endsWith('G')) {
-  constMaxMemory = constMaxMemory * 1024*1024*1024;
+let constMaxMemory = false;
+if(typeof constMaxMemoryStr === 'string') {
+  constMaxMemory = parseInt(constMaxMemoryStr);
+  if(constMaxMemoryStr.endsWith('M')) {
+    constMaxMemory = constMaxMemory * 1024*1024;
+  }
+  if(constMaxMemoryStr.endsWith('G')) {
+    constMaxMemory = constMaxMemory * 1024*1024*1024;
+  }
 }
 
 const intervalMemory = setInterval(() =>{

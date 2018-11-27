@@ -167,7 +167,7 @@ const intervalMemory = setInterval(() =>{
   console.log('intervalMemory constMaxMemory=<',constMaxMemory,'>');
   let percentage = 100*(used.rss + used.heapTotal + used.heapUsed + used.external) / constMaxMemory;
   console.log('intervalMemory percentage=<',percentage,'>');
-  if(percentage > 80) {
+  if(percentage > 10) {
     console.log('exit  too many memory! intervalMemory percentage=<',percentage,'>');
     process.exit(0);
   }

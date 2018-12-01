@@ -5,7 +5,7 @@ services:
     volumes:
       - ./:/opt/app
     working_dir: "/opt/app"
-    command: ./install.sh 
+    command: ./install_update.sh 
     networks:
       - outside
     deploy:

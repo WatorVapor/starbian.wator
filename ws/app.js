@@ -4,8 +4,8 @@
  * MIT Licensed
  */
 'use strict';
-//const StarBian = require('starbian').StarBianRepeater;
-const StarBian = require('../npm').StarBianRepeater;
+const StarBian = require('starbian').StarBianRepeater;
+//const StarBian = require('../npm').StarBianRepeater;
 
 const wsProxy = new StarBian();
 const WebSocket = require('ws');

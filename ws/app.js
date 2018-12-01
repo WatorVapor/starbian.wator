@@ -159,6 +159,8 @@ if(typeof constMaxMemoryStr === 'string') {
   if(constMaxMemoryStr.endsWith('G')) {
     constMaxMemory = constMaxMemory * 1024*1024*1024;
   }
+} else {
+  constMaxMemory = 1024*1024*1024;
 }
 
 const intervalMemory = setInterval(() =>{

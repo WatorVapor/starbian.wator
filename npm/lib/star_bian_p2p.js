@@ -38,7 +38,7 @@ module.exports = class StarBianP2p {
     d.update(WELCOME_MESSAGE);
     let number = Buffer.from(d.digest('hex'),'hex');
     this.number = bs58.encode(number);
-    //console.log('this.number=<',this.number,'>');
+    console.log('this.number=<',this.number,'>');
     try {
       if(ipfsUniq) {
         this.ipfs = ipfsUniq;

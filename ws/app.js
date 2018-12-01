@@ -93,7 +93,7 @@ function onStarBianMsg(msg,channel,peer) {
   //console.log('onStarBianMsg:peer=<',peer,'>');
   //console.log('onStarBianMsg:wsClients=<',wsClients,'>');
   let client = wsClients[channel];
-  //console.log('onStarBianMsg:client=<',client,'>');
+  console.log('onStarBianMsg:client=<',client,'>');
   if(client) {
     let sentMsg = {
       channel:channel,

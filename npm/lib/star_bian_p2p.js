@@ -36,7 +36,7 @@ module.exports = class StarBianP2p {
   constructor() {
     let d = new crypto.createHash('sha224');
     d.update(WELCOME_MESSAGE);
-    let number = d.digest('hex');
+    let number = Buffer.from(d.digest('hex'),'hex');
     this.number = bs58.encode(number);
     //console.log('this.number=<',this.number,'>');
     try {

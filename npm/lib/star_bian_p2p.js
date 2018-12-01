@@ -7,7 +7,9 @@ let nowTag = new Date();
 
 let dNowTag = crypto.createHash('sha224');
 dNowTag.update(nowTag.toISOString());
-const pubsubRepos = bs58.encode(dNowTag.digest('hex'));
+const tagHex = dNowTag.digest('hex');
+console.log('tagHex=<',tagHex,'>');
+const pubsubRepos = bs58.encode(tagHex);
 //console.log('pubsubRepos=<',pubsubRepos,'>');
 
 const WELCOME_MESSAGE = '小兔子乖乖，把门儿打开。'

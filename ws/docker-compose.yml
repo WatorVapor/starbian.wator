@@ -30,10 +30,10 @@ services:
       resources:
         limits:
           cpus: '1.00'
-          memory: 32M
+          memory: 64M
         reservations:
           cpus: '0.5'
-          memory: 64M
+          memory: 32M
 networks:
   outside:
     external:

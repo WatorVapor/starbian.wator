@@ -100,9 +100,11 @@ function onStarBianMsg(msg,channel,peer) {
       msg:msg
     };
     let iClient = Object.keys(client);
+    console.log('onStarBianMsg:iClient=<',iClient,'>');
     for(let i = 0;i < iClient.length;i++) {
       let key = iClient[i];
       let ws = client[key];
+      console.log('onStarBianMsg:channel=<',channel,'>');
       console.log('onStarBianMsg:key=<',key,'>');
       if (ws.readyState === WebSocket.OPEN) {
         ws.send(JSON.stringify(sentMsg));

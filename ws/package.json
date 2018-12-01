@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "ipfs": ">=0.33",
+    "ipfs": "^0.33.1",
     "jsrsasign": "^8.0.12",
     "ws": ">=6"
   }

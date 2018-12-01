@@ -10,7 +10,7 @@ dNowTag.update(nowTag.toISOString());
 const tagHex = Buffer.from(dNowTag.digest('hex'),'hex');
 console.log('tagHex=<',tagHex,'>');
 const pubsubRepos = bs58.encode(tagHex);
-//console.log('pubsubRepos=<',pubsubRepos,'>');
+console.log('pubsubRepos=<',pubsubRepos,'>');
 
 const WELCOME_MESSAGE = '小兔子乖乖，把门儿打开。'
 

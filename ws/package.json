@@ -1,7 +1,6 @@
 {
   "dependencies": {
-    "ipfs": "^0.33.1",
-    "jsrsasign": "^8.0.12",
+    "starbian": ">=0.0.25",
     "ws": ">=6"
   }
 }

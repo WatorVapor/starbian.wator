@@ -1,7 +1,7 @@
 version: '3'
 services:
   ipfs-dameon:
-    image: watorvapor/js-starbian
+    image: node:10
     volumes:
       - ../ws:/home/app/ws
       - ../npm:/home/app/npm

@@ -3,7 +3,7 @@ services:
   ipfs-install:
     image: node:10
     volumes:
-      - ./app:/opt/app
+      - ./:/opt/app
     working_dir: "/opt/app"
     command: npm i --save ipfs
     networks:

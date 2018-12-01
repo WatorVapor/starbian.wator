@@ -1,0 +1,22 @@
+version: '3'
+services:
+  ipfs-install:
+    image: node:10
+    volumes:
+      - ./app:/opt/app
+    working_dir: "/opt/app"
+    command: npm i --save ipfs
+    networks:
+      - outside
+    deploy:
+      resources:
+        limits:
+          cpus: '1.00'
+          memory: 256M
+        reservations:
+          cpus: '0.5'
+          memory: 128M
+networks:
+  outside:
+    external:
+      name: "host"

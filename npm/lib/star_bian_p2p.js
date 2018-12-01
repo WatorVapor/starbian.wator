@@ -7,7 +7,7 @@ let nowTag = new Date();
 
 let dNowTag = crypto.createHash('sha224');
 dNowTag.update(nowTag.toISOString());
-const tagHex = dNowTag.digest('hex');
+const tagHex = Buffer.from(dNowTag.digest('hex'),'hex');
 console.log('tagHex=<',tagHex,'>');
 const pubsubRepos = bs58.encode(tagHex);
 //console.log('pubsubRepos=<',pubsubRepos,'>');

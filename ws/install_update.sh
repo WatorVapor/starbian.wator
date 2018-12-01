@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "start update packages
+echo "start update packages"
 npm i --save
 npm audit fix
 echo "wait 1 hour..."

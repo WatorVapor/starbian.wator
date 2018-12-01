@@ -18,22 +18,6 @@ services:
         reservations:
           cpus: '0.25'
           memory: 64M
-  install:
-    image: node:10
-    volumes:
-      - ./:/home/app
-    working_dir: "/home/app"
-    command: ./install_update.sh 
-    networks:
-      - outside
-    deploy:
-      resources:
-        limits:
-          cpus: '1.00'
-          memory: 256M
-        reservations:
-          cpus: '0.5'
-          memory: 32M
 networks:
   outside:
     external:

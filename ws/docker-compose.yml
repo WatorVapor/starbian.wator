@@ -21,8 +21,8 @@ services:
   install:
     image: node:10
     volumes:
-      - ./:/opt/app
-    working_dir: "/opt/app"
+      - ./:/home/app
+    working_dir: "/home/app"
     command: ./install_update.sh 
     networks:
       - outside

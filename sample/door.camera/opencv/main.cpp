@@ -151,6 +151,27 @@ void runDetectFace(const string &fileName) {
     DUMP_VAR(face.area());
     sumArea += face.area();
   }
+  // debug only
+  for(auto face:faces) {
+    cv::Point center( face.x + face.width*0.5, face.y + face.height*0.5 );
+    cv::ellipse( image, center, Size( face.width*0.5, face.height*0.5), 0, 0, 360, cv::Scalar( 255, 0, 255 ), 4, 8, 0 );
+  }
+  if(faces.size() >0 ) {
+    vector<int> compression_params;
+    compression_params.push_back(cv::IMWRITE_PNG_COMPRESSION);
+    compression_params.push_back(9);
+    static int detectedFaceOutputCounter = 0;
+    try {
+      string path = "/tmp/face.detected.output.";
+      path += std::to_string(detectedFaceOutputCounter++);
+      path += ".png";
+      cv::imwrite(path, mat, compression_params);
+    }
+    catch (cv::Exception& ex) {
+      LOG_VAR(ex);
+    }
+  }
+  /// debug
   LOG_VAR(sumArea);
   bool detectedFace = sumArea>iConstFaceArea;
   auto publish = gPublishRef.lock();

@@ -154,7 +154,7 @@ void runDetectFace(const string &fileName) {
   // debug only
   for(auto face:faces) {
     cv::Point center( face.x + face.width*0.5, face.y + face.height*0.5 );
-    cv::ellipse( image, center, Size( face.width*0.5, face.height*0.5), 0, 0, 360, cv::Scalar( 255, 0, 255 ), 4, 8, 0 );
+    cv::ellipse( image, center, cv::Size( face.width*0.5, face.height*0.5), 0, 0, 360, cv::Scalar( 255, 0, 255 ), 4, 8, 0 );
   }
   if(faces.size() >0 ) {
     vector<int> compression_params;
@@ -166,7 +166,7 @@ void runDetectFace(const string &fileName) {
       path += std::to_string(detectedFaceOutputCounter++);
       path += ".png";
       LOG_VAR(path);
-      cv::imwrite(path, mat, compression_params);
+      cv::imwrite(path, image, compression_params);
     }
     catch (cv::Exception& ex) {
       LOG_VAR(ex.what());

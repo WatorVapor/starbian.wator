@@ -9,6 +9,15 @@
 using namespace std;
 
 #if 1
+#define LOG_VAR(x)                                                            \
+  {                                                                            \
+    std::cout << __func__ << ":" << __LINE__ << "::" << #x << "=<" << x << ">" \
+              << std::endl;                                                    \
+  }
+#else 
+#define DUMP_VAR(x) 
+#endif
+#if 0
 #define DUMP_VAR(x)                                                            \
   {                                                                            \
     std::cout << __func__ << ":" << __LINE__ << "::" << #x << "=<" << x << ">" \
@@ -17,6 +26,7 @@ using namespace std;
 #else 
 #define DUMP_VAR(x) 
 #endif
+
 #include "opencv2/opencv.hpp"
 
 const string cascade_name("/usr/share/opencv/haarcascades/haarcascade_frontalface_alt2.xml");
@@ -120,7 +130,7 @@ void RedisEntryClient::onMessageAPI(const std::vector<char> &buf) {
 }
 
 static cv::CascadeClassifier cascade;
-static const int iConstFaceArea = 100;
+static const int iConstFaceArea = 2000;
 
 void runDetectFace(const string &fileName) {
   auto start = std::chrono::system_clock::now();
@@ -141,7 +151,7 @@ void runDetectFace(const string &fileName) {
     DUMP_VAR(face.area());
     sumArea += face.area();
   }
-  DUMP_VAR(sumArea);
+  LOG_VAR(sumArea);
   bool detectedFace = sumArea>iConstFaceArea;
   auto publish = gPublishRef.lock();
   if(publish &&publish->isConnected()) {

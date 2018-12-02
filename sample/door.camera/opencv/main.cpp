@@ -135,6 +135,9 @@ void runDetectFace(const string &fileName) {
   vector<cv::Rect> faces;
   cascade.detectMultiScale( gray, faces );
   DUMP_VAR(faces.size());
+  for(auto face:faces) {
+    DUMP_VAR(face);
+  }
   auto publish = gPublishRef.lock();
   if(publish &&publish->isConnected()) {
     publish->publish(strConstDoorFaceChannelName, std::to_string(faces.size()));

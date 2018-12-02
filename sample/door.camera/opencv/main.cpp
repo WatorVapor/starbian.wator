@@ -165,10 +165,11 @@ void runDetectFace(const string &fileName) {
       string path = "/tmp/face.detected.output.";
       path += std::to_string(detectedFaceOutputCounter++);
       path += ".png";
+      LOG_VAR(path);
       cv::imwrite(path, mat, compression_params);
     }
     catch (cv::Exception& ex) {
-      LOG_VAR(ex);
+      LOG_VAR(ex.what());
     }
   }
   /// debug

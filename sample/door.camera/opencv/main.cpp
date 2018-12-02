@@ -151,6 +151,8 @@ void runDetectFace(const string &fileName) {
     DUMP_VAR(face.area());
     sumArea += face.area();
   }
+
+  /*
   // debug only
   for(auto face:faces) {
     cv::Point center( face.x + face.width*0.5, face.y + face.height*0.5 );
@@ -173,6 +175,8 @@ void runDetectFace(const string &fileName) {
     }
   }
   /// debug
+  */
+  
   LOG_VAR(sumArea);
   bool detectedFace = sumArea>iConstFaceArea;
   auto publish = gPublishRef.lock();

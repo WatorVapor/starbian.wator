@@ -130,7 +130,7 @@ void RedisEntryClient::onMessageAPI(const std::vector<char> &buf) {
 }
 
 static cv::CascadeClassifier cascade;
-static const int iConstFaceArea = 2000;
+static const int iConstFaceArea = 32*24*2*2;
 
 void runDetectFace(const string &fileName) {
   auto start = std::chrono::system_clock::now();

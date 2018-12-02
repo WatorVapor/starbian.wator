@@ -120,6 +120,7 @@ void RedisEntryClient::onMessageAPI(const std::vector<char> &buf) {
 }
 
 static cv::CascadeClassifier cascade;
+static const int iConstFaceArea = 100;
 
 void runDetectFace(const string &fileName) {
   auto start = std::chrono::system_clock::now();
@@ -135,12 +136,16 @@ void runDetectFace(const string &fileName) {
   vector<cv::Rect> faces;
   cascade.detectMultiScale( gray, faces );
   DUMP_VAR(faces.size());
+  auto sumArea = 0;
   for(auto face:faces) {
-    DUMP_VAR(face);
+    DUMP_VAR(face.area());
+    sumArea += face.area();
   }
+  DUMP_VAR(sumArea);
+  bool detectedFace = sumArea>iConstFaceArea;
   auto publish = gPublishRef.lock();
   if(publish &&publish->isConnected()) {
-    publish->publish(strConstDoorFaceChannelName, std::to_string(faces.size()));
+    publish->publish(strConstDoorFaceChannelName, std::to_string(detectedFace));
   }
   auto end = std::chrono::system_clock::now();
   auto escaped = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);

@@ -1,11 +1,10 @@
 version: '3'
 services:
-  ipfs-dameon:
+  gateway:
     image: node:10
     volumes:
-      - ../ws:/home/app/ws
-      - ../npm:/home/app/npm
-    working_dir: "/home/app/ws"
+      - ./:/home/app
+    working_dir: "/home/app"
     environment:
       - MMAX=256M 
     command: ./run.sh

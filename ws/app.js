@@ -4,8 +4,14 @@
  * MIT Licensed
  */
 'use strict';
-const StarBian = require('starbian').StarBianRepeater;
-//const StarBian = require('../npm').StarBianRepeater;
+const constIsDocker = process.env.docker;
+console.log('constIsDocker=<', constIsDocker,'>');
+
+if(constIsDocker) {
+  const StarBian = require('starbian').StarBianRepeater;
+} else {
+  const StarBian = require('../npm').StarBianRepeater;
+}
 
 const wsProxy = new StarBian();
 const WebSocket = require('ws');

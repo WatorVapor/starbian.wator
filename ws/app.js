@@ -12,7 +12,7 @@ if(constIsDocker) {
 } else {
   StarBian = require('../npm').StarBianRepeater;
 }
-console.log('StarBian=<', StarBian,'>');
+//console.log('StarBian=<', StarBian,'>');
 
 const wsProxy = new StarBian();
 const WebSocket = require('ws');
@@ -26,7 +26,7 @@ wsProxy.onReady = () =>{
   },0);
 };
 
-startWS = ()=> {
+let startWS = ()=> {
   wss = new WebSocket.Server({host:'127.0.0.1', port: 19080 });
   wss.on('connection', function (ws,req) {
     //console.log('ws=<', ws,'>');
@@ -74,7 +74,7 @@ startWS = ()=> {
       ws.isAlive = false;
     });
   }, 30000);
-}
+};
 
 
 function noop() {

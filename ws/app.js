@@ -22,11 +22,11 @@ let wss = false;
 wsProxy.onReady = () =>{
   wsProxy.subscribe_passthrough_broadcast(onStarBianBroadCast);
   setTimeout(() => {
-    startWS();
+    startWebsocket();
   },0);
 };
 
-let startWS = ()=> {
+const startWebsocket = ()=> {
   wss = new WebSocket.Server({host:'127.0.0.1', port: 19080 });
   wss.on('connection', function (ws,req) {
     //console.log('ws=<', ws,'>');

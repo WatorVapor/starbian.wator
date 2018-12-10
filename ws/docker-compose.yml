@@ -7,6 +7,7 @@ services:
     working_dir: "/home/app"
     environment:
       - MMAX=1G 
+      - ISDOCKER=true 
     command: ./run.sh
     networks:
       - outside

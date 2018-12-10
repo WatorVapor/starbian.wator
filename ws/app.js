@@ -12,6 +12,7 @@ if(constIsDocker) {
 } else {
   const StarBian = require('../npm').StarBianRepeater;
 }
+console.log('StarBian=<', StarBian,'>');
 
 const wsProxy = new StarBian();
 const WebSocket = require('ws');

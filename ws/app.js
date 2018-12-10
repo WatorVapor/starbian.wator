@@ -9,8 +9,66 @@ const StarBian = require('starbian').StarBianRepeater;
 
 const wsProxy = new StarBian();
 const WebSocket = require('ws');
-const wss = new WebSocket.Server({host:'127.0.0.1', port: 19080 });
+
 let wsClients = {};
+let wss = false;
+wsProxy.onReady = () =>{
+  wsProxy.subscribe_passthrough_broadcast(onStarBianBroadCast);
+  setTimeout(() => {
+    startWS();
+  },0);
+};
+
+startWS = ()=> {
+  wss = new WebSocket.Server({host:'127.0.0.1', port: 19080 });
+  wss.on('connection', function (ws,req) {
+    //console.log('ws=<', ws,'>');
+    //console.log('ws.upgradeReq=<', ws.upgradeReq,'>');
+    //console.log('ws.upgradeReq.headers=<', ws.upgradeReq.headers,'>');
+    if(req && req.headers) {
+      ws.key = req.headers['sec-websocket-key'];
+    }
+    if(ws && ws.upgradeReq && ws.upgradeReq.headers) {
+      ws.key = ws.upgradeReq.headers['sec-websocket-key'];
+    }
+    console.log('ws.key=<', ws.key,'>');
+    ws.isAlive = true;
+    ws.on('pong', heartbeat);
+    ws.on('message', function (message) {
+      //console.log('received: message=<', message,'>');
+      try {
+        let jsonMsg = JSON.parse(message);
+        //console.log('jsonMsg=<', jsonMsg,'>');
+        let content = jsonMsg.encrypt || jsonMsg.ecdh || jsonMsg.subscribe || jsonMsg.broadcast;
+        if(jsonMsg) {
+          wsProxy.verifyAuth(jsonMsg.auth,content,() => {
+            onAuthedMsg(jsonMsg,ws);
+          });
+        } else {
+          console.log('not json message=<', message,'>');
+        }
+      } catch(e){
+        console.log('e=<', e,'>');
+      }
+    });
+    ws.on('close', function (evt) {
+      console.log('close ws.key=<', ws.key,'>');
+      removeWSClients(ws.key);
+    });
+  });
+  const interval = setInterval(function ping() {
+    wss.clients.forEach(function each(ws) {
+      if (ws.readyState === WebSocket.OPEN) {
+        ws.ping(noop);
+      }
+      if (ws.isAlive === false) {
+        return ws.terminate();
+      }
+      ws.isAlive = false;
+    });
+  }, 30000);
+}
+
 
 function noop() {
 };
@@ -18,21 +76,7 @@ function heartbeat() {
   this.isAlive = true;
 }
 
-const interval = setInterval(function ping() {
-  wss.clients.forEach(function each(ws) {
-    if (ws.readyState === WebSocket.OPEN) {
-      ws.ping(noop);
-    }
-    if (ws.isAlive === false) {
-      return ws.terminate();
-    }
-    ws.isAlive = false;
-  });
-}, 30000);
 
-wsProxy.onReady = () =>{
-  wsProxy.subscribe_passthrough_broadcast(onStarBianBroadCast);
-};
 function onStarBianBroadCast(msg,channel,peer) {
   console.log('onStarBianBroadCast:msg=<',msg,'>');
   console.log('onStarBianBroadCast:channel=<',channel,'>');
@@ -51,41 +95,6 @@ function onStarBianBroadCast(msg,channel,peer) {
   });
 }
 
-wss.on('connection', function (ws,req) {
-  //console.log('ws=<', ws,'>');
-  //console.log('ws.upgradeReq=<', ws.upgradeReq,'>');
-  //console.log('ws.upgradeReq.headers=<', ws.upgradeReq.headers,'>');
-  if(req && req.headers) {
-    ws.key = req.headers['sec-websocket-key'];
-  }
-  if(ws && ws.upgradeReq && ws.upgradeReq.headers) {
-    ws.key = ws.upgradeReq.headers['sec-websocket-key'];
-  }
-  console.log('ws.key=<', ws.key,'>');
-  ws.isAlive = true;
-  ws.on('pong', heartbeat);
-  ws.on('message', function (message) {
-    //console.log('received: message=<', message,'>');
-    try {
-      let jsonMsg = JSON.parse(message);
-      //console.log('jsonMsg=<', jsonMsg,'>');
-      let content = jsonMsg.encrypt || jsonMsg.ecdh || jsonMsg.subscribe || jsonMsg.broadcast;
-      if(jsonMsg) {
-        wsProxy.verifyAuth(jsonMsg.auth,content,() => {
-          onAuthedMsg(jsonMsg,ws);
-        });
-      } else {
-        console.log('not json message=<', message,'>');
-      }
-    } catch(e){
-      console.log('e=<', e,'>');
-    }
-  });
-  ws.on('close', function (evt) {
-    console.log('close ws.key=<', ws.key,'>');
-    removeWSClients(ws.key);
-  });
-});
 
 function onStarBianMsg(msg,channel,peer) {
   //console.log('onStarBianMsg:msg=<',msg,'>');

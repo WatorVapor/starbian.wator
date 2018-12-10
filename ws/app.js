@@ -4,7 +4,7 @@
  * MIT Licensed
  */
 'use strict';
-const constIsDocker = process.env.docker;
+const constIsDocker = process.env.ISDOCKER;
 console.log('constIsDocker=<', constIsDocker,'>');
 let StarBian = false;
 if(constIsDocker) {

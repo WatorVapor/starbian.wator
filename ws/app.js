@@ -6,11 +6,11 @@
 'use strict';
 const constIsDocker = process.env.docker;
 console.log('constIsDocker=<', constIsDocker,'>');
-
+let StarBian = false;
 if(constIsDocker) {
-  const StarBian = require('starbian').StarBianRepeater;
+  StarBian = require('starbian').StarBianRepeater;
 } else {
-  const StarBian = require('../npm').StarBianRepeater;
+  StarBian = require('../npm').StarBianRepeater;
 }
 console.log('StarBian=<', StarBian,'>');
 

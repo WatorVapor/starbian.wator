@@ -120,7 +120,9 @@ Vue.component('starbian-add-key-remote', {
         <div class="input-group mb-xs-1">
           <input type="text" class="form-control" placeholder="password show on remote device" aria-label="one time password" aria-describedby="button-addon2">
           <div class="input-group-append">
-            <button class="btn btn-danger btn-sm" type="button" onclick="onSearchPubKey(this)" id="button-addon2"><i class="material-icons">search</i></button>
+            <button class="btn btn-danger btn-sm" type="button" onclick="onSearchPubKey(this)" id="button-addon2">
+              <i class="fas fa-search"></i>
+            </button>
           </div>
         </div>
       </div>
@@ -271,7 +273,7 @@ Vue.component('starbian-bind-device', {
               <div class="row mt-lg-1 justify-content-center">
                 <div class="col-6">
                   <a type="button" class="btn btn-danger btn-block" onclick="onRemoveRemoteKey(this)">
-                    <i class="material-icons">remove_circle</i>
+                    <i class="fas fa-minus-circle"></i>
                   </a>
                 </div>
                 <div class="col-6">

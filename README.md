@@ -5,3 +5,7 @@ star edge of wator
 
 # demo.  
   https://www.wator.xyz/starbian
+
+#howto  
+ npm i starbian
+ 

@@ -7,11 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "bs58": "^4.0.1",
+    "bs58": ">=4.0.1",
     "ipfs": ">=0.33",
-    "ipfs-pubsub-room": "^1.4.0",
-    "jsrsasign": "^8.0.12",
-    "node-webcrypto-ossl": "^1.0.37"
+    "ipfs-pubsub-room": ">=1.4.0",
+    "jsrsasign": ">=8.0.12",
+    "node-webcrypto-ossl": ">=1.0.37"
   },
   "repository": {
     "type": "git",

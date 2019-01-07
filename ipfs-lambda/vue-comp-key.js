@@ -263,33 +263,32 @@ Vue.component('starbian-bind-device', {
     }
   },  
   template: `
-      <div class="col-10 text-center">
-        <h1>Binding Device</h1>
-        <hr/>
-        <div class="row mt-lg-1 justify-content-center" v-for="remote in remoteDeviceKeys">
-          <div class="card card-default text-center">
-            <div class="card-body">
-              <h6 class="card-title"><small class="remote-key">{{ remote.key }}</small></h6>
-              <div class="row mt-lg-1 justify-content-center">
-                <div class="col-6">
-                  <a type="button" class="btn btn-danger btn-block" onclick="onRemoveRemoteKey(this)">
-                    <i class="fas fa-minus-circle"></i>
-                  </a>
-                </div>
-                <div class="col-6">
-                  <a type="button" class="btn btn-success btn-block" onclick="onQRCodeRemoteKey(this)">
-                    <i class="fas fa-qrcode"></i>
-                  </a>
-                </div>
+    <div class="col-10 text-center">
+      <h1>Binding Device</h1>
+      <hr/>
+      <div class="row mt-lg-1 justify-content-center" v-for="remote in remoteDeviceKeys">
+        <div class="card card-default text-center">
+          <div class="card-body">
+            <h6 class="card-title"><small class="remote-key">{{ remote.key }}</small></h6>
+            <div class="row mt-lg-1 justify-content-center">
+              <div class="col-6">
+                <a type="button" class="btn btn-danger btn-block" onclick="onRemoveRemoteKey(this)">
+                  <i class="fas fa-minus-circle"></i>
+                </a>
               </div>
-              <div class="row mt-lg-1 justify-content-center">
-                <div class="qrcode-remote-key"></div>
+              <div class="col-6">
+                <a type="button" class="btn btn-success btn-block" onclick="onQRCodeRemoteKey(this)">
+                  <i class="fas fa-qrcode"></i>
+                </a>
               </div>
+            </div>
+            <div class="row mt-lg-1 justify-content-center">
+              <div class="qrcode-remote-key"></div>
             </div>
           </div>
         </div>
       </div>
-
+    </div>
   `
 });
 

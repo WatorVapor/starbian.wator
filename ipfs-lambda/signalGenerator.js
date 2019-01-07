@@ -1,3 +1,5 @@
+/*
+
 StarBian.onReadyOfKey = (key) => {
   console.log('StarBian.onReadyOfKey key=<' , key , '>');
 };
@@ -30,4 +32,5 @@ $(document).ready(function(){
   let elemBtn = document.getElementById('vue-ui-remote-device-keys');
   console.log('onRemoteKeyRead elemBtn=<' , elemBtn , '>');
 });
-  
+*/
+

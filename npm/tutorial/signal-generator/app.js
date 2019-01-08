@@ -39,6 +39,6 @@ function onMessage(msg,channel,peer) {
     peer.publish(respJson);
   }
 }
-generateSignal = (peer) => {
+function generateSignal(peer){
   peer.publish({});
 };

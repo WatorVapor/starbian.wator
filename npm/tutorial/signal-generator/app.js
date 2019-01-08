@@ -44,6 +44,6 @@ let iCounter = 0;
 const fConstRadiusStep = Math.PI/50;
 function generateSignal(peer){
   let x = (iCounter++) * fConstRadiusStep;
-  let signal = Math.sin(x) * 255;
+  let signal = Math.sin(x);
   peer.publish({wave:signal});
 };

@@ -15,6 +15,7 @@ const Peer = require('starbian').StarBianPeer;
 function createAuthedPeer(authedKey) {
   console.log('authedKey=<',authedKey,'>');
   authedKey.forEach( (key) => {
+    console.log('key=<',key,'>');
     let  peer = new Peer(key);
     peer.subscribe((msg,channel) => {
       onMessage(msg,channel,peer);

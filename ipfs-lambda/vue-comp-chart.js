@@ -6,6 +6,7 @@ Vue.component('starbian-signal-generator-chart', {
     let retmoteGroups = [];
     let groups =[];
     for(let i = 0;i < remotekeys.length ; i++) {
+      createStarbianPeer(remotekeys[i]);
       let keyPairs = {
         remote:remotekeys[i],
       };
@@ -32,7 +33,7 @@ Vue.component('starbian-signal-generator-chart', {
               <h6 class="small font-weight-bold">{{ device.remote }}</h6>
             </div>
             <div class="card-body">
-              <canvas width="320" height="240" onclick="onChartOfRemote(this)">{{ device.remote }}</canvas>
+              <canvas width="320" height="240" class="starbian-chart">{{ device.remote }}</canvas>
             </div>
           </div>
         </div>
@@ -41,9 +42,15 @@ Vue.component('starbian-signal-generator-chart', {
   `
 });
 
-onChartOfRemote = (elem) => {
-  console.log('onChartOfRemote elem=<' , elem , '>');
-  let device = elem.textContent;
-  console.log('onChartOfRemote device=<' , device , '>');
+createStarbianPeer = (pubKey) => {
+  console.log('createStarbianPeer pubKey=<' , pubKey , '>');
+  let peer = new StarBian.Peer(pubKey);
+  peer.subscribe((msg)=>{
+    onMessage(msg,pubKey);
+  });
 };
 
+onMessage = (msg,pubKey) => {
+  console.log('onMessage msg=<' , msg , '>');  
+  console.log('onMessage pubKey=<' , pubKey , '>');  
+};

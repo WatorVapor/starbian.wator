@@ -40,6 +40,10 @@ function onMessage(msg,channel,peer) {
     peer.publish(respJson);
   }
 }
+let iCounter = 0;
+const fConstRadiusStep = Math.PI/50;
 function generateSignal(peer){
-  peer.publish({});
+  let x = (iCounter++) * fConstRadiusStep;
+  let signal = Math.sin(x) * 255;
+  peer.publish({wave:signal});
 };

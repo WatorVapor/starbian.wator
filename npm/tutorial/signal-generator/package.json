@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "starbian": "0.0.28"
+    "starbian": ">=0.0.28"
   }
 }

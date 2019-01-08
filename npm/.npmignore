@@ -1,2 +1,4 @@
 examples
 temp
+tutorial/*/node_modules
+tutorial/*/package-lock.json

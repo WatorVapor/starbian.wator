@@ -19,10 +19,10 @@ function createAuthedPeer(authedKey) {
     peer.subscribe((msg,channel) => {
       onMessage(msg,channel,peer);
     });
+    setInterval( ()=>{ 
+      generateSignal(peer);
+    },1000*10);
   });
-  setInterval( ()=>{ 
-    generateSignal(peer);
-  },1000*60);
 }
 
 function onMessage(msg,channel,peer) {

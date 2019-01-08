@@ -1,6 +1,6 @@
 {
   "name": "starbian",
-  "version": "0.0.28",
+  "version": "0.0.29",
   "description": "wator star edge",
   "main": "index.js",
   "scripts": {
@@ -19,6 +19,8 @@
   },
   "keywords": [
     "iot",
+    "ipfs",
+    "ipfs pubsub",
     "wator"
   ],
   "author": "wator vapor",

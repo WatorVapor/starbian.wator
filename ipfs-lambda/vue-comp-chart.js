@@ -87,6 +87,7 @@ onUpdateGraph = (ctx,msg,pubKey) => {
       labels: new Array(240),
       datasets: [ 
         {
+          label: 'wave',
           data:dataCache[pubKey],
           borderColor: 'rgba(255,0,0,1)',
           backgroundColor: 'rgba(0,0,0,0)'

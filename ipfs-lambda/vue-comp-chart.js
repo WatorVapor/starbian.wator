@@ -51,6 +51,74 @@ createStarbianPeer = (pubKey) => {
 };
 
 onMessage = (msg,pubKey) => {
-  console.log('onMessage msg=<' , msg , '>');  
-  console.log('onMessage pubKey=<' , pubKey , '>');  
+  //console.log('onMessage msg=<' , msg , '>');  
+  //console.log('onMessage pubKey=<' , pubKey , '>');
+  let chartElems = document.getElementsByClassName('starbian-chart');
+  //console.log('onMessage chartElems=<' , chartElems , '>');
+  for(let i = 0;i < chartElems.length;i++) {
+    let chartElem = chartElems[i];
+    //console.log('onMessage chartElem=<' , chartElem , '>');
+    let chartId = chartElem.textContent;
+    //console.log('onMessage chartId=<' , chartId , '>');
+    if(chartId === pubKey) {
+      onUpdateGraph(chartElem,msg,pubKey);
+    }
+  }
 };
+
+let dataCache = {};
+onUpdateGraph = (ctx,msg,pubKey) => {
+  console.log('onUpdateGraph msg=<' , msg , '>');
+  if(!dataCache[pubKey]) {    
+    dataCache[pubKey] = [];
+    //dataCache[pubKey].push(1.0);
+    //dataCache[pubKey].push(-1.0);
+  }
+  dataCache[pubKey].push(msg.wave);
+  if(dataCache[pubKey].length >= 240) {
+    dataCache[pubKey] = [];
+    //dataCache[pubKey].push(1.0);
+    //dataCache[pubKey].push(-1.0);    
+  }
+  
+  let graphOption = {
+    type: 'line',
+    data: {
+      labels: new Array(240),
+      datasets: [ 
+        {
+          data:dataCache[pubKey],
+          borderColor: 'rgba(255,0,0,1)',
+          backgroundColor: 'rgba(0,0,0,0)'
+        }
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        text: ''
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            suggestedMax: 1.0,
+            suggestedMin: -1.0,
+            stepSize: 0.1,
+            callback: function(value, index, values){
+              return '';
+            }
+          }
+        }]
+      },
+      elements: { 
+        point: { 
+          radius: 0,
+          hitRadius: 10, 
+          hoverRadius: 5,
+        } 
+      } 
+    }
+  };
+  console.log('onUpdateGraph dataCache=<' , dataCache , '>');
+  let myChart = new Chart(ctx,graphOption);
+}

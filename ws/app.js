@@ -197,12 +197,13 @@ const intervalMemory = setInterval(() =>{
 }, 60*1000);
 
 process.on( 'SIGHUP', () =>{
-    log.message.info( "[%s] Asterisk process hung up.", that.callerid );
-    that.exitWhenReady( true );
+  console.log('SIGHUP that=<',that,'>');
+  that.exitWhenReady( true );
 } );
 
 process.on( 'exit', () =>{
-    process.kill( process.pid, 'SIGTERM' );
+  console.log('exit');
+  process.kill( process.pid, 'SIGTERM' );
 } );
 
 

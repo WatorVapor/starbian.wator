@@ -19,6 +19,16 @@ class StarBian {
         self.onReady(priKey,pubKey,authedKey);
       }
     };
+    this.crypto_.onAddChannel = (channels) => {
+      if(typeof self.onAddChannel === 'function') {
+        self.onAddChannel(channels);
+      }
+    };
+    this.crypto_.onRemoveChannel = (channels) => {
+      if(typeof self.onRemoveChannel === 'function') {
+        self.onRemoveChannel(channels);
+      }
+    };
   }
   /**
    * add authed public key.

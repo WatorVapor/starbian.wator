@@ -12,6 +12,14 @@ gofuro.onReady = (priKey,pubKey,authedKey) => {
 const Peer = require('../..').StarBianPeer;
 
 
+gofuro.onAddChannel = (channels) => {
+  console.log('onAddChannel channels=<',channels,'>');
+}
+gofuro.onRemoveChannel = (channels) => {
+  console.log('onRemoveChannel channels=<',channels,'>');
+}
+
+
 function createAuthedPeer(authedKey) {
   //console.log('authedKey=<',authedKey,'>');
   authedKey.forEach( (key) => {

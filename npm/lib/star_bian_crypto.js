@@ -32,6 +32,7 @@ class StarBianCrypto {
     }
     this._loadChannel();
     this._createECDHKey();
+    setInterval(this._watchChannel.bind(this),10*1000);
   }
   /**
    * add authed public key.
@@ -552,8 +553,53 @@ class StarBianCrypto {
     .catch(function(err){
       console.error(err);
     });
-  }  
+  }
   
+  _watchChannel() {
+    //console.log('_watchChannel this=<' , this , '>');
+    if(fs.existsSync(this.channelPath_)) {
+      try {
+        let channelStr = fs.readFileSync(this.channelPath_, 'utf8');
+        let channelJson = JSON.parse(channelStr);
+        //console.log('_watchChannel channelJson=<' , channelJson , '>');
+        let diff = this._diffJsonArray(channelJson.authed,this.channel.authed );
+        //console.log('_watchChannel diff=<' , diff , '>');
+        if(diff.length > 0) {
+          //console.log('_watchChannel typeof this.onAddChannel=<' , typeof this.onAddChannel , '>');
+          if(typeof this.onAddChannel === 'function') {
+            this.onAddChannel(diff);
+          }
+        }
+        let diff2 = this._diffJsonArray(this.channel.authed,channelJson.authed);
+        //console.log('_watchChannel diff2=<' , diff2 , '>');
+        if(diff2.length > 0) {
+          //console.log('_watchChannel typeof this.onRemoveChannel=<' , typeof this.onRemoveChannel , '>');
+          if(typeof this.onRemoveChannel === 'function') {
+            this.onRemoveChannel(diff2);
+          }
+        }
+        this.channel = channelJson;
+      } catch(e) {
+        console.error('_watchChannel e=<' , e , '>');
+      }      
+    }
+  }
+  _diffJsonArray(aJson,bJson) {
+    let diff = [];
+    //console.log('_diffJsonArray aJson=<' , aJson , '>');
+    //console.log('_diffJsonArray bJson=<' , bJson , '>');
+    //console.log('_diffJsonArray aJson-bJson=<' , aJson-bJson , '>');
+    for(let i = 0;i < aJson.length;i++) {
+      let a = aJson[i];
+      //console.log('_diffJsonArray a=<' , a , '>');
+      let hint = bJson.indexOf(a);
+      //console.log('_diffJsonArray hint=<' , hint , '>');
+      if(hint === -1) {
+        diff.push(a);
+      }
+    }
+    return diff;
+  }
 }
 
 module.exports = StarBianCrypto;

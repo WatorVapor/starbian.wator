@@ -27,13 +27,13 @@ Vue.component('starbian-resource-usage-chart', {
   template: `
     <div class="col-12 text-center">
       <div class="row mt-lg-1 justify-content-center" v-for="group in remoteGroup">
-        <div class="col-4 text-center" v-for="device in group">
+        <div class="col-6 text-center" v-for="device in group">
           <div class="card card-default text-center">
             <div class="card-header">
               <h6 class="small font-weight-bold">{{ device.remote }}</h6>
             </div>
             <div class="card-body">
-              <canvas width="320" height="240" class="starbian-chart">{{ device.remote }}</canvas>
+              <canvas width="640" height="480" class="starbian-chart">{{ device.remote }}</canvas>
             </div>
           </div>
         </div>
@@ -77,7 +77,7 @@ onUpdateGraph = (ctx,msg,pubKey) => {
   }
   dataCache[pubKey].push(msg.memory);
   if(dataCache[pubKey].length >= iConstGraphWidth) {
-    dataCache[pubKey] = [];
+    dataCache[pubKey].shift();
     //dataCache[pubKey].push(1.0);
     //dataCache[pubKey].push(-1.0);    
   }

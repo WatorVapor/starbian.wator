@@ -48,5 +48,7 @@ function collectResource(peer){
   let freeMem = os.freemem();
   let mem = freeMem/totalMem;
   console.log('collectResource:mem=<',mem,'>');
+  let cpus = os.cpus();
+  console.log('collectResource:cpus=<',cpus,'>');
   peer.publish({memory:mem});
 };

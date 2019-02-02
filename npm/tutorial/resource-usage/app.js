@@ -47,5 +47,6 @@ function collectResource(peer){
   let totalMem = os.totalmem();
   let freeMem = os.freemem();
   let mem = freeMem/totalMem;
+  console.log('collectResource:mem=<',mem,'>');
   peer.publish({memory:mem});
 };

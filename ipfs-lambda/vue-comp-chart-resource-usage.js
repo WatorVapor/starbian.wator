@@ -43,8 +43,11 @@ Vue.component('starbian-resource-usage-chart-single', {
   },  
   template: `
     <div class="row justify-content-center">
-      <div class="col-10 mt-5 text-center">
-        <canvas width="640" height="480" class="starbian-chart"></canvas>
+      <div class="col-6 mt-5 text-center">
+        <canvas width="320" height="240" id="starbian-chart-memory"></canvas>
+      </div>
+      <div class="col-6 mt-5 text-center">
+        <canvas width="320" height="240" id="starbian-chart-cpu"></canvas>
       </div>
     </div>
   `
@@ -61,30 +64,29 @@ createStarbianPeerSingle = (pubKey) => {
 onMessageSingle = (msg,pubKey) => {
   //console.log('onMessageSingle msg=<' , msg , '>');  
   //console.log('onMessageSingle pubKey=<' , pubKey , '>');
-  let chartElems = document.getElementsByClassName('starbian-chart');
-  //console.log('onMessageSingle chartElems=<' , chartElems , '>');
-  for(let i = 0;i < chartElems.length;i++) {
-    let chartElem = chartElems[i];
-    console.log('onMessageSingle chartElem=<' , chartElem , '>');
-    onUpdateGraphSingle(chartElem,msg,pubKey);
-  }
+  let memElem = document.getElementById('starbian-chart-memory');
+  console.log('onMessageSingle memElem=<' , memElem , '>');
+  onUpdateGraphSingleMem(memElem,msg.memory,pubKey);
+  let cpuElem = document.getElementById('starbian-chart-cpu');
+  console.log('onMessageSingle cpuElem=<' , cpuElem , '>');
+  onUpdateGraphSingleCPU(cpuElem,msg.cpu,pubKey);
 };
 
 
-let dataCacheSingle = {};
+let dataCacheSingleMem = {};
 const iConstGraphWidthSingle = 32;
-onUpdateGraphSingle = (ctx,msg,pubKey) => {
-  console.log('onUpdateGraph msg=<' , msg , '>');
-  if(!dataCacheSingle[pubKey]) {    
-    dataCacheSingle[pubKey] = [];
-    //dataCacheSingle[pubKey].push(1.0);
-    //dataCacheSingle[pubKey].push(-1.0);
+onUpdateGraphSingleMem = (ctx,value,pubKey) => {
+  console.log('onUpdateGraphSingleMem value=<' , value , '>');
+  if(!dataCacheSingleMem[pubKey]) {    
+    dataCacheSingleMem[pubKey] = [];
+    //dataCacheSingleMem[pubKey].push(1.0);
+    //dataCacheSingleMem[pubKey].push(-1.0);
   }
-  dataCacheSingle[pubKey].push(msg.memory);
-  if(dataCacheSingle[pubKey].length >= iConstGraphWidthSingle) {
-    dataCacheSingle[pubKey].shift();
-    //dataCacheSingle[pubKey].push(1.0);
-    //dataCacheSingle[pubKey].push(-1.0);    
+  dataCacheSingleMem[pubKey].push(value);
+  if(dataCacheSingleMem[pubKey].length >= iConstGraphWidthSingle) {
+    dataCacheSingleMem[pubKey].shift();
+    //dataCacheSingleMem[pubKey].push(1.0);
+    //dataCacheSingleMem[pubKey].push(-1.0);    
   }
   
   let graphOption = {
@@ -94,7 +96,7 @@ onUpdateGraphSingle = (ctx,msg,pubKey) => {
       datasets: [ 
         {
           label: 'Memory Usage',
-          data:dataCacheSingle[pubKey],
+          data:dataCacheSingleMem[pubKey],
           borderColor: 'rgba(255,0,0,1)',
           backgroundColor: 'rgba(0,0,0,0)'
         }
@@ -126,9 +128,69 @@ onUpdateGraphSingle = (ctx,msg,pubKey) => {
       } 
     }
   };
-  console.log('onUpdateGraph dataCache=<' , dataCache , '>');
+  console.log('onUpdateGraphSingleMem dataCacheSingleMem=<' , dataCacheSingleMem , '>');
   let myChart = new Chart(ctx,graphOption);
 }
+
+
+let dataCacheSingleCPU = {};
+onUpdateGraphSingleCPU = (ctx,value,pubKey) => {
+  console.log('dataCacheSingleCPU value=<' , value , '>');
+  if(!dataCacheSingleCPU[pubKey]) {    
+    dataCacheSingleCPU[pubKey] = [];
+    //dataCacheSingleCPU[pubKey].push(1.0);
+    //dataCacheSingleCPU[pubKey].push(-1.0);
+  }
+  dataCacheSingleCPU[pubKey].push(value);
+  if(dataCacheSingleCPU[pubKey].length >= iConstGraphWidthSingle) {
+    dataCacheSingleCPU[pubKey].shift();
+    //dataCacheSingleCPU[pubKey].push(1.0);
+    //dataCacheSingleCPU[pubKey].push(-1.0);
+  }
+  
+  let graphOption = {
+    type: 'line',
+    data: {
+      labels: new Array(iConstGraphWidthSingle),
+      datasets: [ 
+        {
+          label: 'CPU Usage',
+          data:dataCacheSingleCPU[pubKey],
+          borderColor: 'rgba(255,0,0,1)',
+          backgroundColor: 'rgba(0,0,0,0)'
+        }
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        text: ''
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            /*suggestedMax: 1.0,*/
+            /*suggestedMin: 0.0,*/
+            stepSize: 0.01,
+            callback: function(value, index, values){
+              return values;
+            }
+          }
+        }]
+      },
+      elements: { 
+        point: { 
+          radius: 0,
+          hitRadius: 1, 
+          hoverRadius: 1,
+        } 
+      } 
+    }
+  };
+  console.log('dataCacheSingleCPU dataCacheSingleCPU=<' , dataCacheSingleCPU , '>');
+  let myChart = new Chart(ctx,graphOption);
+}
+
 
 
 

@@ -1,16 +1,17 @@
 'use strict';
 const StarBian = require('starbian').StarBian;
-let simulator = new StarBian();
-//console.log('simulator=<',simulator,'>');
+const Peer = require('starbian').StarBianPeer;
 
-simulator.onReady = (priKey,pubKey,authedKey) => {
+let resourceUsage = new StarBian();
+//console.log('resourceUsage=<',resourceUsage,'>');
+
+resourceUsage.onReady = (priKey,pubKey,authedKey) => {
   console.log('priKey=<',priKey,'>');
   console.log('pubKey=<',pubKey,'>');
   console.log('authedKey=<',authedKey,'>');
   createAuthedPeer(authedKey);
 };
 
-const Peer = require('starbian').StarBianPeer;
 
 function createAuthedPeer(authedKey) {
   console.log('authedKey=<',authedKey,'>');
@@ -21,7 +22,7 @@ function createAuthedPeer(authedKey) {
       onMessage(msg,channel,peer);
     });
     setInterval( ()=>{ 
-      generateSignal(peer);
+      collectResource(peer);
     },1000*10);
   });
 }
@@ -40,10 +41,11 @@ function onMessage(msg,channel,peer) {
     peer.publish(respJson);
   }
 }
-let iCounter = 0;
-const fConstRadiusStep = Math.PI/50;
-function generateSignal(peer){
-  let x = (iCounter++) * fConstRadiusStep;
-  let signal = Math.sin(x);
-  peer.publish({wave:signal});
+
+const os = require('os');
+function collectResource(peer){
+  let totalMem = os.totalmem();
+  let freeMem = os.freemem();
+  let mem = freeMem/totalMem;
+  peer.publish({memory:mem});
 };

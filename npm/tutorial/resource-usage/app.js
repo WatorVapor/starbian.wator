@@ -47,15 +47,16 @@ function collectResource(peer){
   let totalMem = os.totalmem();
   let freeMem = os.freemem();
   let mem = 1.0 - freeMem/totalMem;
-  console.log('collectResource:mem=<',mem,'>');
+  //console.log('collectResource:mem=<',mem,'>');
   let cpus = os.cpus();
   let cpuUsage = [];
   //console.log('collectResource:cpus=<',cpus,'>');
   for(let cpu of cpus) {
-    console.log('collectResource:cpu=<',cpu,'>');
+    //console.log('collectResource:cpu=<',cpu,'>');
     let totol = cpu.times.user + cpu.times.nice + cpu.times.sys + cpu.times.idle + cpu.times.irq;
     let usage = 1.0 - cpu.times.idle/totol;
-    console.log('collectResource:usage=<',usage,'>');
+    //console.log('collectResource:usage=<',usage,'>');
+    cpuUsage.push(usage);
   }
   peer.publish({
     memory:mem,

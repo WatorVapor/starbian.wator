@@ -1,5 +1,139 @@
+Vue.component('starbian-resource-usage-list', {
+  data: function () {
+    let remotekeys = StarBian.getRemoteKey();
+    console.log('starbian-resource-usage-list remotekeys=<' , remotekeys , '>');
+    //console.log('starbian-resource-usage-list retmoteGroups=<' , retmoteGroups , '>');
+    let keys = [];
+    for(let key of remotekeys) {
+      keys.push({key:key,url:'./resourceUsageGraph.html?' + key})
+    }
+    return {
+      remoteDevice: keys
+    }
+  },  
+  template: `
+    <div class="row justify-content-center mt-5">
+      <div class="col-8">
+        <table class="table table-striped text-center">
+          <thead>
+            <th scope="col">Remote Device</th>
+            <th scope="col"></th>
+          </thead>
+          <tbody>
+            <tr v-for="device in remoteDevice">
+              <td>{{ device.key }}</td>
+              <td><a class="btn btn-primary" v-bind:href="device.url" role="button">Show Graph</a></td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+    </div>
+  `
+});
 
-Vue.component('starbian-resource-usage-chart', {
+
+Vue.component('starbian-resource-usage-chart-single', {
+  data: function () {
+    let pubKey = location.search.substring(1).trim();
+    console.log('starbian-resource-usage-chart-single pubKey=<' , pubKey , '>');
+    if(pubKey) {
+      createStarbianPeerSingle(pubKey);
+    }
+    return {}
+  },  
+  template: `
+    <div class="row justify-content-center">
+      <div class="col-10 mt-5 text-center">
+        <canvas width="640" height="480" class="starbian-chart"></canvas>
+      </div>
+    </div>
+  `
+});
+
+createStarbianPeerSingle = (pubKey) => {
+  console.log('createStarbianPeerSingle pubKey=<' , pubKey , '>');
+  let peer = new StarBian.Peer(pubKey);
+  peer.subscribe((msg)=>{
+    onMessageSingle(msg,pubKey);
+  });
+};
+
+onMessageSingle = (msg,pubKey) => {
+  //console.log('onMessageSingle msg=<' , msg , '>');  
+  //console.log('onMessageSingle pubKey=<' , pubKey , '>');
+  let chartElems = document.getElementsByClassName('starbian-chart');
+  //console.log('onMessageSingle chartElems=<' , chartElems , '>');
+  for(let i = 0;i < chartElems.length;i++) {
+    let chartElem = chartElems[i];
+    console.log('onMessageSingle chartElem=<' , chartElem , '>');
+    onUpdateGraphSingle(chartElem,msg,pubKey);
+  }
+};
+
+
+let dataCacheSingle = {};
+const iConstGraphWidthSingle = 32;
+onUpdateGraphSingle = (ctx,msg,pubKey) => {
+  console.log('onUpdateGraph msg=<' , msg , '>');
+  if(!dataCacheSingle[pubKey]) {    
+    dataCacheSingle[pubKey] = [];
+    //dataCacheSingle[pubKey].push(1.0);
+    //dataCacheSingle[pubKey].push(-1.0);
+  }
+  dataCacheSingle[pubKey].push(msg.memory);
+  if(dataCacheSingle[pubKey].length >= iConstGraphWidthSingle) {
+    dataCacheSingle[pubKey].shift();
+    //dataCacheSingle[pubKey].push(1.0);
+    //dataCacheSingle[pubKey].push(-1.0);    
+  }
+  
+  let graphOption = {
+    type: 'line',
+    data: {
+      labels: new Array(iConstGraphWidthSingle),
+      datasets: [ 
+        {
+          label: 'Memory Usage',
+          data:dataCacheSingle[pubKey],
+          borderColor: 'rgba(255,0,0,1)',
+          backgroundColor: 'rgba(0,0,0,0)'
+        }
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        text: ''
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            /*suggestedMax: 1.0,*/
+            /*suggestedMin: 0.0,*/
+            stepSize: 0.01,
+            callback: function(value, index, values){
+              return values;
+            }
+          }
+        }]
+      },
+      elements: { 
+        point: { 
+          radius: 0,
+          hitRadius: 1, 
+          hoverRadius: 1,
+        } 
+      } 
+    }
+  };
+  console.log('onUpdateGraph dataCache=<' , dataCache , '>');
+  let myChart = new Chart(ctx,graphOption);
+}
+
+
+
+
+Vue.component('starbian-resource-usage-chart-multi', {
   data: function () {
     let remotekeys = StarBian.getRemoteKey();
     //console.log('starbian-resource-usage-chart remotekeys=<' , remotekeys , '>');

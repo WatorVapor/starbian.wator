@@ -11,7 +11,6 @@ const crypto = require('crypto');
 const rs = require('jsrsasign');
 const WebCrypto = require("node-webcrypto-ossl");
 const webcrypto = new WebCrypto();
-const StarBianP2p = require('./star_bian_p2p');
 const bs58 = require('bs58');
 
 

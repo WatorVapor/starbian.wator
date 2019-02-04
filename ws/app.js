@@ -196,14 +196,11 @@ const intervalMemory = setInterval(() =>{
   }
 }, 60*1000);
 
-process.on( 'SIGHUP', () =>{
-  console.log('SIGHUP that=<',that,'>');
-  that.exitWhenReady( true );
-} );
-
 process.on( 'exit', () =>{
-  console.log('exit');
+  console.log('exit process.pid=<',process.pid,'>');
   process.kill( process.pid, 'SIGTERM' );
+  process.kill( process.pid, 'SIGKILL' );
+  process.kill( process.pid, 'SIGHUP' );
 } );
 
 

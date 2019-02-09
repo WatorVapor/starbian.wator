@@ -56,10 +56,19 @@ module.exports = class StarBianP2p {
  }
   out(channel,msgObj,to) {
     msgObj.channel = channel;
+    if(channel === 'broadcast') {
+      this.room.broadcast(JSON.stringify(msgObj));
+      return;
+    }
     if(to) {
       this.room.sendTo(to,JSON.stringify(msgObj));
     } else {
-      this.room.broadcast(JSON.stringify(msgObj));
+      let toPeer = this._channelPeerMap[channel];
+      if(toPeer) {
+        this.room.sendTo(toPeer,JSON.stringify(msgObj));
+      } else {
+        this.room.broadcast(JSON.stringify(msgObj));        
+      }
     }
   }
   in(channel,cb) {
@@ -72,20 +81,20 @@ module.exports = class StarBianP2p {
       if (err) {
         throw err
       }
-      console.log('identity=<',identity,'>');
+      //console.log('identity=<',identity,'>');
       self.peer = identity.id;
     });
     this.ipfs.config.get('Addresses.Swarm',(err, config) => {
       if (err) {
         throw err
       }
-      console.log('config=<',config,'>');
+      //console.log('config=<',config,'>');
     });
     this.ipfs.bootstrap.list((err, bootstrap) => {
       if (err) {
         throw err
       }
-      console.log('bootstrap=<',bootstrap,'>');
+      //console.log('bootstrap=<',bootstrap,'>');
     });
     this.room = Room(this.ipfs, 'wai-' + this.number);
     this.room.on('peer joined', (peer) => {
@@ -96,6 +105,7 @@ module.exports = class StarBianP2p {
     });
     this.room.on('peer left', (peer) => {
       console.log('Peer left...', peer);
+      self._removePeer(peer);
     });
     // now started to listen to room
     this.room.on('subscribed', () => {
@@ -130,6 +140,7 @@ module.exports = class StarBianP2p {
         return;
       }
       let cb = this._cb[jsonData.channel];
+      this._channelPeerMap[jsonData.channel] = msg.from;
       if(typeof(cb) === 'function') {
         let channel = jsonData.channel;
         cb(jsonData,channel,msg.from);
@@ -138,4 +149,10 @@ module.exports = class StarBianP2p {
       }
     }
   }
+  _removePeer(peer) {
+    for(let key in this._channelPeerMap) {
+      console.log('_removePeer::key=<',key,'>');
+    }
+  }
 };
+

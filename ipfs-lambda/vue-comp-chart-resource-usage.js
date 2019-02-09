@@ -74,7 +74,7 @@ onMessageSingle = (msg,pubKey) => {
 
 
 let dataCacheSingleMem = {};
-const iConstGraphWidthSingle = 32;
+const iConstGraphWidthSingle = 64;
 onUpdateGraphSingleMem = (ctx,value,pubKey) => {
   console.log('onUpdateGraphSingleMem value=<' , value , '>');
   if(!dataCacheSingleMem[pubKey]) {    

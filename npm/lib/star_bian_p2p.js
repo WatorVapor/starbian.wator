@@ -150,17 +150,17 @@ module.exports = class StarBianP2p {
     }
   }
   _removePeer(peer) {
-    console.log('_removePeer:: peer=<',peer,'>');
-    console.log('_removePeer:: old this._channelPeerMap=<',this._channelPeerMap,'>');
+    //console.log('_removePeer:: peer=<',peer,'>');
+    //console.log('_removePeer:: old this._channelPeerMap=<',this._channelPeerMap,'>');
     for(let channel in this._channelPeerMap) {
-      console.log('_removePeer::channel=<',channel,'>');
+      //console.log('_removePeer::channel=<',channel,'>');
       let savedPeer = this._channelPeerMap[channel];
-      console.log('_removePeer::savedPeer=<',savedPeer,'>');
+      //console.log('_removePeer::savedPeer=<',savedPeer,'>');
       if(savedPeer === peer) {
         delete this._channelPeerMap[channel];
       }
     }
-    console.log('_removePeer:: new this._channelPeerMap=<',this._channelPeerMap,'>');
+    //console.log('_removePeer:: new this._channelPeerMap=<',this._channelPeerMap,'>');
   }
 };
 

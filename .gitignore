@@ -62,5 +62,5 @@ typings/
 .ipfs_pubsub_room_data
 channels.json
 package-lock.json
-
-
+authedChannels.json 
+myChannel.json

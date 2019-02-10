@@ -29,6 +29,8 @@ class StarBianCrypto {
     } else {
       this._loadKeyPair();
     }
+    this.myChannelPath_ = './myChannel.json';
+    this.channelPath_ = './authedChannels.json';
     this._loadChannel();
     this._createECDHKey();
     setInterval(this._watchChannel.bind(this),10*1000);
@@ -51,59 +53,27 @@ class StarBianCrypto {
    * @private
    */
   _createKeyPair() {
-    let self = this;
-    let toBeSaved = {};
-    webcrypto.subtle.generateKey(
-      {
-        name: 'ECDSA',
-        namedCurve: 'P-256',
-      },
-      true,
-      ['sign','verify']
-    )
-    .then(function(key){
-      //console.log('_createKeyPair::key=<',key,'>');
-      self.key = key;
-      webcrypto.subtle.exportKey('jwk',key.privateKey)
-      .then(function(keydata){
-        //console.log('_createKeyPair privateKey keydata=<' , keydata , '>');
-        self.prvKey = keydata;
-        self.rsPrvKey = rs.KEYUTIL.getKey(keydata);
-        //console.log('_createKeyPair privateKey self.rsPrvKey=<' , self.rsPrvKey , '>');
-        self.prvHex = self.rsPrvKey.prvKeyHex;
-        toBeSaved.prvKey = keydata;
-        if(toBeSaved.pubKey) {
-           fs.writeFileSync(self.keyPath_,JSON.stringify(toBeSaved,undefined,2));
-        }
-        self.onKeyReadyOne_();
-      })
-      .catch(function(err){
-        console.error(err);
-      });
-      webcrypto.subtle.exportKey('jwk',key.publicKey)
-      .then(function(keydata){
-        //console.log('_createKeyPair publicKey keydata=<' , keydata , '>');
-        self.pubKey = keydata;
-        self.rsPubKey = rs.KEYUTIL.getKey(keydata);
-        //console.log('_createKeyPair privateKey self.rsPubKey=<' , self.rsPubKey , '>');
-        let keyBuffer = Buffer.from(self.rsPubKey.pubKeyHex,'hex');
-        self.pubKeyB58 = bs58.encode(keyBuffer);
-        self.pubJwk = keydata;
-        toBeSaved.pubKey = keydata;
-        if(toBeSaved.prvKey) {
-           fs.writeFileSync(self.keyPath_,JSON.stringify(toBeSaved,undefined,2));
-        }
-        self.onKeyReadyOne_();
-      })
-      .catch(function(err){
-        console.error(err);
-      });
-    })
-    .catch(function(err){
-      console.error(err);
-    });
+    const ecKeypair = rs.KEYUTIL.generateKeypair("EC", "P-256");
+    //console.log('_createKeyPair::ecKeypair=<',ecKeypair,'>');
+    let prvKey = rs.KEYUTIL.getJWKFromKey(ecKeypair.prvKeyObj);
+    //console.log('_createKeyPair::prvKey=<',prvKey,'>');
+    this.prvKey = prvKey;
+    this.rsPrvKey = ecKeypair.prvKeyObj;
+    this.prvHex = ecKeypair.prvKeyObj.prvKeyHex;
+    let pubKey = rs.KEYUTIL.getJWKFromKey(ecKeypair.pubKeyObj);
+    //console.log('_createKeyPair::pubKey=<',pubKey,'>');
+    let toBeSaved = {
+      prvKey:prvKey,
+      pubKey:pubKey
+    };
+    let keyBuffer = Buffer.from(ecKeypair.pubKeyObj.pubKeyHex,'hex');
+    this.pubKeyB58 = bs58.encode(keyBuffer);
+    this.pubKey = pubKey;
+    this.pubJwk = pubKey;
+    this.rsPubKey = ecKeypair.pubKeyObj;
+    fs.writeFileSync(this.keyPath_,JSON.stringify(toBeSaved,undefined,2));
+    this.onKeyReadyOne_();
   }
-
   /**
    * load key pair.
    *
@@ -163,18 +133,14 @@ class StarBianCrypto {
    * @private
    */
   _loadChannel() {
-    //console.log('StarBian constructor:this.p2p_=<',this.p2p_,'>');
-    this.channelPath_ = 'channels.json';
+    fs.writeFileSync(this.myChannelPath_,this.pubKeyB58);
     if(fs.existsSync(this.channelPath_)) {
       let channelStr = fs.readFileSync(this.channelPath_, 'utf8');
       this.channel = JSON.parse(channelStr);
-      this.channel.myself = this.pubKeyB58;
       let saveChannel = JSON.stringify(this.channel,null, 2);
       fs.writeFileSync(this.channelPath_,saveChannel);
     } else {
-      this.channel = {};
-      this.channel.myself = this.pubKeyB58;
-      this.channel.authed = [];
+      this.channel = [];
       let saveChannel = JSON.stringify(this.channel,null, 2);
       fs.writeFileSync(this.channelPath_,saveChannel);
     }
@@ -235,12 +201,12 @@ class StarBianCrypto {
     }
     //console.log('onKeyReadyOne_::this.onKeyReady=<',this.onKeyReady,'>');
     if(typeof this.onKeyReady === 'function') {
-      this.onKeyReady(this.prvHex,this.pubKeyB58,this.channel.authed);
+      this.onKeyReady(this.prvHex,this.pubKeyB58,this.channel);
     }
   }
 
   _verifyAuth(auth,content,channel,cb) {
-    let indexAuthed = this.channel.authed.indexOf(auth.pubKeyB58);
+    let indexAuthed = this.channel.indexOf(auth.pubKeyB58);
     if(indexAuthed === -1 && channel !== 'broadcast') {
       console.log('_verifyAuth not authed !!! indexAuthed=<',indexAuthed,'>');
       console.log('_verifyAuth not authed !!! channel=<',channel,'>');
@@ -561,7 +527,7 @@ class StarBianCrypto {
         let channelStr = fs.readFileSync(this.channelPath_, 'utf8');
         let channelJson = JSON.parse(channelStr);
         //console.log('_watchChannel channelJson=<' , channelJson , '>');
-        let diff = this._diffJsonArray(channelJson.authed,this.channel.authed );
+        let diff = this._diffJsonArray(channelJson,this.channel );
         //console.log('_watchChannel diff=<' , diff , '>');
         if(diff.length > 0) {
           //console.log('_watchChannel typeof this.onAddChannel=<' , typeof this.onAddChannel , '>');
@@ -569,7 +535,7 @@ class StarBianCrypto {
             this.onAddChannel(diff);
           }
         }
-        let diff2 = this._diffJsonArray(this.channel.authed,channelJson.authed);
+        let diff2 = this._diffJsonArray(this.channel,channelJson);
         //console.log('_watchChannel diff2=<' , diff2 , '>');
         if(diff2.length > 0) {
           //console.log('_watchChannel typeof this.onRemoveChannel=<' , typeof this.onRemoveChannel , '>');

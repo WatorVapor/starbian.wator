@@ -8,9 +8,9 @@ let nowTag = new Date();
 let dNowTag = crypto.createHash('sha224');
 dNowTag.update(nowTag.toISOString());
 const tagHex = Buffer.from(dNowTag.digest('hex'),'hex');
-console.log('tagHex=<',tagHex,'>');
+//console.log('tagHex=<',tagHex,'>');
 const pubsubRepos = bs58.encode(tagHex);
-console.log('pubsubRepos=<',pubsubRepos,'>');
+//console.log('pubsubRepos=<',pubsubRepos,'>');
 
 const WELCOME_MESSAGE = '小兔子乖乖，把门儿打开。'
 
@@ -23,7 +23,9 @@ const IPFS_CONF = {
     Addresses: {
       Swarm: [
         '/dns4/ws-star.discovery.libp2p.io/tcp/443/wss/p2p-websocket-star'
-      ]
+      ],
+      API: '/ip4/127.0.0.1/tcp/5032',
+      Gateway: '/ip4/127.0.0.1/tcp/9099'
     }
   }
 };
@@ -42,7 +44,9 @@ module.exports = class StarBianP2p {
         this.ipfs = ipfsUniq;
       } else {
         this.ipfs = new IPFS(IPFS_CONF);
+        //this.ipfs.start();
         ipfsUniq = this.ipfs;
+        console.log('this.ipfs=<',this.ipfs,'>');
       }
     } catch(e) {
       console.error('e=<',e,'>');
@@ -50,6 +54,12 @@ module.exports = class StarBianP2p {
     let self = this;
     this.ipfs.on('ready', () => {
       self._onInit();
+    });
+    this.ipfs.on('init',(evt) => {
+      console.log('init evt=<',evt,'>');
+    });
+    this.ipfs.on('error',(error) => {
+      console.log('error error=<',error,'>');
     });
     this._cb = {};
     this._channelPeerMap = {};
@@ -81,20 +91,20 @@ module.exports = class StarBianP2p {
       if (err) {
         throw err
       }
-      //console.log('identity=<',identity,'>');
+      console.log('identity=<',identity,'>');
       self.peer = identity.id;
     });
     this.ipfs.config.get('Addresses.Swarm',(err, config) => {
       if (err) {
         throw err
       }
-      //console.log('config=<',config,'>');
+      console.log('config=<',config,'>');
     });
     this.ipfs.bootstrap.list((err, bootstrap) => {
       if (err) {
         throw err
       }
-      //console.log('bootstrap=<',bootstrap,'>');
+      console.log('bootstrap=<',bootstrap,'>');
     });
     this.room = Room(this.ipfs, 'wai-' + this.number);
     this.room.on('peer joined', (peer) => {

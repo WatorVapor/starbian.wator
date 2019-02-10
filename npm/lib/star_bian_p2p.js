@@ -46,7 +46,7 @@ module.exports = class StarBianP2p {
         this.ipfs = new IPFS(IPFS_CONF);
         //this.ipfs.start();
         ipfsUniq = this.ipfs;
-        console.log('this.ipfs=<',this.ipfs,'>');
+        //console.log('this.ipfs=<',this.ipfs,'>');
       }
     } catch(e) {
       console.error('e=<',e,'>');

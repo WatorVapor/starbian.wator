@@ -23,9 +23,7 @@ const IPFS_CONF = {
     Addresses: {
       Swarm: [
         '/dns4/ws-star.discovery.libp2p.io/tcp/443/wss/p2p-websocket-star'
-      ],
-      API: '/ip4/127.0.0.1/tcp/5032',
-      Gateway: '/ip4/127.0.0.1/tcp/9099'
+      ]
     }
   }
 };
@@ -76,13 +74,16 @@ module.exports = class StarBianP2p {
     if(to) {
       this.room.sendTo(to,JSON.stringify(msgObj));
     } else {
+      /*
       let toPeer = this._channelPeerMap[channel];
       console.log('out toPeer=<',toPeer,'>');
       if(toPeer) {
         this.room.sendTo(toPeer,JSON.stringify(msgObj));
       } else {
-        this.room.broadcast(JSON.stringify(msgObj));        
+        this.room.broadcast(JSON.stringify(msgObj));
       }
+      */
+      this.room.broadcast(JSON.stringify(msgObj));
     }
   }
   in(channel,cb) {

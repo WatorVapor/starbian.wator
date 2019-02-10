@@ -65,6 +65,9 @@ module.exports = class StarBianP2p {
     this._channelPeerMap = {};
  }
   out(channel,msgObj,to) {
+    //console.log('out channel=<',channel,'>');
+    //console.log('out msgObj=<',msgObj,'>');
+    //console.log('out to=<',to,'>');
     msgObj.channel = channel;
     if(channel === 'broadcast') {
       this.room.broadcast(JSON.stringify(msgObj));
@@ -74,6 +77,7 @@ module.exports = class StarBianP2p {
       this.room.sendTo(to,JSON.stringify(msgObj));
     } else {
       let toPeer = this._channelPeerMap[channel];
+      console.log('out toPeer=<',toPeer,'>');
       if(toPeer) {
         this.room.sendTo(toPeer,JSON.stringify(msgObj));
       } else {

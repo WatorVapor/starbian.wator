@@ -140,7 +140,7 @@ class StarBianCrypto {
       let saveChannel = JSON.stringify(this.channel,null, 2);
       fs.writeFileSync(this.channelPath_,saveChannel);
     } else {
-      this.channel = [];
+      this.channel = {authed:[]};
       let saveChannel = JSON.stringify(this.channel,null, 2);
       fs.writeFileSync(this.channelPath_,saveChannel);
     }
@@ -201,12 +201,12 @@ class StarBianCrypto {
     }
     //console.log('onKeyReadyOne_::this.onKeyReady=<',this.onKeyReady,'>');
     if(typeof this.onKeyReady === 'function') {
-      this.onKeyReady(this.prvHex,this.pubKeyB58,this.channel);
+      this.onKeyReady(this.prvHex,this.pubKeyB58,this.channel.authed);
     }
   }
 
   _verifyAuth(auth,content,channel,cb) {
-    let indexAuthed = this.channel.indexOf(auth.pubKeyB58);
+    let indexAuthed = this.channel.authed.indexOf(auth.pubKeyB58);
     if(indexAuthed === -1 && channel !== 'broadcast') {
       console.log('_verifyAuth not authed !!! indexAuthed=<',indexAuthed,'>');
       console.log('_verifyAuth not authed !!! channel=<',channel,'>');
@@ -527,7 +527,7 @@ class StarBianCrypto {
         let channelStr = fs.readFileSync(this.channelPath_, 'utf8');
         let channelJson = JSON.parse(channelStr);
         //console.log('_watchChannel channelJson=<' , channelJson , '>');
-        let diff = this._diffJsonArray(channelJson,this.channel );
+        let diff = this._diffJsonArray(channelJson.authed,this.channel.authed );
         //console.log('_watchChannel diff=<' , diff , '>');
         if(diff.length > 0) {
           //console.log('_watchChannel typeof this.onAddChannel=<' , typeof this.onAddChannel , '>');
@@ -535,7 +535,7 @@ class StarBianCrypto {
             this.onAddChannel(diff);
           }
         }
-        let diff2 = this._diffJsonArray(this.channel,channelJson);
+        let diff2 = this._diffJsonArray(this.channel.authed,channelJson.authed);
         //console.log('_watchChannel diff2=<' , diff2 , '>');
         if(diff2.length > 0) {
           //console.log('_watchChannel typeof this.onRemoveChannel=<' , typeof this.onRemoveChannel , '>');
@@ -545,6 +545,7 @@ class StarBianCrypto {
         }
         this.channel = channelJson;
       } catch(e) {
+        console.error('_watchChannel channelStr=<' , channelStr , '>');
         console.error('_watchChannel e=<' , e , '>');
       }      
     }

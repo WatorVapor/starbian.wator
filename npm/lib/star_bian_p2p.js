@@ -150,6 +150,7 @@ module.exports = class StarBianP2p {
     }
   }
   _removePeer(peer) {
+    console.log('_removePeer::this._channelPeerMap=<',this._channelPeerMap,'>');
     for(let key in this._channelPeerMap) {
       console.log('_removePeer::key=<',key,'>');
     }

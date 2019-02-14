@@ -194,7 +194,8 @@ const intervalMemory = setInterval(() =>{
     console.log('intervalMemory used=<',used,'>');
     console.log('intervalMemory constMaxMemory=<',constMaxMemory,'>');
     console.log('exit  too many memory! intervalMemory percentage=<',percentage,'>');
-    process.exit(0);
+    //process.exit(0);
+    process.abort();
   }
 }, 60*1000);
 

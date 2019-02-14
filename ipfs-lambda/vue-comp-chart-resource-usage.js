@@ -56,6 +56,9 @@ Vue.component('starbian-resource-usage-chart-single', {
 createStarbianPeerSingle = (pubKey) => {
   console.log('createStarbianPeerSingle pubKey=<' , pubKey , '>');
   let peer = new StarBian.Peer(pubKey);
+  peer.onopen =() => {
+    console.log('createStarbianPeerSingle peer.onopen pubKey=<' , pubKey , '>');
+  };
   peer.subscribe((msg)=>{
     onMessageSingle(msg,pubKey);
   });
@@ -241,6 +244,9 @@ Vue.component('starbian-resource-usage-chart-multi', {
 createStarbianPeer = (pubKey) => {
   console.log('createStarbianPeer pubKey=<' , pubKey , '>');
   let peer = new StarBian.Peer(pubKey);
+  peer.onopen =() => {
+    console.log('createStarbianPeer peer.onopen pubKey=<' , pubKey , '>');
+  };
   peer.subscribe((msg)=>{
     onMessage(msg,pubKey);
   });

@@ -51,6 +51,7 @@ module.exports = class StarBianP2p {
     }
     let self = this;
     this.ipfs.on('ready', () => {
+      self._onFixDebug();
       self._onInit();
     });
     this.ipfs.on('init',(evt) => {
@@ -89,7 +90,6 @@ module.exports = class StarBianP2p {
   in(channel,cb) {
     this._cb[channel] = cb;
   }
-  
   _onInit() {
     let self = this;
     this.ipfs.id( (err,identity)=>{
@@ -177,5 +177,14 @@ module.exports = class StarBianP2p {
     }
     //console.log('_removePeer:: new this._channelPeerMap=<',this._channelPeerMap,'>');
   }
+
+  _onFixDebug() {
+    let maxListener = this.ipfs.getMaxListeners();
+    console.log('_onFixDebug maxListener=<',maxListener,'>');
+    this.ipfs.setMaxListeners(1024);
+    let maxListener2 = this.ipfs.getMaxListeners();
+    console.log('_onFixDebug maxListener2=<',maxListener2,'>');    
+  }
+
 };
 

@@ -182,7 +182,7 @@ if(typeof constMaxMemoryStr === 'string') {
   constMaxMemory = 1024*1024*1024;
 }
 
-const constExitOverMemory = 60;
+const constExitOverMemory = 20;
 
 const intervalMemory = setInterval(() =>{
   const used = process.memoryUsage();
@@ -194,8 +194,6 @@ const intervalMemory = setInterval(() =>{
     console.log('intervalMemory used=<',used,'>');
     console.log('intervalMemory constMaxMemory=<',constMaxMemory,'>');
     console.log('exit  too many memory! intervalMemory percentage=<',percentage,'>');
-    //process.exit(0);
-    //process.abort();
     global.gc();
   }
 }, 60*1000);

@@ -182,7 +182,7 @@ if(typeof constMaxMemoryStr === 'string') {
   constMaxMemory = 1024*1024*1024;
 }
 
-const constExitOverMemory = 20;
+const constExitOverMemory = 15;
 
 const intervalMemory = setInterval(() =>{
   const used = process.memoryUsage();

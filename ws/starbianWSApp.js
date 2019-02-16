@@ -182,7 +182,8 @@ if(typeof constMaxMemoryStr === 'string') {
   constMaxMemory = 1024*1024*1024;
 }
 
-const constExitOverMemory = 15;
+const constForceGCOverMemory = 20;
+const constExitOverMemory = 60;
 
 const intervalMemory = setInterval(() =>{
   const used = process.memoryUsage();
@@ -190,11 +191,17 @@ const intervalMemory = setInterval(() =>{
   //console.log('intervalMemory constMaxMemory=<',constMaxMemory,'>');
   let percentage = 100*(used.rss + used.heapUsed + used.external) / constMaxMemory;
   console.log('intervalMemory percentage=<',percentage,'>');
+  if(percentage > constForceGCOverMemory) {
+    console.log('intervalMemory used=<',used,'>');
+    console.log('intervalMemory constMaxMemory=<',constMaxMemory,'>');
+    console.log('force run gc intervalMemory percentage=<',percentage,'>');
+    global.gc();
+  }
   if(percentage > constExitOverMemory) {
     console.log('intervalMemory used=<',used,'>');
     console.log('intervalMemory constMaxMemory=<',constMaxMemory,'>');
     console.log('exit  too many memory! intervalMemory percentage=<',percentage,'>');
-    global.gc();
+    process.exit(0);
   }
 }, 60*1000);
 

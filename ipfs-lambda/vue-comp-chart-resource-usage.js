@@ -32,12 +32,12 @@ Vue.component('starbian-resource-usage-list', {
 });
 
 
-Vue.component('starbian-resource-usage-chart-single', {
+Vue.component('starbian-resource-usage-chart-single-peer', {
   data: function () {
     let pubKey = location.search.substring(1).trim();
-    console.log('starbian-resource-usage-chart-single pubKey=<' , pubKey , '>');
+    console.log('starbian-resource-usage-chart-single-peer pubKey=<' , pubKey , '>');
     if(pubKey) {
-      createStarbianPeerSingle(pubKey);
+      createStarbianPeerSinglePeer(pubKey);
     }
     return {}
   },  
@@ -53,55 +53,53 @@ Vue.component('starbian-resource-usage-chart-single', {
   `
 });
 
-createStarbianPeerSingle = (pubKey) => {
-  console.log('createStarbianPeerSingle pubKey=<' , pubKey , '>');
+createStarbianPeerSinglePeer = (pubKey) => {
+  console.log('createStarbianPeerSinglePeer pubKey=<' , pubKey , '>');
   let peer = new StarBian.Peer(pubKey);
   peer.onopen =() => {
-    console.log('createStarbianPeerSingle peer.onopen pubKey=<' , pubKey , '>');
+    console.log('createStarbianPeerSinglePeer peer.onopen pubKey=<' , pubKey , '>');
   };
   peer.subscribe((msg)=>{
-    onMessageSingle(msg,pubKey);
+    onMessageSinglePeer(msg,pubKey);
   });
 };
 
-onMessageSingle = (msg,pubKey) => {
-  //console.log('onMessageSingle msg=<' , msg , '>');  
-  //console.log('onMessageSingle pubKey=<' , pubKey , '>');
+onMessageSinglePeer = (msg,pubKey) => {
+  //console.log('onMessageSinglePeer msg=<' , msg , '>');  
+  //console.log('onMessageSinglePeer pubKey=<' , pubKey , '>');
   let memElem = document.getElementById('starbian-chart-memory');
-  console.log('onMessageSingle memElem=<' , memElem , '>');
-  onUpdateGraphSingleMem(memElem,msg.memory,pubKey);
+  console.log('onMessageSinglePeer memElem=<' , memElem , '>');
+  onUpdateGraphSinglePeerMem(memElem,msg.memory,pubKey);
   let cpuElem = document.getElementById('starbian-chart-cpu');
-  console.log('onMessageSingle cpuElem=<' , cpuElem , '>');
-  onUpdateGraphSingleCPU(cpuElem,msg.cpu,pubKey);
+  console.log('onMessageSinglePeer cpuElem=<' , cpuElem , '>');
+  onUpdateGraphSinglePeerCPU(cpuElem,msg.cpu,pubKey);
 };
 
 
-let dataCacheSingleMem = {};
-const iConstGraphWidthSingle = 64;
-onUpdateGraphSingleMem = (ctx,value,pubKey) => {
-  console.log('onUpdateGraphSingleMem value=<' , value , '>');
-  if(!dataCacheSingleMem[pubKey]) {    
-    dataCacheSingleMem[pubKey] = [];
-    //dataCacheSingleMem[pubKey].push(1.0);
-    //dataCacheSingleMem[pubKey].push(-1.0);
+let dataCacheSinglePeerMem = {};
+const iConstGraphWidthSinglePeer = 64;
+
+
+onUpdateGraphSinglePeerMem = (ctx,value,pubKey) => {
+  console.log('onUpdateGraphSinglePeerMem value=<' , value , '>');
+  if(!dataCacheSinglePeerMem[pubKey]) {    
+    dataCacheSinglePeerMem[pubKey] = [];
   }
-  dataCacheSingleMem[pubKey].push(value);
-  if(dataCacheSingleMem[pubKey].length >= iConstGraphWidthSingle) {
-    dataCacheSingleMem[pubKey].shift();
-    //dataCacheSingleMem[pubKey].push(1.0);
-    //dataCacheSingleMem[pubKey].push(-1.0);    
+  dataCacheSinglePeerMem[pubKey].push(value);
+  if(dataCacheSinglePeerMem[pubKey].length >= iConstGraphWidthSinglePeer) {
+    dataCacheSinglePeerMem[pubKey].shift();
   }
   
   let graphOption = {
     type: 'line',
     data: {
-      labels: new Array(iConstGraphWidthSingle),
+      labels: new Array(iConstGraphWidthSinglePeer),
       datasets: [ 
         {
           label: 'Memory Usage',
-          data:dataCacheSingleMem[pubKey],
-          borderColor: 'rgba(255,0,0,1)',
-          backgroundColor: 'rgba(0,0,0,0)'
+          fill: false,
+          data:dataCacheSinglePeerMem[pubKey],
+          borderColor: 'rgba(255,0,0,1)'
         }
       ]
     },
@@ -131,38 +129,60 @@ onUpdateGraphSingleMem = (ctx,value,pubKey) => {
       } 
     }
   };
-  console.log('onUpdateGraphSingleMem dataCacheSingleMem=<' , dataCacheSingleMem , '>');
+  console.log('onUpdateGraphSinglePeerMem dataCacheSinglePeerMem=<' , dataCacheSinglePeerMem , '>');
   let myChart = new Chart(ctx,graphOption);
 }
 
+const CPUGraphColorTable = [
+  'rgba(255,0,0,1)',
+  'rgba(0,255,0,1)',
+  'rgba(0,0,255,1)',
+  'rgba(0,255,255,1)',
+  'rgba(255,0,0,1)',
+  'rgba(255,0,0,1)',
+  'rgba(255,0,0,1)',
+  'rgba(255,0,0,1)',
+  'rgba(255,0,0,1)',
+  'rgba(255,0,0,1)',
+  'rgba(255,0,0,1)',
+  'rgba(255,0,0,1)',
+  'rgba(255,0,0,1)',
+  'rgba(255,0,0,1)',
+  'rgba(255,0,0,1)',
+  'rgba(255,0,0,1)',
+];
 
-let dataCacheSingleCPU = {};
-onUpdateGraphSingleCPU = (ctx,value,pubKey) => {
-  console.log('dataCacheSingleCPU value=<' , value , '>');
-  if(!dataCacheSingleCPU[pubKey]) {    
-    dataCacheSingleCPU[pubKey] = [];
-    //dataCacheSingleCPU[pubKey].push(1.0);
-    //dataCacheSingleCPU[pubKey].push(-1.0);
+let dataCacheSinglePeerCPU = {};
+onUpdateGraphSinglePeerCPU = (ctx,value,pubKey) => {
+  console.log('onUpdateGraphSinglePeerCPU value=<' , value , '>');
+  if(value.length < 1 ) {
+    return;
   }
-  dataCacheSingleCPU[pubKey].push(value);
-  if(dataCacheSingleCPU[pubKey].length >= iConstGraphWidthSingle) {
-    dataCacheSingleCPU[pubKey].shift();
-    //dataCacheSingleCPU[pubKey].push(1.0);
-    //dataCacheSingleCPU[pubKey].push(-1.0);
+  let datesets = [];
+  if(!dataCacheSinglePeerCPU[pubKey]) {    
+    dataCacheSinglePeerCPU[pubKey] = [];
   }
-  
+  for(let i = 0;i < value.length;i++) {
+    if(!dataCacheSinglePeerCPU[pubKey][i]) {    
+      dataCacheSinglePeerCPU[pubKey][i] = [];
+    }
+    dataCacheSinglePeerCPU[pubKey][i].push(value[i]);
+    if(dataCacheSinglePeerCPU[pubKey][i].length >= iConstGraphWidthSinglePeer) {
+      dataCacheSinglePeerCPU[pubKey][i].shift();
+    }
+    datesets[i] = {
+      label: 'CPU Usage of Core ' + i,
+      fill: false,
+      data:dataCacheSinglePeerCPU[pubKey][i],
+      borderColor: CPUGraphColorTable[i]
+    }
+  }
+  console.log('onUpdateGraphSinglePeerCPU datesets=<' , datesets , '>');
   let graphOption = {
     type: 'line',
     data: {
-      labels: new Array(iConstGraphWidthSingle),
-      datasets: [ 
-        {
-          label: 'CPU Usage',
-          data:dataCacheSingleCPU[pubKey],
-          borderColor: 'rgba(255,0,0,1)',
-          backgroundColor: 'rgba(0,0,0,0)'
-        }
-      ]
+      labels: new Array(iConstGraphWidthSinglePeer),
+      datasets: datesets
     },
     options: {
       title: {
@@ -172,8 +192,6 @@ onUpdateGraphSingleCPU = (ctx,value,pubKey) => {
       scales: {
         yAxes: [{
           ticks: {
-            /*suggestedMax: 1.0,*/
-            /*suggestedMin: 0.0,*/
             stepSize: 0.01,
             callback: function(value, index, values){
               return values;
@@ -190,7 +208,7 @@ onUpdateGraphSingleCPU = (ctx,value,pubKey) => {
       } 
     }
   };
-  console.log('dataCacheSingleCPU dataCacheSingleCPU=<' , dataCacheSingleCPU , '>');
+  console.log('onUpdateGraphSinglePeerCPU dataCacheSinglePeerCPU=<' , dataCacheSinglePeerCPU , '>');
   let myChart = new Chart(ctx,graphOption);
 }
 

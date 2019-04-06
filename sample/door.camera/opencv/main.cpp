@@ -197,7 +197,7 @@ void detect_face_main(void) {
     {
       std::lock_guard<std::mutex> guard(mtxImagePath);
       if(!sDetectImagePath.empty()) {
-        fileName = sDetectImagePath.front();
+        fileName = sDetectImagePath.back();
         DUMP_VAR(sDetectImagePath.size());
         sDetectImagePath.clear();
       }

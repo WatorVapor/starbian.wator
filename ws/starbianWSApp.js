@@ -19,12 +19,23 @@ const WebSocket = require('ws');
 
 let wsClients = {};
 let wss = false;
+let isWSProxyReady = false;
 wsProxy.onReady = () =>{
   wsProxy.subscribe_passthrough_broadcast(onStarBianBroadCast);
   setTimeout(() => {
     startWebsocket();
   },0);
+  isWSProxyReady = true;
 };
+
+// 
+setTimeout(()=>{
+  if(!isWSProxyReady) {
+    console.log('isWSProxyReady=<',isWSProxyReady,'>');
+    process.exit(0);    
+  }
+},1000*60 *2);
+
 
 const startWebsocket = ()=> {
   wss = new WebSocket.Server({host:'127.0.0.1', port: 19080 });

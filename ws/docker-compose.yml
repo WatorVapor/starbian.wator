@@ -1,7 +1,7 @@
 version: '3'
 services:
   gateway:
-    image: node:10
+    image: node:lts
     volumes:
       - ./:/home/app
     working_dir: "/home/app"

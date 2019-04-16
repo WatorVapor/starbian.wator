@@ -61,7 +61,7 @@ module.exports = class HexNode {
       const address = udpCtrl.address();
       console.log('listening on address=<',address,'>');
       setTimeout( ()=> {
-        self._runudpCtrlReady();
+        self._runUdpCtrlReady();
       },1);  
     });
     
@@ -72,14 +72,14 @@ module.exports = class HexNode {
       //console.log('udpCtrl message on utf8Msg=<',utf8Msg,'>');
       try {
         const jsonMsg = JSON.parse(utf8Msg);
-        self._onCtrlMsg(jsonMsg,remote);
+        this._onCtrlMsg(jsonMsg,remote);
       } catch (e) {
         console.error('udpCtrl message on remote=<',remote,'>');
         console.error('udpCtrl message on message=<',message,'>');
       }
     });    
   }
-  _runudpCtrlReady() {
+  _runUdpCtrlReady() {
     let ep = {
       address:config.swarm.ctrl.host,
       port:config.swarm.ctrl.port
@@ -89,11 +89,11 @@ module.exports = class HexNode {
   }
   _entryWorld(){
     const entryMsg = { entry:true };
-    let endpoint = { 
+    let seedEP = { 
       address:config.seed.ctrl.host,
       port:config.seed.ctrl.port
     };
-    this._sendCtrlMsg(entryMsg,endpoint);
+    this._sendCtrlMsg(entryMsg,seedEP);
   }
   
 
@@ -106,7 +106,7 @@ module.exports = class HexNode {
       if (err) {
         throw err;
       }
-      //console.log('_sendCtrlMsg sent bytes=<',bytes,'>');
+      console.log('_sendCtrlMsg sent bytes=<',bytes,'>');
     });  
   }
 
@@ -165,13 +165,13 @@ module.exports = class HexNode {
     if(this._worldNode[peer]) {
       this._worldNode[peer] = endpoint;
     }
-    //console.log('_onEntryPeer endpoint=<',endpoint,'>');
+    //console.log('_savePeer endpoint=<',endpoint,'>');
     let netSize = Object.keys(this._worldNode);
-    //console.log('_onEntryPeer netSize=<',netSize,'>');
+    //console.log('_savePeer netSize=<',netSize,'>');
     if(netSize.length < iConstWorldNodeSizeMax) {
       this._worldNode[peer] = endpoint;
     }
-    console.log('_onEntryPeer this._worldNode=<',this._worldNode,'>');    
+    console.log('_savePeer this._worldNode=<',this._worldNode,'>');    
   }
   
   _onAllowList (allow) {

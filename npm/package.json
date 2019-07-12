@@ -1,6 +1,6 @@
 {
   "name": "starbian",
-  "version": "0.0.33",
+  "version": "0.0.34",
   "description": "wator star edge",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "ipfs": ">=0.33",
     "ipfs-pubsub-room": ">=1.4.1",
     "jsrsasign": ">=8.0.12",
-    "node-webcrypto-ossl": ">=1.0.37"
+    "node-webcrypto-ossl": ">=1.0.48"
   },
   "repository": {
     "type": "git",

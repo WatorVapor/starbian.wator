@@ -193,7 +193,7 @@ if(typeof constMaxMemoryStr === 'string') {
   constMaxMemory = 1024*1024*1024;
 }
 
-const constForceGCOverMemory = 20;
+const constForceGCOverMemory = 40;
 const constExitOverMemory = 60;
 
 const intervalMemory = setInterval(() =>{

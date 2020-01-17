@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "base32.js": "^0.1.0",
+    "jsrsasign": "^8.0.12",
+    "ripemd160": "^2.0.2"
+  }
+}

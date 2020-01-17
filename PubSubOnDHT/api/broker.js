@@ -1,5 +1,6 @@
 const TransferUDP = require('../src/transferUDP.js');
 const DHTPeer = require('../src/peer.js');
+const isIp = require('is-ip');
 class Broker {
   constructor(config) {
     this.config_ = config;
@@ -14,11 +15,11 @@ class Broker {
         host = '0.0.0.0';
       }
       const port = this.config_.cluster.ipv4.port;
-      this.server4_ = new TransferUDP(host,port,true);
-      this.server4_.onBindReady = ()=> {
+      this.sock4_ = new TransferUDP(host,port,true);
+      this.sock4_.onBindReady = ()=> {
         self.onListenClusterReady_(4);
       }
-      this.server4_.onMsg = (msg,rinfo)=> {
+      this.sock4_.onMsg = (msg,rinfo)=> {
         self.onMsgCluster_(msg,rinfo);
       }
     }
@@ -28,11 +29,11 @@ class Broker {
         host = '::';
       }
       const port = this.config_.cluster.ipv6.port;
-      this.server6_ = new TransferUDP(host,port,true);
-      this.server6_.onBindReady = ()=> {
+      this.sock6_ = new TransferUDP(host,port,true);
+      this.sock6_.onBindReady = ()=> {
         self.onListenClusterReady_(6);
       }
-      this.server6_.onMsg = (msg,rinfo)=> {
+      this.sock6_.onMsg = (msg,rinfo)=> {
         self.onMsgCluster_(msg,rinfo);
       }
     }    
@@ -42,13 +43,13 @@ class Broker {
     console.log('Broker::onListenClusterReady_::family:=',family,'>');
     if(family === 4) {
       this.v4Ready_ = true;
-      if(!this.server6_) {
+      if(!this.sock6_) {
         this.v6Ready_ = true;
       }
     }
     if(family === 6) {
       this.v6Ready_ = true;
-      if(!this.server4_) {
+      if(!this.sock4_) {
         this.v4Ready_ = true;
       }
     }
@@ -60,26 +61,17 @@ class Broker {
   
   enterWorld_() {
     console.log('Broker::enterWorld_::this.config_:=',this.config_,'>');
-    this.doors_ = [];
-    const self = this;
     for(const gate of this.config_.bootstrap) {
       console.log('Broker::enterWorld_::gate:=',gate,'>');
-      const door = new TransferUDP(gate.host,gate.port);
-      door.onSocketReady = ()=> {
-        const enterObj = {enter:{role:'broker'}};
-        const message = Buffer.from(JSON.stringify(enterObj));
-        door.send(message);
+      const enterObj = {enter:{role:'broker'}};
+      const message = Buffer.from(JSON.stringify(enterObj));
+      if(this.sock6_ && isIp.v6(gate.host)) {
+        this.sock6_.send(message,gate.host,gate.port);
       }
-      door.onMsg = (msg,rinfo)=> {
-        self.onMsgDoor_(msg,rinfo,door);
+      if(this.sock4_ && isIp.v4(gate.host)) {
+        this.sock4_.send(message,gate.host,gate.port);
       }
-      this.doors_.push(door);      
     }
-  }
-  onMsgDoor_(msg,rinfo,door) {
-    console.log('Broker::onMsgDoor_::msg:=',msg,'>');    
-    console.log('Broker::onMsgDoor_::rinfo:=',rinfo,'>');    
-    console.log('Broker::onMsgDoor_::door:=',door,'>');    
   }
   onMsgCluster_(msg,rinfo) {
     console.log('Broker::onMsgCluster_::msg:=',msg,'>');

@@ -38,6 +38,17 @@ class TransferUDP {
       console.log('TransferUDP::send::e:=',e,'>');
     }
   }
+
+  send(message,host,port) {
+    try {
+      const self = this;
+      this.socket_.send(message, 0, message.length, port, host, (err, bytes) =>{
+        self.onSentMsg_(err, bytes);
+      });    
+    } catch(e) {
+      console.log('TransferUDP::send::e:=',e,'>');
+    }
+  }
   
   
   createNetwork_() {

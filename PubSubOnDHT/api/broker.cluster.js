@@ -1,6 +1,7 @@
 const TransferUDP = require('../src/transferUDP.js');
 const DHTPeer = require('../src/peer.js');
-const isIp = require('is-ip');
+//const isIp = require('is-ip');
+const net = require('net');
 class BrokerCluster {
   constructor(config) {
     this.config_ = config;
@@ -67,10 +68,10 @@ class BrokerCluster {
       const enterObj = {enter:{role:'broker'}};
       const enterObjSign = this.peer_.sign(enterObj);
       const message = Buffer.from(JSON.stringify(enterObjSign));
-      if(this.sock6_ && isIp.v6(gate.host)) {
+      if(this.sock6_ && net.isIPv6(gate.host)) {
         this.sock6_.sendTo(message,gate.host,gate.port);
       }
-      if(this.sock4_ && isIp.v4(gate.host)) {
+      if(this.sock4_ && net.isIPv4(gate.host)) {
         this.sock4_.sendTo(message,gate.host,gate.port);
       }
     }
@@ -106,10 +107,10 @@ class BrokerCluster {
     const rinfoSlim = Object.assign({}, rinfo);
     delete rinfoSlim.size;
     if(enter.role === 'broker') {
-      if(isIp.v6(rinfo.address)) {
+      if(net.isIPv6(rinfo.address)) {
         this.clusterPeers_['v6_' + rPeer] = rinfoSlim;
       }
-      if(isIp.v4(rinfo.address)) {
+      if(net.isIPv4(rinfo.address)) {
         this.clusterPeers_['v4_' + rPeer] = rinfoSlim;
       }
       console.log('BrokerCluster::onEnterClusterMsg_::this.clusterPeers_:=<',this.clusterPeers_,'>');

@@ -88,10 +88,10 @@ class BrokerPubSub {
   findSameVBroker_(address) {
     console.log('BrokerCluster::findSameVBroker_::this.cluster_.clusterPeers_:=<',this.cluster_.clusterPeers_,'>');
     let filter = '';
-    if(isIp.v6(address)) {
+    if(net.isIPv6(address)) {
       filter = 'v6_';
     }
-    if(isIp.v4(address)) {
+    if(net.isIPv4(address)) {
       filter = 'v4_';
     }
     const goodBrokers = {};

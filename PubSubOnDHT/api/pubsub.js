@@ -1,7 +1,7 @@
 const EventEmitter = require("events").EventEmitter;
 const TransferUDP = require('../src/transferUDP.js');
 const DHTPeer = require('../src/peer.js');
-const isIp = require('is-ip');
+const net = require('net');
 
 class PubSub extends EventEmitter {
   constructor(config) {

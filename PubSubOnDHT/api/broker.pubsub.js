@@ -80,23 +80,34 @@ class BrokerPubSub {
     //console.log('BrokerPubSub::onEnterPubSubMsg_::rPeer:=<',rPeer,'>');
     //console.log('BrokerPubSub::onEnterPubSubMsg_::rinfo:=<',rinfo,'>');
     if(enter.role === 'pubsub') {
-      const brokers = this.findSameVBroker_(rinfo.address);
-      console.log('BrokerCluster::onEnterPubSubMsg_::brokers:=<',brokers,'>');
+      const brokers = this.findSameIpBroker_(rinfo.address);
+      console.log('BrokerPubSub::onEnterPubSubMsg_::brokers:=<',brokers,'>');
+      const welcomeObj = {welcome:{role:'pubsub',cluster:brokers}};
+      const welcomeObjSign = this.peer_.sign(welcomeObj);
+      const message = Buffer.from(JSON.stringify(welcomeObjSign));
+      if(brokers.v6) {
+        this.sock6_.sendTo(message,rinfo.address,rinfo.port);
+      }
+      if(brokers.v4) {
+        this.sock4_.sendTo(message,rinfo.address,rinfo.port);        
+      }      
     }
   }
   
-  findSameVBroker_(address) {
-    console.log('BrokerCluster::findSameVBroker_::this.cluster_.clusterPeers_:=<',this.cluster_.clusterPeers_,'>');
+  findSameIpBroker_(address) {
+    //console.log('BrokerPubSub::findSameIpBroker_::this.cluster_.clusterPeers_:=<',this.cluster_.clusterPeers_,'>');
+    const goodBrokers = {};
     let filter = '';
     if(net.isIPv6(address)) {
       filter = 'v6_';
+      goodBrokers.v6 = true;
     }
     if(net.isIPv4(address)) {
       filter = 'v4_';
+      goodBrokers.v4 = true;
     }
-    const goodBrokers = {};
     for(let peer in this.cluster_.clusterPeers_) {
-      console.log('BrokerPubSub::onEnterPubSubMsg_::peer:=<',peer,'>');
+      //console.log('BrokerPubSub::findSameIpBroker_::peer:=<',peer,'>');
       if(peer.startsWith(filter)) {
         goodBrokers[peer] = this.cluster_.clusterPeers_[peer];
       }

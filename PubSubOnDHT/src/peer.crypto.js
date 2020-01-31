@@ -1,6 +1,7 @@
 'use strict';
 const fs = require('fs');
 const jsrsasign = require('jsrsasign');
+const Crypto = require('crypto');
 const RIPEMD160 = require('ripemd160');
 const base32 = require("base32.js");
 
@@ -18,8 +19,8 @@ class PeerCrypto {
       console.log('PeerCrypto::loadKey this.jwk=<',this.jwk,'>');
     }
     this.calcKeyBS32__();
-    //console.log('PeerCrypto::constructor this.pubBS32=<',this.pubBS32,'>');
-    //console.log('PeerCrypto::constructor this.idBS32=<',this.idBS32,'>');
+    console.log('PeerCrypto::constructor this.pubBS32=<',this.pubBS32,'>');
+    console.log('PeerCrypto::constructor this.idBS32=<',this.idBS32,'>');
   }
   sign(msg) {
     let now = new Date();
@@ -28,10 +29,8 @@ class PeerCrypto {
     msg.sign.ms = now.getMilliseconds();
     msg.sign.pubKey = this.pubBS32;
     
-    let msgStr = JSON.stringify(msg);
-    let msgHash = new RIPEMD160().update(msgStr).digest('hex');
+    let msgHash = this.hashMsg_(JSON.stringify(msg));
     //console.log('PeerCrypto::sign msgHash=<',msgHash,'>');
-    let sign = {hash:msgHash};
     
     const ec = new jsrsasign.KJUR.crypto.ECDSA({'curve': 'secp256r1'});
     const sigValue = ec.signHex(msgHash, this.keyMaster.prvKeyHex);
@@ -55,8 +54,7 @@ class PeerCrypto {
     const hashMsg = Object.assign({}, msgJson);
     delete hashMsg.signed;
 
-    let msgStr = JSON.stringify(hashMsg);
-    let msgHash = new RIPEMD160().update(msgStr).digest('hex');
+    let msgHash = this.hashMsg_(JSON.stringify(hashMsg));
     //console.log('PeerCrypto::verify msgHash=<',msgHash,'>');
     if(msgHash !== msgJson.signed.hash) {
       console.log('PeerCrypto::verify msgJson=<',msgJson,'>');
@@ -74,22 +72,17 @@ class PeerCrypto {
     return verifyResult;
   }
   calcID(msgJson) {
-    const pubKeyHex = base32.decode(msgJson.sign.pubKey,bs32Option).toString('hex');
-    const keyRipemd = new RIPEMD160().update(pubKeyHex).digest('hex');
-    const keyBuffer = Buffer.from(keyRipemd,'hex');
-    return base32.encode(keyBuffer,bs32Option);
+    let pubKeyHex = base32.decode(msgJson.sign.pubKey,bs32Option).toString('hex');
+    return this.hashAddress_(pubKeyHex);
   }
   calcTopic(topic) {
-    const topicRipemd = new RIPEMD160().update(topic).digest('hex');
-    const topicBuffer = Buffer.from(topicRipemd,'hex');
-    return base32.encode(topicBuffer,bs32Option);
+    return this.hashAddress_(topic);
   }
   calcResourceAddress(resourceKey) {
-    const resourceRipemd = new RIPEMD160().update(resourceKey).digest('hex');
-    const resourceBuffer = Buffer.from(resourceRipemd,'hex');
-    return base32.encode(resourceBuffer,bs32Option);
+    return this.hashAddress_(resourceKey);
   }
-
+  
+  
   
   
   loadKey__(keyJson) {
@@ -107,15 +100,38 @@ class PeerCrypto {
     this.keyMaster = ec.prvKeyObj;
     this.jwk = jwkPrv1;
   }
+  
+  
   calcKeyBS32__() {
     const pubKeyBuff = Buffer.from(this.keyMaster.pubKeyHex, 'hex');
     this.pubBS32 = base32.encode(pubKeyBuff,bs32Option);
     //console.log('PeerCrypto::calcKeyBS32__ this.id =<',this.id ,'>');
-    const keyRipemd = new RIPEMD160().update(this.keyMaster.pubKeyHex).digest('hex');
+    
+    const sha512 = Crypto.createHash('sha512');
+    sha512.update(this.keyMaster.pubKeyHex);
+    const sha512Msg = sha512.digest('hex');
+    const keyRipemd = new RIPEMD160().update(sha512Msg).digest('hex');
     const keyBuffer = Buffer.from(keyRipemd,'hex');
     //console.log('PeerCrypto::calcKeyBS32__ keyBuffer =<',keyBuffer ,'>');
     this.idBS32 = base32.encode(keyBuffer,bs32Option);
     this.address = keyBuffer;
   }
+  
+  hashMsg_(msgStr) {
+    const sha512 = Crypto.createHash('sha512');
+    sha512.update(msgStr);
+    const sha512Msg = sha512.digest('hex')
+    return new RIPEMD160().update(sha512Msg).digest('base64');
+  }
+  hashAddress_(keyHex) {
+    const sha512 = Crypto.createHash('sha512');
+    sha512.update(keyHex);
+    const sha512Msg = sha512.digest('hex');
+    const topicRipemd = new RIPEMD160().update(sha512Msg).digest('hex');
+    const topicBuffer = Buffer.from(topicRipemd,'hex');
+    return base32.encode(topicBuffer,bs32Option);    
+  }
+
+
 }
 module.exports = PeerCrypto;

@@ -1,2 +1,2 @@
-npm install jsrsasign ripemd160 base32.js is-ip --save
+npm install ripemd160 base32.js tweetnacl --save
 pause

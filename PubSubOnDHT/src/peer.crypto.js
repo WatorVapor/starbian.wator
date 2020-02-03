@@ -104,6 +104,7 @@ class PeerCrypto {
   
   calcKeyBS32__() {
     const pubKeyBuff = Buffer.from(this.keyMaster.pubKeyHex, 'hex');
+    console.log('PeerCrypto::calcKeyBS32__ pubKeyBuff.length =<',pubKeyBuff.length ,'>');
     this.pubBS32 = base32.encode(pubKeyBuff,bs32Option);
     //console.log('PeerCrypto::calcKeyBS32__ this.id =<',this.id ,'>');
     

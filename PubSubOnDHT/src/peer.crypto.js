@@ -61,20 +61,23 @@ class PeerCrypto {
       console.log('PeerCrypto::verify msgJson=<',msgJson,'>');
       return false;
     }
-    console.log('PeerCrypto::verify msgJson.sign.pubKey=<',msgJson.sign.pubKey,'>');
+    //console.log('PeerCrypto::verify msgJson.sign.pubKey=<',msgJson.sign.pubKey,'>');
     const pubKey = nacl.util.decodeBase64(msgJson.sign.pubKey);
-    console.log('PeerCrypto::verify pubKey=<',pubKey,'>');
+    //console.log('PeerCrypto::verify pubKey=<',pubKey,'>');
     const signedMessage = nacl.util.decodeBase64(msgJson.signed.val);
-    console.log('PeerCrypto::verify signedMessage=<',signedMessage,'>');
+    //console.log('PeerCrypto::verify signedMessage=<',signedMessage,'>');
     const verifyBuf = nacl.sign.open(signedMessage,pubKey);
-    console.log('PeerCrypto::verify verifyBuf=<',verifyBuf,'>');
-    
-    /*
-    const ec = new jsrsasign.KJUR.crypto.ECDSA({'curve': 'secp256r1'});
-    const verifyResult = ec.verifyHex(msgJson.signed.hash,msgJson.signed.val,pubKeyHex);
-    //console.log('PeerCrypto::verify verifyResult=<',verifyResult,'>');
-    */
-    return verifyResult;
+    //console.log('PeerCrypto::verify verifyBuf=<',verifyBuf,'>');
+    if(verifyBuf) {
+      //console.log('PeerCrypto::verify msgJson.signed.hash=<',msgJson.signed.hash,'>');
+      const verifyMsg = Buffer.from(verifyBuf).toString('base64');
+      //console.log('PeerCrypto::verify verifyMsg=<',verifyMsg,'>');
+      if(verifyMsg === msgJson.signed.hash) {
+        return true;
+      }
+      return false;
+    }
+    return false;
   }
   calcID(msgJson) {
     let pubKeyHex = base32.decode(msgJson.sign.pubKey,bs32Option).toString('hex');
@@ -107,11 +110,11 @@ class PeerCrypto {
     const secretBS32 = base32.encode(ed.secretKey,bs32Option);
     this.keyMaster.publicKey = publicBS32;
     this.keyMaster.secretKey = secretBS32;
+    console.log('PeerCrypto::createKey__ this.keyMaster=<',this.keyMaster,'>');
  }
   
   
   calcKeyBS__() {
-    this.pubBS32 = this.keyMaster.publicKey;
     //console.log('PeerCrypto::calcKeyBS__ this.id =<',this.id ,'>');
     this.pubBS64 = nacl.util.encodeBase64(this.publicKey)
     

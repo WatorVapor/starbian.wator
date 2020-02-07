@@ -32,8 +32,8 @@ const options = {
   },
   masterKey:{
     kty: 'ed25519',
-    publicKey: '',
-    secretKey: ''
+    publicKey: '6k07qs1kfthq3pt6zxa8k5647x4a3v9v2hs7ys21b6zqwge8j130',
+    secretKey: '216jeyjtxr01r3r8vza64qhme6hbr8wbkdj7e9wg9v4y36gpa3d39g3vwgsqx8vhvd3fyn49jk23yj51xmxh8wkzch0nkfvy87490hg'
   },
   repos:{
     

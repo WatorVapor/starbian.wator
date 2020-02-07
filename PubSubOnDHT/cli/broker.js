@@ -31,11 +31,9 @@ const options = {
     }
   },
   masterKey:{
-    kty: 'EC',
-    crv: 'P-256',
-    x: 'C5NWDLuJip1NCcQbKG80y6EDDINkHM88cIJioBDLimI',
-    y: 'MLE8G0z1K2jvTcSfneHahgSw3sR2X10GAY8L4-EREyI',
-    d: 'MiXegg3qMwgJGC3QlTBemmGqDrPJHCphXIIcIJ4Q08c'
+    kty: 'ed25519',
+    publicKey: '',
+    secretKey: ''
   },
   repos:{
     

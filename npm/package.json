@@ -1,6 +1,6 @@
 {
   "name": "starbian",
-  "version": "0.0.34",
+  "version": "0.0.35",
   "description": "wator star edge",
   "main": "index.js",
   "scripts": {
@@ -8,9 +8,6 @@
   },
   "dependencies": {
     "bs58": ">=4.0.1",
-    "ipfs": ">=0.33",
-    "ipfs-pubsub-room": ">=1.4.1",
-    "jsrsasign": ">=8.0.12",
     "node-webcrypto-ossl": ">=1.0.48"
   },
   "repository": {
@@ -19,8 +16,7 @@
   },
   "keywords": [
     "iot",
-    "ipfs",
-    "ipfs pubsub",
+    "mqtt",
     "wator"
   ],
   "author": "wator vapor",

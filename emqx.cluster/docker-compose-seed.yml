@@ -1,0 +1,24 @@
+version: '3'
+services:
+  mqtt:
+    image: emqx/emqx:4.3.1
+    ports:
+      - 8083:8083
+    environment:
+      TZ: Asia/Tokyo
+    volumes:
+      - ./emqx/etc:/opt/emqx/etc
+      - ./emqx/etc/certs:/opt/emqx/etc/certs
+      - ./emqx/etc/certs/createKey/ca.crt:/opt/emqx/etc/certs/cacert.pem
+      - ./emqx/etc/certs/createKey/server.key:/opt/emqx/etc/certs/key.pem
+      - ./emqx/etc/certs/createKey/server.crt:/opt/emqx/etc/certs/cert.pem
+      - ./emqx/etc/certs/createKey/client.key:/opt/emqx/etc/certs/client-key.pem
+      - ./emqx/etc/certs/createKey/client.crt:/opt/emqx/etc/certs/client-cert.pem
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.1'
+          memory: 32M

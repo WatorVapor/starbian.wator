@@ -1,0 +1,25 @@
+version: '3'
+services:
+  mqtt:
+    image: emqx/emqx:4.3.1
+    environment:
+      TZ: Asia/Tokyo
+      EMQX_NAME: emqx
+      EMQX_HOST: emx2.wator.xyz
+    volumes:
+      - ./:/ws
+      - ./emx2/emqx.conf:/opt/emqx/etc/emqx.conf
+    networks:
+      - outside
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.1'
+          memory: 32M
+networks:
+  outside:
+    external:
+      name: "host"

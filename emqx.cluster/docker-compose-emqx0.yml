@@ -3,8 +3,8 @@ services:
   mqtt:
     image: emqx/emqx:4.3.1
     ports:
-      - 127.0.0.1:8083:8083
-      - 127.0.0.1:18083:18083
+      - 8083:8083
+      - 18083:18083
     environment:
       TZ: Asia/Tokyo
     deploy:

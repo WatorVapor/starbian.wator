@@ -11,35 +11,33 @@ const navbarTemplate =
           <i class="material-icons md-48">home</i>
         </a>
       </li>
+    </ul>
+    <ul class="navbar-nav nav justify-content-center">
       <li class="nav-item active">
         <a class="nav-link text-primary vue-lang" v-bind:href="root + '/galaxy'" role="button">
           {% navbar.galaxy %}
         </a>
       </li>
     </ul>
-    
     <ul class="navbar-nav nav justify-content-end">
       <li class="nav-item dropdown mr-5">
-        <a class="nav-link dropdown-toggle btn-lg" href="#" id="navbarDropdownLang" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle btn-lg" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="material-icons md-48">language</i>
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownLang">
-          <div class="row ml-2">
-            <div class="col">
-              <a class="" onclick="onClickChangeLang('cn')"><span class="flag-icon flag-icon-background flag-icon-cn"></span></a>
-            </div>
-            <div class="col">
-              <a class="" onclick="onClickChangeLang('ja')"><span class="flag-icon flag-icon-background flag-icon-jp"></span></a>
-            </div>
-          </div> 
-          <div class="row ml-2 mt-2">
-            <div class="col">
-              <a class="" onclick="onClickChangeLang('en')"><span class="flag-icon flag-icon-background flag-icon-us"></span></a>
-            </div>
-            <div class="col">
-            </div>
-          </div>
-        </div>
+        <ul class="dropdown-menu">
+          <li class="nav-item">
+            <a class="nav-link" onclick="onClickChangeLang('cn')"><span class="flag-icon flag-icon-background flag-icon-cn"></span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="onClickChangeLang('ja')"><span class="flag-icon flag-icon-background flag-icon-jp"></span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="onClickChangeLang('en')"><span class="flag-icon flag-icon-background flag-icon-us"></span></a>
+          </li>
+        </ul>
+      </li>
+      <li class="nav-item dropdown mr-5">
+        <a class="nav-link" v-bind:href="root + '/account'"><i class="material-icons md-48" >manage_accounts</i></a>
       </li>
     </ul>
   </div>

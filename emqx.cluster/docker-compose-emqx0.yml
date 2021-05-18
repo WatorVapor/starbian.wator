@@ -9,6 +9,7 @@ services:
       TZ: Asia/Tokyo
     volumes:
       - ./:/ws
+      - ./emqx0/etc:/opt/emqx/etc
     deploy:
       resources:
         limits:

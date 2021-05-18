@@ -9,9 +9,9 @@ const navbarTemplate =
     </a>
     <div class="collapse navbar-collapse d-flex justify-content-start">
       <ul class="navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link text-primary vue-lang" v-bind:href="root + '/galaxy'" role="button">
-            {% navbar.galaxy %}
+        <li class="nav-item active border rounded-pill">
+          <a class="nav-link text-primary vue-lang" v-bind:href="root + '/create_galaxy'" role="button">
+            <i class="material-icons md-48">add</i> {% navbar.galaxy %}
           </a>
         </li>
       </ul>

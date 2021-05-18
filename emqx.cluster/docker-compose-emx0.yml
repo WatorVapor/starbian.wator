@@ -3,18 +3,10 @@ services:
   mqtt:
     image: emqx/emqx:4.3.1
     ports:
-      - 8083:8083
-      - 18083:18083
+      - 127.0.0.1:8083:8083
+      - 127.0.0.1:18083:18083
     environment:
       TZ: Asia/Tokyo
-    volumes:
-      - ./emx0_wator_xyz/etc:/opt/emqx/etc
-      - ./emx0_wator_xyz/etc/certs:/opt/emqx/etc/certs
-      - ./emx0_wator_xyz/etc/certs/createKey/ca.crt:/opt/emqx/etc/certs/cacert.pem
-      - ./emx0_wator_xyz/etc/certs/createKey/server.key:/opt/emqx/etc/certs/key.pem
-      - ./emx0_wator_xyz/etc/certs/createKey/server.crt:/opt/emqx/etc/certs/cert.pem
-      - ./emx0_wator_xyz/etc/certs/createKey/client.key:/opt/emqx/etc/certs/client-key.pem
-      - ./emx0_wator_xyz/etc/certs/createKey/client.crt:/opt/emqx/etc/certs/client-cert.pem
     deploy:
       resources:
         limits:

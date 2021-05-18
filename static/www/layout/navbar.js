@@ -3,7 +3,7 @@ const RootPath = '';
 
 const navbarTemplate = 
 `
-  <div class="container-fluid">
+  <div class="container">
     <a class="navbar-brand text-primary " v-bind:href="root + '/'" role="button">
       <i class="material-icons md-48">home</i>
     </a>
@@ -23,7 +23,7 @@ const navbarTemplate =
     <div class="collapse navbar-collapse d-flex justify-content-end">
       <ul class="navbar-nav">
         <li class="nav-item dropdown mr-5">
-          <a class="nav-link dropdown-toggle btn-lg" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle text-info" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="material-icons md-48">language</i>
           </a>
           <ul class="dropdown-menu">
@@ -39,7 +39,7 @@ const navbarTemplate =
           </ul>
         </li>
         <li class="nav-item dropdown mr-5">
-          <a class="nav-link" v-bind:href="root + '/account'"><i class="material-icons md-48" >manage_accounts</i></a>
+          <a class="nav-link text-success" v-bind:href="root + '/account'"><i class="material-icons md-48" >manage_accounts</i></a>
         </li>
       </ul>
     </div>

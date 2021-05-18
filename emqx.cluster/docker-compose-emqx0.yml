@@ -7,6 +7,8 @@ services:
       - 18083:18083
     environment:
       TZ: Asia/Tokyo
+    volumes:
+      - ./:/ws
     deploy:
       resources:
         limits:

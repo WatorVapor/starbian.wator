@@ -1,8 +1,0 @@
-[Unit]
-Description=Door Camera Play Sound Service
-After=network.target
-[Service]
-ExecStart=/home/ma/wator/starbian.wator/sample/door.camera/sound.sh
-Restart=always
-[Install]
-WantedBy=default.target

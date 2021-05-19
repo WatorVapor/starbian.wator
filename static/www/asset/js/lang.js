@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', async (evt) => {
   //console.log('::langCommonModule.data=<',langCommonModule.data,'>');
 
   const allData = {...langModule.data, ...langCommonModule.data}
+  console.log('::allData=<',allData,'>');
 
   const langElem = document.querySelectorAll('.vue-lang');
   langElem.forEach((el, i) => {

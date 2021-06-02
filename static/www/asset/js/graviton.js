@@ -1,6 +1,7 @@
 const constGravitonPriKey = 'Graviton/priKey';
 const constGravitonPubKey = 'Graviton/pubKey';
 const constGravitonMassAddress = 'Graviton/mass/address';
+const constGravitonMassName = 'Graviton/mass/name';
 document.addEventListener('DOMContentLoaded', async (evt) => {
   const result = loadGravitonKey_();
   if(!result) {
@@ -44,6 +45,12 @@ const loadGravitonKey_ = ()=> {
       console.log('loadGravitonKey_::address=<',address,'>');
     }
     Graviton.address_ = address;
+    const name = localStorage.getItem(constGravitonMassName);
+    if(Graviton.debug) {
+      console.log('loadGravitonKey_::name=<',name,'>');
+    }
+    Graviton.name_ = name;
+
 
     const PriKey = localStorage.getItem(constGravitonPriKey);
     if(Graviton.debug) {
@@ -67,19 +74,37 @@ const loadGravitonKey_ = ()=> {
 }
 
 class Graviton {
+  constructor() {
+    if(Graviton.priKeyB64_ === null) {
+      const result = loadGravitonKey_();
+      if(!result) {
+        createGravitonKey_();
+        loadGravitonKey_();
+      }      
+    }
+  }
+  pub() {
+    return Graviton.pubKeyB64_;
+  }
+  secret() {
+    return Graviton.priKeyB64_;
+  }
+  address() {
+    return 'WT' + Graviton.address_;
+  }
+  name() {
+    return Graviton.name_;
+  }
+  storeName(name) {
+    Graviton.name_ = name;
+    localStorage.setItem(constGravitonMassName,name);
+  }
+
   static debug = false;
   static priKeyB64_ = null;
   static pubKeyB64_ = null;
   static priKey_ = null;
   static pubKey_ = null;
   static address_ = null;
-  constructor() {
-    
-  }
-  pub() {
-    
-  }
-  address() {
-    return 'WT' + address_;
-  }
+  static name_ = null;
 }

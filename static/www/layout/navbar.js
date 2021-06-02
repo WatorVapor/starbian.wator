@@ -39,7 +39,10 @@ const navbarTemplate =
           </ul>
         </li>
         <li class="nav-item dropdown mr-5">
-          <a class="nav-link text-success" v-bind:href="root + '/account'"><i class="material-icons md-48" >manage_accounts</i></a>
+          <a class="nav-link text-success" v-bind:href="root + '/account'">
+            <i class="material-icons md-48" >manage_accounts</i>
+            {{ accout.name }}
+          </a>
         </li>
       </ul>
     </div>
@@ -56,17 +59,21 @@ document.addEventListener('DOMContentLoaded', async (evt) => {
   });
 });
 
+const graviton = new Graviton();
 document.addEventListener('DOMContentLoaded', async (evt) => {
   const topNaveBar = Vue.createApp({});
   topNaveBar.component('w-navbar', {
     template: navbarTemplate,
     data: ()=>{
       return {
-        root:RootPath
+        root:RootPath,
+        accout:{ 
+          name:graviton.name()
+        }
       };
     }    
   });
-  console.log('w-navbar::topNaveBar=<',topNaveBar,'>');
+  //console.log('w-navbar::topNaveBar=<',topNaveBar,'>');
   topNaveBar.mount('#vue-navbar-top');
 });
 

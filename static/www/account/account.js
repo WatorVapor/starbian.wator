@@ -1,5 +1,18 @@
 const graviton = new Graviton();
 document.addEventListener('DOMContentLoaded', async (evt) => {
+
+  const appImport = Vue.createApp({
+    data() {
+      return {
+        graviton:{
+          secret:''
+        }
+      };
+    }
+  });
+  appImport.mount('#vue-ui-graviton-import');
+
+
   const appToken = Vue.createApp({
     data() {
       return {

@@ -15,14 +15,44 @@
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark" id="vue-navbar-top">
       <w-navbar></w-navbar>
     </nav>
-    
-    <div class="container-fluid">
-      <div class="row mt-5 pt-5">
-        <div class="col d-flex justify-content-center">
-            <a href="/account/import" class="btn btn-danger btn-lg btn-block vue-lang" role="button">{% account.keyImport %}</a>
+    <div class="container-fluid mt-5 pt-4">
+      <div class="row">
+        <div class="col d-flex justify-content-center">         
+            <button class="btn btn-warning vue-lang" type="button" data-bs-toggle="collapse" data-bs-target="#collapseKeyImport" aria-expanded="false" aria-controls="collapseKeyImport">
+              {% account.keyImport %}
+            </button>
          </div>
       </div>
     </div>
+    <div class="container-fluid mt-3 collapse" id="collapseKeyImport">
+      <div class="row justify-content-center" id="vue-ui-graviton-import">
+        <div class="col-8">         
+          <div class="form-group row mt-2">
+            <div class="col-sm-4">
+              <button class="btn btn-success" onclick="onUIClickScanSecretKey(this)">
+                <span class="vue-lang">{% account.secretKeyQRScan %}</span><i class="material-icons "style="color:red;">camera</i>
+              </button>
+            </div>
+            <div class="col-sm-4">
+              <label class="vue-lang">{% account.secretKeyLoadQRFile %}</label>
+              <input type="file" class="form-control" accept="image/*">
+            </div>
+          </div>
+          <div class="form-group row mt-3">
+            <label class="col-sm-4 col-form-label vue-lang">{% account.secretKeyB64 %}</label>
+            <div class="col-sm-6">
+              <textarea class="form-control fs-6" style="height:100px">{{ graviton.secret }}</textarea>
+            </div>
+            <div class="col-sm-2">
+              <button class="btn btn-success" onclick="onUIClickApplyGravitionSecret(this)">
+                <span class="vue-lang">{% account.modify %}</span><i class="material-icons "style="color:green;">done</i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr/>
     
     <div class="container-fluid">
       <div class="row justify-content-center" id="vue-ui-graviton-token">
@@ -47,8 +77,8 @@
         </div>
       </div>
     </div>
-    
-    <div class="container-fluid mt-5">
+    <hr/>
+    <div class="container-fluid mt-2">
       <div class="row">
         <div class="col d-flex justify-content-center">         
             <button class="btn btn-primary vue-lang" type="button" data-bs-toggle="collapse" data-bs-target="#collapseKeyExport" aria-expanded="false" aria-controls="collapseKeyExport">
@@ -62,13 +92,13 @@
         <div class="col-8">         
           <div class="form-group row">
             <label class="col-sm-4 col-form-label vue-lang">{% account.secretKeyB64 %}</label>
-            <div class="col-sm-8">
+            <div class="col-sm-6">
               <textarea class="form-control fs-6" readonly style="height:100px">{{ graviton.secret }}</textarea>
             </div>
           </div>
           <div class="form-group row mt-2">
             <label class="col-sm-4 col-form-label vue-lang">{% account.secretKeyQR %}</label>
-            <div class="col-sm-8">
+            <div class="col-sm-6">
               <img v-bind:src="graviton.secretQR" class="rounded float-start">
             </div>
           </div>

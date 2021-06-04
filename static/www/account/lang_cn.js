@@ -4,8 +4,10 @@ export const data = {
     tokenlabel:'账号令牌:',
     namelabel:'账户名字:',
     modify:'变更',
-    keyExport:'导出账户',
+    keyExport:'导出现在账户',
     secretKeyB64:'账户私钥字符:',
     secretKeyQR:'账户私钥二维码:',
+    secretKeyLoadQRFile:'打开私钥二维码图片：',
+    secretKeyQRScan:'扫描私钥二维码'
   }
 }

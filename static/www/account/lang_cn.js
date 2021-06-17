@@ -1,6 +1,7 @@
 export const data = {
   account:{
     keyImport:'导入已存账户',
+    verify:'验证密钥正确性',
     tokenlabel:'账号令牌:',
     namelabel:'账户名字:',
     modify:'变更',

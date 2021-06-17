@@ -57,17 +57,24 @@ const loadGravitonKey_ = ()=> {
       console.log('loadGravitonKey_::PriKey=<',PriKey,'>');
     }
     Graviton.priKeyB64_ = PriKey;
-    Graviton.priKey_ = nacl.util.decodeUTF8(PriKey);
-    
+    Graviton.priKey_ = nacl.util.decodeBase64(PriKey);
+    if(Graviton.debug) {
+      console.log('loadGravitonKey_::Graviton.priKey_=<',Graviton.priKey_,'>');
+    }
+    const keyPair = nacl.sign.keyPair.fromSecretKey(Graviton.priKey_);
+    if(Graviton.debug) {
+      console.log('loadGravitonKey_::keyPair=<',keyPair,'>');
+    }    
     const pubKey = localStorage.getItem(constGravitonPubKey);
     if(Graviton.debug) {
       console.log('loadGravitonKey_::pubKey=<',pubKey,'>');
     }
     Graviton.pubKeyB64_ = pubKey;
-    Graviton.pubKey_ = nacl.util.decodeUTF8(pubKey);
+    Graviton.pubKey_ = nacl.util.decodeBase64(pubKey);
 
 
   } catch(err) {
+    console.log('loadGravitonKey_::err=<',err,'>');
     return false;
   }
   return true;
@@ -99,8 +106,25 @@ class Graviton {
     Graviton.name_ = name;
     localStorage.setItem(constGravitonMassName,name);
   }
+  verifySecretKey(secretKey) {
+    if(Graviton.debug) {
+      console.log('verifySecretKey::secretKey=<',secretKey,'>');
+    }
+    const secretBin = nacl.util.decodeBase64(secretKey);
+    if(Graviton.debug) {
+      console.log('verifySecretKey::secretBin=<',secretBin,'>');
+    }
+    const keyPair = nacl.sign.keyPair.fromSecretKey(secretBin);
+    if(Graviton.debug) {
+      console.log('verifySecretKey::keyPair=<',keyPair,'>');
+    }
+    if(keyPair) {
+      return true;
+    }
+    return false;
+  }
 
-  static debug = false;
+  static debug = true;
   static priKeyB64_ = null;
   static pubKeyB64_ = null;
   static priKey_ = null;

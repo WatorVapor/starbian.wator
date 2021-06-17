@@ -35,17 +35,18 @@
             </div>
             <div class="col-sm-4">
               <label class="vue-lang">{% account.secretKeyLoadQRFile %}</label>
-              <input type="file" class="form-control" accept="image/*">
+              <input type="file" class="form-control" accept="image/*" onchange="onUIChangeQRCodeSecretKey(this)">
+              <img v-bind:src="graviton.secretQR" class="rounded float-start d-none" onload="onUIQRCodeLoaded(this)">
             </div>
           </div>
           <div class="form-group row mt-3">
             <label class="col-sm-4 col-form-label vue-lang">{% account.secretKeyB64 %}</label>
-            <div class="col-sm-6">
-              <textarea class="form-control fs-6" style="height:100px">{{ graviton.secret }}</textarea>
+            <div class="col-sm-5">
+              <textarea class="form-control fs-6" style="height:100px" v-model="graviton.secret">{{ graviton.secret }}</textarea>
             </div>
-            <div class="col-sm-2">
-              <button class="btn btn-success" onclick="onUIClickApplyGravitionSecret(this)">
-                <span class="vue-lang">{% account.modify %}</span><i class="material-icons "style="color:green;">done</i>
+            <div class="col-sm-3">
+              <button class="btn btn-success" onclick="onUIClickVerifyGravitionSecret(this)">
+                <span class="vue-lang">{% account.verify %}</span><i class="material-icons "style="color:green;">done</i>
               </button>
             </div>
           </div>
@@ -115,6 +116,7 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js" integrity="sha256-DhdpoP64xch/Frz8CiBQE12en55NX+RhlPGRg6KWm5s=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js" type="text/javascript"></script>
 
     <script src="/asset/js/ga.js" type="text/javascript"></script>
     <script src="/asset/js/graviton.js" type="text/javascript"></script>

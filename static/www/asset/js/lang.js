@@ -1,3 +1,4 @@
+import {createApp} from 'https://cdn.jsdelivr.net/npm/vue@3.1.4/dist/vue.esm-browser.prod.js';
 const constKeyLanguangeCode = 'lang_code';
 //const RootPath = '/starbian';
 const RootPath = '';
@@ -22,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async (evt) => {
   //console.log('::allData=<',allData,'>');
   const langElem = document.querySelectorAll('.vue-lang');
   langElem.forEach((el, i) => {
-    const app = Vue.createApp({
+    const app = createApp({
       data() {
         return allData;
       },

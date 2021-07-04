@@ -1,3 +1,4 @@
+import {createApp} from 'https://cdn.jsdelivr.net/npm/vue@3.1.4/dist/vue.esm-browser.prod.js';
 const graviton = new Graviton();
 //let gAppImport = false;
 let gVMKeyImport = false;
@@ -5,7 +6,7 @@ let gVMToken = false;
 let gVMKeyExport = false;
 
 document.addEventListener('DOMContentLoaded', async (evt) => {
-  const appImport = Vue.createApp({
+  const appImport = createApp({
     data() {
       return {
         graviton:{
@@ -19,7 +20,7 @@ document.addEventListener('DOMContentLoaded', async (evt) => {
   //console.log('DOMContentLoaded::gVMKeyImport=<',gVMKeyImport,'>');
   //console.log('DOMContentLoaded::gVMKeyImport.graviton=<',gVMKeyImport.graviton,'>');
 
-  const appToken = Vue.createApp({
+  const appToken = createApp({
     data() {
       return {
         graviton:{
@@ -37,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async (evt) => {
  //console.log('DOMContentLoaded::qrcode=<',qrcode,'>');
 
 
-  const appExport = Vue.createApp({
+  const appExport = createApp({
     data() {
       return {
         graviton:{

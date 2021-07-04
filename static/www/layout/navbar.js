@@ -1,5 +1,7 @@
+import {createApp} from 'https://cdn.jsdelivr.net/npm/vue@3.1.4/dist/vue.esm-browser.prod.js';
 //const RootPath = '/starbian';
 const RootPath = '';
+
 
 const navbarTemplate = 
 `
@@ -61,7 +63,8 @@ document.addEventListener('DOMContentLoaded', async (evt) => {
 
 const graviton = new Graviton();
 document.addEventListener('DOMContentLoaded', async (evt) => {
-  const topNaveBar = Vue.createApp({});
+  //const topNaveBar = Vue.createApp({});
+  const topNaveBar = createApp({});
   topNaveBar.component('w-navbar', {
     template: navbarTemplate,
     data: ()=>{

@@ -1,6 +1,5 @@
 import {createApp} from 'https://cdn.jsdelivr.net/npm/vue@3.1.4/dist/vue.esm-browser.prod.js';
 const graviton = new Graviton();
-//let gAppImport = false;
 let gVMKeyImport = false;
 let gVMToken = false;
 let gVMKeyExport = false;
@@ -52,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async (evt) => {
 });
 
 
-const onUIClickApplyGravitionTokenName = (elem) => {
+window.onUIClickApplyGravitionTokenName = (elem) => {
   //console.log('onUIClickApplyGravitionTokenName::elem=<',elem,'>');
   const root = elem.parentElement.parentElement;
   //console.log('onUIClickApplyGravitionTokenName::root=<',root,'>');
@@ -65,7 +64,7 @@ const onUIClickApplyGravitionTokenName = (elem) => {
   }
 }
 
-const onUIChangeQRCodeSecretKey = (elem) => {
+window.onUIChangeQRCodeSecretKey = (elem) => {
   //console.log('onUIChangeQRCodeSecretKey::elem=<',elem,'>');
   const root = elem.parentElement.parentElement;
   //console.log('onUIChangeQRCodeSecretKey::root=<',root,'>');
@@ -87,7 +86,7 @@ const readQRCodeFromFile = (fileName) => {
   fileReader.readAsDataURL( fileName );
 }
 
-const onUIQRCodeLoaded = (img) => {
+window.onUIQRCodeLoaded = (img) => {
   //console.log('onUIQRCodeLoaded::img=<',img,'>');
   //console.log('onUIQRCodeLoaded::img.naturalWidth=<',img.naturalWidth,'>');
   //console.log('onUIQRCodeLoaded::img.naturalHeight=<',img.naturalHeight,'>');
@@ -106,7 +105,7 @@ const onUIQRCodeLoaded = (img) => {
 }
 
 
-const onUIClickVerifyGravitionSecret = (elem) => {
+window.onUIClickVerifyGravitionSecret = (elem) => {
   console.log('onUIClickVerifyGravitionSecret::elem=<',elem,'>');
   const secretKey = gVMKeyImport.graviton.secret;
   console.log('onUIClickVerifyGravitionSecret::secretKey=<',secretKey,'>');
@@ -114,3 +113,10 @@ const onUIClickVerifyGravitionSecret = (elem) => {
     graviton.verifySecretKey(secretKey.trim());
   }
 }
+
+window.onUIClickScanSecretKey = async (elem) => {
+  console.log('onUIClickScanSecretKey::elem=<',elem,'>');
+  const stream = await navigator.mediaDevices.getUserMedia({video: true, audio: false});
+  console.log('onUIClickScanSecretKey::stream=<',stream,'>');
+}
+

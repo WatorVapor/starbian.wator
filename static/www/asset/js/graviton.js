@@ -124,7 +124,7 @@ class Graviton {
     return false;
   }
 
-  static debug = true;
+  static debug = false;
   static priKeyB64_ = null;
   static pubKeyB64_ = null;
   static priKey_ = null;

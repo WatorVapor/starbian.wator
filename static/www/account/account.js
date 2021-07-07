@@ -114,9 +114,73 @@ window.onUIClickVerifyGravitionSecret = (elem) => {
   }
 }
 
+const constConfCamera = {
+  video:{
+    facingMode:'environment',
+    width:{
+      ideal:640
+    },
+    height:{
+      ideal:480
+    }
+  },
+  audio:false,
+};
+
 window.onUIClickScanSecretKey = async (elem) => {
   console.log('onUIClickScanSecretKey::elem=<',elem,'>');
-  const stream = await navigator.mediaDevices.getUserMedia({video: true, audio: false});
+  const stream = await navigator.mediaDevices.getUserMedia(constConfCamera);
   console.log('onUIClickScanSecretKey::stream=<',stream,'>');
+
+  const video=document.createElement('video');
+  video.setAttribute('autoplay','');
+  video.setAttribute('muted','');
+  video.setAttribute('playsinline','');
+  video.srcObject = stream;
+  video.onloadedmetadata = function(e){video.play();};
+  const prev=document.getElementById('qrcode-preview');
+  setTimeout(()=>{
+    ScanQRCode(video,prev);
+  },500);
+}
+
+const ScanQRCode = (video,preview) => {
+  const w = video.videoWidth;
+  const h = video.videoHeight;
+  //console.log('ScanQRCode::w=<',w,'>');
+  //console.log('ScanQRCode::h=<',h,'>'); 
+  preview.style.width=(w/2)+"px";
+  preview.style.height=(h/2)+"px";
+  preview.setAttribute('width',w);
+  preview.setAttribute('height',h);
+  let m = 0;
+  if(w>h){
+    m = h*0.5;
+  } else {
+    m = w*0.5;
+  }
+  const x1 = (w-m)/2;
+  const y1 = (h-m)/2;
+  const prev_ctx = preview.getContext('2d');  
+  prev_ctx.drawImage(video,0,0,w,h);
+  prev_ctx.beginPath();
+  prev_ctx.strokeStyle='rgb(255,0,0)';
+  prev_ctx.lineWidth=2;
+  prev_ctx.rect(x1,y1,m,m);
+  prev_ctx.stroke();
+  const tmp = document.createElement('canvas');
+  const tmp_ctx = tmp.getContext('2d');
+  tmp.setAttribute('width',m);
+  tmp.setAttribute('height',m);
+  tmp_ctx.drawImage(preview,x1,y1,m,m,0,0,m,m);
+  const imageData = tmp_ctx.getImageData(0,0,m,m);
+  const scanResult = jsQR(imageData.data,m,m);
+  if(scanResult) {
+    console.log('ScanQRCode::scanResult=<',scanResult,'>');
+  } else {
+    setTimeout(()=> {
+      ScanQRCode(video,preview);
+    },200);
+  }
 }
 

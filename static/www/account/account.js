@@ -101,10 +101,15 @@ window.onUIQRCodeLoaded = (img) => {
   //console.log('onUIQRCodeLoaded::code=<',code,'>');
   if(code) {
     gVMKeyImport.graviton.secret = code.data;
+    const secretKey = code.data;
+    if(graviton && secretKey) {
+      const result = graviton.verifySecretKey(secretKey.trim());
+      console.log('onUIQRCodeLoaded::result=<',result,'>');
+    }
   }
 }
 
-
+/*
 window.onUIClickVerifyGravitionSecret = (elem) => {
   console.log('onUIClickVerifyGravitionSecret::elem=<',elem,'>');
   const secretKey = gVMKeyImport.graviton.secret;
@@ -113,6 +118,7 @@ window.onUIClickVerifyGravitionSecret = (elem) => {
     graviton.verifySecretKey(secretKey.trim());
   }
 }
+*/
 
 const constConfCamera = {
   video:{

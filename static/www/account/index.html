@@ -52,11 +52,17 @@
               <textarea class="form-control fs-6" rows="3" v-model="graviton.secret">{{ graviton.secret }}</textarea>
             </div>
             <div class="col-sm-3">
+              <!--
               <button class="btn btn-success" onclick="onUIClickVerifyGravitionSecret(this)">
                 <span class="vue-lang">{% account.verify %}</span><i class="material-icons "style="color:green;">done</i>
               </button>
+              -->
+              <button class="btn btn-success" disabled onclick="onUIClickImportGravitionSecret(this)">
+                <span class="vue-lang">{% account.importApply %}</span><i class="material-icons "style="color:green;">done</i>
+              </button>
             </div>
           </div>
+
         </div>
       </div>
     </div>

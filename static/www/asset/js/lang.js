@@ -2,7 +2,16 @@ import {createApp} from 'https://cdn.jsdelivr.net/npm/vue@3.1.4/dist/vue.esm-bro
 const constKeyLanguangeCode = 'lang_code';
 //const RootPath = '/starbian';
 const RootPath = '';
-document.addEventListener('DOMContentLoaded', async (evt) => {
+
+window.addEventListener('load', (evt) => {
+  createMultiLanguage_();
+});
+
+document.addEventListener('DOMContentLoaded', (evt) => {
+  createMultiLanguage_();
+});
+
+const createMultiLanguage_ = async () => {
   let lang = localStorage.getItem(constKeyLanguangeCode);
   if(!lang) {
     lang = 'cn';
@@ -30,9 +39,8 @@ document.addEventListener('DOMContentLoaded', async (evt) => {
       delimiters:['{%', '%}']
     });
     app.mount(el);
-  });
-});
-
+  });  
+}
 
 
 window.onClickChangeLang = (lang)=> {

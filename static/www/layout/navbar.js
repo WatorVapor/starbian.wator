@@ -61,9 +61,16 @@ document.addEventListener('DOMContentLoaded', async (evt) => {
   });
 });
 
-const graviton = new Graviton();
 document.addEventListener('DOMContentLoaded', async (evt) => {
-  //const topNaveBar = Vue.createApp({});
+  createTopNavBar_();
+});
+window.addEventListener('load', async (evt) => {
+  createTopNavBar_();
+});
+
+
+const graviton = new Graviton();
+const createTopNavBar_ = ()=> {
   const topNaveBar = createApp({});
   topNaveBar.component('w-navbar', {
     template: navbarTemplate,
@@ -76,8 +83,6 @@ document.addEventListener('DOMContentLoaded', async (evt) => {
       };
     }    
   });
-  //console.log('w-navbar::topNaveBar=<',topNaveBar,'>');
-  topNaveBar.mount('#vue-navbar-top');
-});
-
-
+  //console.log('w-navbar::createTopNavBar_::topNaveBar=<',topNaveBar,'>');
+  topNaveBar.mount('#vue-navbar-top');  
+}

@@ -1,10 +1,11 @@
 import {createApp} from 'https://cdn.jsdelivr.net/npm/vue@3.1.4/dist/vue.esm-browser.prod.js';
-const graviton = new Graviton();
+
 let gVMKeyImport = false;
 let gVMToken = false;
 let gVMKeyExport = false;
-
+let graviton = false;
 document.addEventListener('DOMContentLoaded', async (evt) => {
+  graviton = new Graviton();
   const appImport = createApp({
     data() {
       return {
@@ -86,6 +87,17 @@ const readQRCodeFromFile = (fileName) => {
   fileReader.readAsDataURL( fileName );
 }
 
+window.onQRCodeResult = (secretKey) => {
+  gVMKeyImport.graviton.secret = secretKey;
+  if(graviton && secretKey) {
+    const result = graviton.verifySecretKey(secretKey.trim());
+    console.log('onUIQRCodeLoaded::result=<',result,'>');
+    if(result) {
+      
+    }
+  }
+}
+
 window.onUIQRCodeLoaded = (img) => {
   //console.log('onUIQRCodeLoaded::img=<',img,'>');
   //console.log('onUIQRCodeLoaded::img.naturalWidth=<',img.naturalWidth,'>');
@@ -100,12 +112,7 @@ window.onUIQRCodeLoaded = (img) => {
   const code = jsQR(imageData.data, imageData.width, imageData.height);
   //console.log('onUIQRCodeLoaded::code=<',code,'>');
   if(code) {
-    gVMKeyImport.graviton.secret = code.data;
-    const secretKey = code.data;
-    if(graviton && secretKey) {
-      const result = graviton.verifySecretKey(secretKey.trim());
-      console.log('onUIQRCodeLoaded::result=<',result,'>');
-    }
+    onQRCodeResult(code.data);
   }
 }
 
@@ -183,6 +190,7 @@ const ScanQRCode = (video,preview) => {
   const scanResult = jsQR(imageData.data,m,m);
   if(scanResult) {
     console.log('ScanQRCode::scanResult=<',scanResult,'>');
+    onQRCodeResult(scanResult.data);
   } else {
     setTimeout(()=> {
       ScanQRCode(video,preview);

@@ -1,11 +1,19 @@
 import {createApp} from 'https://cdn.jsdelivr.net/npm/vue@3.1.4/dist/vue.esm-browser.prod.js';
-
 let gVMKeyImport = false;
 let gVMToken = false;
 let gVMKeyExport = false;
 let graviton = false;
 document.addEventListener('DOMContentLoaded', async (evt) => {
-  graviton = new Graviton();
+  createAccountApp_();
+});
+document.addEventListener('load', async (evt) => {
+  createAccountApp_();
+});
+
+const createAccountApp_ = async ()=> {
+  const Graviton = await import(`${appPrefix}/asset/js/graviton.js`);
+  console.log('createAccountApp_::Graviton=<',Graviton,'>');
+  graviton = new Graviton.Graviton();
   const appImport = createApp({
     data() {
       return {
@@ -17,9 +25,8 @@ document.addEventListener('DOMContentLoaded', async (evt) => {
     }
   });
   gVMKeyImport = appImport.mount('#vue-ui-graviton-import');
-  //console.log('DOMContentLoaded::gVMKeyImport=<',gVMKeyImport,'>');
-  //console.log('DOMContentLoaded::gVMKeyImport.graviton=<',gVMKeyImport.graviton,'>');
-
+  //console.log('createAccountApp_::gVMKeyImport=<',gVMKeyImport,'>');
+  //console.log('createAccountApp_::gVMKeyImport.graviton=<',gVMKeyImport.graviton,'>');
   const appToken = createApp({
     data() {
       return {
@@ -31,13 +38,9 @@ document.addEventListener('DOMContentLoaded', async (evt) => {
     }
   });
   gVMToken = appToken.mount('#vue-ui-graviton-token');
-
-
- //console.log('DOMContentLoaded::QRCode=<',QRCode,'>');
- const qrcode = await new QRCode.toDataURL(graviton.secret());
- //console.log('DOMContentLoaded::qrcode=<',qrcode,'>');
-
-
+  //console.log('createAccountApp_::QRCode=<',QRCode,'>');
+  const qrcode = await new QRCode.toDataURL(graviton.secret());
+  //console.log('createAccountApp_::qrcode=<',qrcode,'>');
   const appExport = createApp({
     data() {
       return {
@@ -48,9 +51,8 @@ document.addEventListener('DOMContentLoaded', async (evt) => {
       };
     }
   });
-  gVMKeyExport = appExport.mount('#vue-ui-graviton-export'); 
-});
-
+  gVMKeyExport = appExport.mount('#vue-ui-graviton-export');   
+}
 
 window.onUIClickApplyGravitionTokenName = (elem) => {
   //console.log('onUIClickApplyGravitionTokenName::elem=<',elem,'>');

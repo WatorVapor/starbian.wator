@@ -117,12 +117,6 @@ const loadScriptOfApp = () => {
   }
   {
     const fileref = document.createElement('script');
-    fileref.setAttribute('type', 'text/javascript');
-    fileref.setAttribute('src', `${appPrefix}/asset/js/graviton.js`);
-    document.getElementsByTagName('body')[0].appendChild(fileref);
-  }
-  {
-    const fileref = document.createElement('script');
     fileref.setAttribute('type', 'module');
     fileref.setAttribute('src', `${appPrefix}/asset/js/lang.js`);
     document.getElementsByTagName('body')[0].appendChild(fileref);

@@ -1,8 +1,5 @@
-import {createApp} from 'https://cdn.jsdelivr.net/npm/vue@3.1.4/dist/vue.esm-browser.prod.js';
 //const RootPath = '/starbian';
 const RootPath = '';
-
-
 const navbarTemplate = 
 `
   <div class="container">
@@ -69,8 +66,11 @@ window.addEventListener('load', async (evt) => {
 });
 
 
-const graviton = new Graviton();
-const createTopNavBar_ = ()=> {
+import {createApp} from 'https://cdn.jsdelivr.net/npm/vue@3.1.4/dist/vue.esm-browser.prod.js';
+const createTopNavBar_ = async ()=> {
+  const Graviton = await import(`${appPrefix}/asset/js/graviton.js`);
+  //console.log('w-navbar::createTopNavBar_::Graviton=<',Graviton,'>');
+  const graviton = new Graviton.Graviton();
   const topNaveBar = createApp({});
   topNaveBar.component('w-navbar', {
     template: navbarTemplate,

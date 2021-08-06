@@ -80,7 +80,7 @@ const loadGravitonKey_ = ()=> {
   return true;
 }
 
-class Graviton {
+export class Graviton {
   constructor() {
     if(Graviton.priKeyB64_ === null) {
       const result = loadGravitonKey_();

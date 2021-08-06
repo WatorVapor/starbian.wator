@@ -1,7 +1,5 @@
 import {createApp} from 'https://cdn.jsdelivr.net/npm/vue@3.1.4/dist/vue.esm-browser.prod.js';
 const constKeyLanguangeCode = 'lang_code';
-//const RootPath = '/starbian';
-const RootPath = '';
 
 window.addEventListener('load', (evt) => {
   createMultiLanguage_();
@@ -23,7 +21,7 @@ const createMultiLanguage_ = async () => {
   const langPromise = import(langURL);
   const langModule = await langPromise;
   //console.log('::langModule.data=<',langModule.data,'>');
-  const langCommonURL = `${RootPath}/layout/lang_${lang}.js`;
+  const langCommonURL = `${appPrefix}/layout/lang_${lang}.js`;
   //console.log('::langCommonURL=<',langCommonURL,'>');
   const langCommonPromise = import(langCommonURL);
   const langCommonModule = await langCommonPromise;

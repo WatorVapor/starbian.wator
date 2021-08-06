@@ -12,7 +12,7 @@ document.addEventListener('load', async (evt) => {
 
 const createAccountApp_ = async ()=> {
   const Graviton = await import(`${appPrefix}/asset/js/graviton.js`);
-  console.log('createAccountApp_::Graviton=<',Graviton,'>');
+  //console.log('createAccountApp_::Graviton=<',Graviton,'>');
   graviton = new Graviton.Graviton();
   const appImport = createApp({
     data() {

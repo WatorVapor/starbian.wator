@@ -2,12 +2,23 @@ let gVMKeyImport = false;
 let gVMToken = false;
 let gVMKeyExport = false;
 let graviton = false;
+/*
 document.addEventListener('DOMContentLoaded', async (evt) => {
+  console.log('DOMContentLoaded::evt=<',evt,'>');
   createAccountApp_();
 });
+*/
+
+document.addEventListener('AppScriptLoaded', async (evt) => {
+  console.log('AppScriptLoaded::evt=<',evt,'>');
+  createAccountApp_();
+});
+/*
 document.addEventListener('load', async (evt) => {
+  console.log('load::evt=<',evt,'>');
   createAccountApp_();
 });
+*/
 
 const createAccountApp_ = async ()=> {
   const Graviton = await import(`${appPrefix}/asset/js/graviton.js`);

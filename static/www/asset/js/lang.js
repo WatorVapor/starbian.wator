@@ -1,4 +1,5 @@
 const constKeyLanguangeCode = 'lang_code';
+/*
 window.addEventListener('load', (evt) => {
   createMultiLanguage_();
 });
@@ -6,6 +7,13 @@ window.addEventListener('load', (evt) => {
 document.addEventListener('DOMContentLoaded', (evt) => {
   createMultiLanguage_();
 });
+*/
+
+document.addEventListener('AppScriptLoaded', (evt) => {
+  createMultiLanguage_();
+});
+
+
 
 const createMultiLanguage_ = async () => {
   let lang = localStorage.getItem(constKeyLanguangeCode);

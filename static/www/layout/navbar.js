@@ -58,12 +58,18 @@ document.addEventListener('DOMContentLoaded', async (evt) => {
   });
 });
 
+/*
 document.addEventListener('DOMContentLoaded', async (evt) => {
   createTopNavBar_();
 });
 window.addEventListener('load', async (evt) => {
   createTopNavBar_();
 });
+*/
+window.addEventListener('AppScriptLoaded', async (evt) => {
+  createTopNavBar_();
+});
+
 
 
 const createTopNavBar_ = async ()=> {

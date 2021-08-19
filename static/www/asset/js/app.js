@@ -1,5 +1,6 @@
 const appConf = {
   title:'StarBian',
+  script_ready:false,
 };
 const loadHeaderOfApp = ()=> {
   console.log('loadHeaderOfCommon:=<',appConf,'>');
@@ -68,6 +69,8 @@ const loadHeaderOfApp = ()=> {
   }
 }
 
+window.frameworkScriptLoadCountUp = 0;
+window.frameworkScriptLoadCountUpDown = 0;
 const loadScriptOfApp = () => {
   {
     const fileref = document.createElement('script');
@@ -76,6 +79,8 @@ const loadScriptOfApp = () => {
     fileref.setAttribute('integrity', 'sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4');
     fileref.setAttribute('crossorigin', 'anonymous');
     document.getElementsByTagName('body')[0].appendChild(fileref);
+    window.frameworkScriptLoadCountUp++;
+    fileref.onload = () => {onFrameworkScriptLoaded();};
   }
   {
     const fileref = document.createElement('script');
@@ -84,6 +89,8 @@ const loadScriptOfApp = () => {
     fileref.setAttribute('integrity', 'sha256-PsU1wASu6yJXhdjpP7M7+Z9S45m9ffwBlptWKbrqUTE=');
     fileref.setAttribute('crossorigin', 'anonymous');
     document.getElementsByTagName('body')[0].appendChild(fileref);
+    window.frameworkScriptLoadCountUp++;
+    fileref.onload = () => {onFrameworkScriptLoaded();};
   }
   {
     const fileref = document.createElement('script');
@@ -92,6 +99,8 @@ const loadScriptOfApp = () => {
     fileref.setAttribute('integrity', 'sha256-l9yVE3YPWsTD48cjI2ABjQo466SAR0oLKj1VzQOlZ1U=');
     fileref.setAttribute('crossorigin', 'anonymous');
     document.getElementsByTagName('body')[0].appendChild(fileref);
+    window.frameworkScriptLoadCountUp++;
+    fileref.onload = () => {onFrameworkScriptLoaded();};
   }
   {
     const fileref = document.createElement('script');
@@ -100,6 +109,8 @@ const loadScriptOfApp = () => {
     fileref.setAttribute('integrity', 'sha256-d34IQcl2k8MvM/V8g3tBbuqy1cUoJ+G+H4dcDFVisnY=');
     fileref.setAttribute('crossorigin', 'anonymous');
     document.getElementsByTagName('body')[0].appendChild(fileref);
+    window.frameworkScriptLoadCountUp++;
+    fileref.onload = () => {onFrameworkScriptLoaded();};
   }
   {
     const fileref = document.createElement('script');
@@ -108,6 +119,8 @@ const loadScriptOfApp = () => {
     fileref.setAttribute('integrity', 'sha256-u605MhHOcevkqVw8DJ2q3X7kZTVTVXot4PjxIucLiMM=');
     fileref.setAttribute('crossorigin', 'anonymous');
     document.getElementsByTagName('body')[0].appendChild(fileref);
+    window.frameworkScriptLoadCountUp++;
+    fileref.onload = () => {onFrameworkScriptLoaded();};
   }
   
   {
@@ -117,6 +130,8 @@ const loadScriptOfApp = () => {
     fileref.setAttribute('integrity', 'sha256-4RFDLmU+/77wdcK/iZZAeWjE617JJ2tn6nVUf3QS5Bg=');
     fileref.setAttribute('crossorigin', 'anonymous');
     document.getElementsByTagName('body')[0].appendChild(fileref);
+    window.frameworkScriptLoadCountUp++;
+    fileref.onload = () => {onFrameworkScriptLoaded();};
   }  
   
   {
@@ -124,20 +139,39 @@ const loadScriptOfApp = () => {
     fileref.setAttribute('type', 'text/javascript');
     fileref.setAttribute('src', `${appPrefix}/asset/js/ga.js`);
     document.getElementsByTagName('body')[0].appendChild(fileref);
+    window.frameworkScriptLoadCountUp++;
+    fileref.onload = () => {onFrameworkScriptLoaded();};
   }
   {
     const fileref = document.createElement('script');
     fileref.setAttribute('type', 'module');
     fileref.setAttribute('src', `${appPrefix}/asset/js/lang.js`);
     document.getElementsByTagName('body')[0].appendChild(fileref);
+    window.frameworkScriptLoadCountUp++;
+    fileref.onload = () => {onFrameworkScriptLoaded();};
   }
   {
     const fileref = document.createElement('script');
     fileref.setAttribute('type', 'module');
     fileref.setAttribute('src', `${appPrefix}/layout/navbar.js`);
     document.getElementsByTagName('body')[0].appendChild(fileref);
+    window.frameworkScriptLoadCountUp++;
+    fileref.onload = () => {onFrameworkScriptLoaded();};
+  }
+}
+
+const onFrameworkScriptLoaded = ()=> {
+  //console.log('onFrameworkScriptLoaded::window.frameworkScriptLoadCountUp=<',window.frameworkScriptLoadCountUp,'>');
+  window.frameworkScriptLoadCountUpDown++;
+  //console.log('onFrameworkScriptLoaded::window.frameworkScriptLoadCountUpDown=<',window.frameworkScriptLoadCountUpDown,'>');
+  if(window.frameworkScriptLoadCountUpDown === window.frameworkScriptLoadCountUp) {
+    appConf.script_ready = true;
+    const evt = document.createEvent('Event');
+    evt.initEvent('AppScriptLoaded', true, true);
+    document.dispatchEvent(evt);
   }
 }
 
 loadHeaderOfApp();
 loadScriptOfApp();
+

@@ -1,6 +1,4 @@
-import {createApp} from 'https://cdn.jsdelivr.net/npm/vue@3.1.4/dist/vue.esm-browser.prod.js';
 const constKeyLanguangeCode = 'lang_code';
-
 window.addEventListener('load', (evt) => {
   createMultiLanguage_();
 });
@@ -30,7 +28,7 @@ const createMultiLanguage_ = async () => {
   //console.log('::allData=<',allData,'>');
   const langElem = document.querySelectorAll('.vue-lang');
   langElem.forEach((el, i) => {
-    const app = createApp({
+    const app = Vue.createApp({
       data() {
         return allData;
       },

@@ -1,4 +1,3 @@
-import {createApp} from 'https://cdn.jsdelivr.net/npm/vue@3.1.4/dist/vue.esm-browser.prod.js';
 let gVMKeyImport = false;
 let gVMToken = false;
 let gVMKeyExport = false;
@@ -14,7 +13,7 @@ const createAccountApp_ = async ()=> {
   const Graviton = await import(`${appPrefix}/asset/js/graviton.js`);
   //console.log('createAccountApp_::Graviton=<',Graviton,'>');
   graviton = new Graviton.Graviton();
-  const appImport = createApp({
+  const appImport = Vue.createApp({
     data() {
       return {
         graviton:{
@@ -27,7 +26,7 @@ const createAccountApp_ = async ()=> {
   gVMKeyImport = appImport.mount('#vue-ui-graviton-import');
   //console.log('createAccountApp_::gVMKeyImport=<',gVMKeyImport,'>');
   //console.log('createAccountApp_::gVMKeyImport.graviton=<',gVMKeyImport.graviton,'>');
-  const appToken = createApp({
+  const appToken = Vue.createApp({
     data() {
       return {
         graviton:{
@@ -41,7 +40,7 @@ const createAccountApp_ = async ()=> {
   //console.log('createAccountApp_::QRCode=<',QRCode,'>');
   const qrcode = await new QRCode.toDataURL(graviton.secret());
   //console.log('createAccountApp_::qrcode=<',qrcode,'>');
-  const appExport = createApp({
+  const appExport = Vue.createApp({
     data() {
       return {
         graviton:{

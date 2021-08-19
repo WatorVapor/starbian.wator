@@ -1,5 +1,5 @@
 const appConf = {
-  title:'StarBian'
+  title:'StarBian',
 };
 const loadHeaderOfApp = ()=> {
   console.log('loadHeaderOfCommon:=<',appConf,'>');
@@ -109,6 +109,16 @@ const loadScriptOfApp = () => {
     fileref.setAttribute('crossorigin', 'anonymous');
     document.getElementsByTagName('body')[0].appendChild(fileref);
   }
+  
+  {
+    const fileref = document.createElement('script');
+    fileref.setAttribute('type', 'text/javascript');
+    fileref.setAttribute('src', 'https://cdn.jsdelivr.net/npm/vue@3.2.4/dist/vue.global.prod.js');
+    fileref.setAttribute('integrity', 'sha256-4RFDLmU+/77wdcK/iZZAeWjE617JJ2tn6nVUf3QS5Bg=');
+    fileref.setAttribute('crossorigin', 'anonymous');
+    document.getElementsByTagName('body')[0].appendChild(fileref);
+  }  
+  
   {
     const fileref = document.createElement('script');
     fileref.setAttribute('type', 'text/javascript');

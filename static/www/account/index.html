@@ -41,15 +41,10 @@
           <div class="form-group row mt-3">
             <label class="col-sm-4 col-form-label vue-lang">{% account.secretKeyB64 %}</label>
             <div class="col-sm-5">
-              <textarea class="form-control fs-6" rows="3" v-model="graviton.secret">{{ graviton.secret }}</textarea>
+              <textarea class="form-control fs-6" rows="3" v-model="graviton.secret" onchange="onUIChangeTextSecretKey(this)">{{ graviton.secret }}</textarea>
             </div>
             <div class="col-sm-3">
-              <!--
-              <button class="btn btn-success" onclick="onUIClickVerifyGravitionSecret(this)">
-                <span class="vue-lang">{% account.verify %}</span><i class="material-icons "style="color:green;">done</i>
-              </button>
-              -->
-              <button class="btn btn-success" disabled onclick="onUIClickImportGravitionSecret(this)">
+              <button class="btn btn-success" id="evt-btn-import-gravition-secret" disabled onclick="onUIClickImportGravitionSecret(this)">
                 <span class="vue-lang">{% account.importApply %}</span><i class="material-icons "style="color:green;">done</i>
               </button>
             </div>

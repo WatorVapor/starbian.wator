@@ -95,7 +95,7 @@ window.onQRCodeResult = (secretKey) => {
     const result = graviton.verifySecretKey(secretKey.trim());
     console.log('onUIQRCodeLoaded::result=<',result,'>');
     if(result) {
-      
+      enableImportKey();
     }
   }
 }
@@ -200,3 +200,36 @@ const ScanQRCode = (video,preview) => {
   }
 }
 
+window.onUIChangeTextSecretKey = async (elem) => {
+  console.log('onUIChangeTextSecretKey::elem=<',elem,'>');
+  const keyText = elem.textContent.trim(); 
+  console.log('onUIChangeTextSecretKey::keyText=<',keyText,'>');
+  if(graviton) {
+    const goodKey = graviton.verifySecretKey(keyText);
+    console.log('onUIChangeTextSecretKey::goodKey=<',goodKey,'>');
+    if(goodKey) {
+      enableImportKey();
+    }
+  }
+}
+
+const enableImportKey = ()=> {
+  const importBtn = document.getElementById('evt-btn-import-gravition-secret');
+  console.log('enableImportKey::importBtn=<',importBtn,'>');
+  if(importBtn) {
+    importBtn.removeAttribute('disabled');
+  }  
+}
+
+
+window.onUIClickImportGravitionSecret = async (elem) => {
+  console.log('onUIClickImportGravitionSecret::elem=<',elem,'>');
+  const keyTextArea = elem.parentElement.parentElement.getElementsByTagName('textarea')[0];
+  if(keyTextArea && graviton) {
+    console.log('onUIClickImportGravitionSecret::keyTextArea=<',keyTextArea,'>');
+    const keyText = keyTextArea.textContent.trim();
+    console.log('onUIClickImportGravitionSecret::keyText=<',keyText,'>');
+    const isImported = graviton.importSecretKey(keyText);
+    console.log('onUIClickImportGravitionSecret::isImported=<',isImported,'>');
+  }
+}

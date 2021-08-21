@@ -1,9 +1,9 @@
 const appConf = {
   title:'StarBian',
-  script_ready:false,
 };
+
 const loadHeaderOfApp = ()=> {
-  console.log('loadHeaderOfCommon:=<',appConf,'>');
+  console.log('loadHeaderOfApp:=<',appConf,'>');
   {
     const fileref = document.createElement('meta');
     fileref.setAttribute('charset', 'utf-8');
@@ -159,33 +159,17 @@ const loadScriptOfApp = () => {
     fileref.onload = () => {onFrameworkScriptLoaded();};
   }
 }
-
-window.frameworkScriptLoadDOMContentLoaded = false;
-
 const onFrameworkScriptLoaded = ()=> {
   //console.log('onFrameworkScriptLoaded::window.frameworkScriptLoadCountUp=<',window.frameworkScriptLoadCountUp,'>');
   window.frameworkScriptLoadCountUpDown++;
   //console.log('onFrameworkScriptLoaded::window.frameworkScriptLoadCountUpDown=<',window.frameworkScriptLoadCountUpDown,'>');
   if(window.frameworkScriptLoadCountUpDown === window.frameworkScriptLoadCountUp) {
-    if(window.frameworkScriptLoadDOMContentLoaded) {
-      appConf.script_ready = true;
-      const evt = document.createEvent('Event');
-      evt.initEvent('AppScriptLoaded', true, true);
-      document.dispatchEvent(evt);
-    }
+    appConf.script_ready = true;
+    const evt = document.createEvent('Event');
+    evt.initEvent('AppScriptLoaded', true, true);
+    document.dispatchEvent(evt);
   }
 }
-document.addEventListener('DOMContentLoaded', (evt) => {
-  if(window.frameworkScriptLoadCountUpDown === window.frameworkScriptLoadCountUp) {
-    if(window.frameworkScriptLoadDOMContentLoaded === false) {
-      appConf.script_ready = true;
-      const evt = document.createEvent('Event');
-      evt.initEvent('AppScriptLoaded', true, true);
-      document.dispatchEvent(evt);
-    }
-  }
-  window.frameworkScriptLoadDOMContentLoaded = true;
-});
 
 
 loadHeaderOfApp();

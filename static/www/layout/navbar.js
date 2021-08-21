@@ -7,7 +7,7 @@ const navbarTemplate =
     <div class="collapse navbar-collapse d-flex justify-content-start">
       <ul class="navbar-nav">
         <li class="nav-item active border rounded-pill">
-          <a class="nav-link text-primary vue-lang" v-bind:href="root + '/create_galaxy'" role="button">
+          <a class="nav-link text-primary vue-lang" v-bind:href="root + '/create_galaxy/'" role="button">
             <i class="material-icons md-48">add</i> {% navbar.galaxy %}
           </a>
         </li>
@@ -36,7 +36,7 @@ const navbarTemplate =
           </ul>
         </li>
         <li class="nav-item dropdown mr-5">
-          <a class="nav-link text-success" v-bind:href="root + '/account'">
+          <a class="nav-link text-success" v-bind:href="root + '/account/'">
             <i class="material-icons md-48" >manage_accounts</i>
             {{ accout.name }}
           </a>

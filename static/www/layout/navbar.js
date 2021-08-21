@@ -1,5 +1,3 @@
-//const RootPath = '/starbian';
-const RootPath = '';
 const navbarTemplate = 
 `
   <div class="container">
@@ -81,7 +79,7 @@ const createTopNavBar_ = async ()=> {
     template: navbarTemplate,
     data: ()=>{
       return {
-        root:RootPath,
+        root:appPrefix,
         accout:{ 
           name:graviton.name()
         }

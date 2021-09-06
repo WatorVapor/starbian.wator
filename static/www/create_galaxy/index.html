@@ -2,11 +2,28 @@
 <html lang="zh">
   <head>
     <script src="./index.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="./body.css">
   </head>
   <body>
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark" id="vue-navbar-top">
       <w-navbar></w-navbar>
     </nav>
+    <div class="container-fluid mt-5 pt-4" id="vue-ui-create-galaxy">
+      <div class="row justify-content-md-center">
+        <div class="col-8">
+          <h1 class="vue-lang">{% galaxy.address %} <span class="badge bg-primary">{{glaxy.address}}</span></h1>
+         </div>
+      </div>
+      <div class="row justify-content-md-center">
+        <div class="col-8">
+          <div class="input-group mb-3">
+            <span class="input-group-text vue-lang">{% galaxy.name %}</span>
+            <input type="text" class="form-control" :value="glaxy.name" v-model="glaxy.name"/>
+          </div>
+         </div>
+      </div>
+    </div>
+    <script src="./create_galaxy_app.js" type="module"></script>
   </body>
 </html>
 

@@ -1,7 +1,7 @@
-const constGravitonPriKey = 'Graviton/priKey';
-const constGravitonPubKey = 'Graviton/pubKey';
-const constGravitonMassAddress = 'Graviton/mass/address';
-const constGravitonMassName = 'Graviton/mass/name';
+const constGravitonPriKey = 'starbian/Graviton/priKey';
+const constGravitonPubKey = 'starbian/Graviton/pubKey';
+const constGravitonMassAddress = 'starbian/Graviton/mass/address';
+const constGravitonMassName = 'starbian/Graviton/mass/name';
 
 
 export class Graviton {
@@ -113,8 +113,11 @@ const saveGravitonKey2Storage_ =(keyPair) => {
   if(Graviton.debug) {
     console.log('saveGravitonKey2Storage_::hash1Pub=<',hash1Pub,'>');
   }
-  
-  const address = Base58.encode(hash1Pub);
+  const hash1pubBuffer = nacl.util.decodeBase64(hash1Pub);
+  if(Graviton.debug) {
+    console.log('saveGravitonKey2Storage_::hash1pubBuffer=<',hash1pubBuffer,'>');
+  }  
+  const address = Base58.encode(hash1pubBuffer);
   if(Graviton.debug) {
     console.log('saveGravitonKey2Storage_::address=<',address,'>');
   }

@@ -43,6 +43,8 @@ export class GalaxyFactory {
   constructor() {
   }
   save2Storage(galaxy) {
-    
+    if(GalaxyFactory.debug) {
+      console.log('GalaxyFactory::save2Storage::galaxy=<',galaxy,'>');
+    }    
   }
 }

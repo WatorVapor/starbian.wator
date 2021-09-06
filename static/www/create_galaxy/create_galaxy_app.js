@@ -16,11 +16,25 @@ const createGalaxyApp_ = async ()=> {
   const appGalaxy = Vue.createApp({
     data() {
       return {
-        glaxy:{
+        galaxy:{
           address:address,
           name:address
         }
       };
+    },
+    methods: {
+      onGalaxyCreateBtn(event) {
+        //console.log('createGalaxyApp_::event=<',event,'>');
+        //console.log('createGalaxyApp_::this.galaxy=<',this.galaxy,'>');
+        console.log('createGalaxyApp_::this.galaxy.address=<',this.galaxy.address,'>');
+        //console.log('createGalaxyApp_::this.galaxy.name=<',this.galaxy.name,'>');
+        const gf = new GLXY.GalaxyFactory();
+        const galaxyObj = {
+          name:this.galaxy.name,
+          core:galaxy
+        };
+        gf.save2Storage(galaxyObj);
+      }
     }
   });
   gVMCreateGalaxy = appGalaxy.mount('#vue-ui-create-galaxy');

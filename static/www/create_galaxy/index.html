@@ -11,21 +11,21 @@
     <div class="container-fluid mt-5 pt-4" id="vue-ui-create-galaxy">
       <div class="row justify-content-md-center">
         <div class="col-8">
-          <h1 class="vue-lang">{% galaxy.address %} <span class="badge bg-primary">{{glaxy.address}}</span></h1>
+          <h1 class="vue-lang">{% galaxy.address %} <span class="badge bg-primary">{{galaxy.address}}</span></h1>
          </div>
       </div>
       <div class="row justify-content-md-center">
         <div class="col-8">
           <div class="input-group mb-3">
             <span class="input-group-text vue-lang">{% galaxy.name %}</span>
-            <input type="text" class="form-control" :value="glaxy.name" v-model="glaxy.name"/>
+            <input type="text" class="form-control" :value="galaxy.name" v-model="galaxy.name"/>
           </div>
          </div>
       </div>
       <div class="row justify-content-md-center">
         <div class="col-8">
-          <div class="input-group mb-3">
-            
+          <div class="d-grid gap-2">
+            <button type="button" class="btn btn-success vue-lang" @click="onGalaxyCreateBtn">{% galaxy.create_galaxy %}</button>
           </div>
          </div>
       </div>

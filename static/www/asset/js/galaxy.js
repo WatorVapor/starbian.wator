@@ -42,5 +42,7 @@ export class GalaxyFactory {
   static debug = true;
   constructor() {
   }
-  
+  save2Storage(galaxy) {
+    
+  }
 }

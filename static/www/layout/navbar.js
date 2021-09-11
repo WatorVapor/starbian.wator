@@ -71,9 +71,9 @@ window.addEventListener('AppScriptLoaded', async (evt) => {
 
 
 const createTopNavBar_ = async ()=> {
-  const Graviton = await import(`${appPrefix}/asset/js/graviton.js`);
-  //console.log('w-navbar::createTopNavBar_::Graviton=<',Graviton,'>');
-  const graviton = new Graviton.Graviton();
+  const EDAUTH = await import(`${appPrefix}/asset/js/edauth.js`);
+  //console.log('w-navbar::createTopNavBar_::EDAUTH=<',EDAUTH,'>');
+  const edAuth = new EDAUTH.EDAuth();
   const topNaveBar = Vue.createApp({});
   topNaveBar.component('w-navbar', {
     template: navbarTemplate,
@@ -81,7 +81,7 @@ const createTopNavBar_ = async ()=> {
       return {
         root:appPrefix,
         accout:{ 
-          name:graviton.name()
+          name:edAuth.name()
         }
       };
     }    

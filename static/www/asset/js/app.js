@@ -1,9 +1,16 @@
 const appConf = {
   title:'StarBian',
+  debug:false
 };
 
+const APP_LOCAL = {
+  debug:false
+}
+
 const loadHeaderOfApp = ()=> {
-  console.log('loadHeaderOfApp:=<',appConf,'>');
+  if(APP_LOCAL.debug) {
+    console.log('loadHeaderOfApp:=<',appConf,'>');
+  }
   {
     const fileref = document.createElement('meta');
     fileref.setAttribute('charset', 'utf-8');
@@ -80,7 +87,7 @@ const loadScriptOfApp = () => {
     fileref.setAttribute('crossorigin', 'anonymous');
     document.getElementsByTagName('body')[0].appendChild(fileref);
     window.frameworkScriptLoadCountUp++;
-    fileref.onload = () => {onFrameworkScriptLoaded();};
+    fileref.onload = () => {onFrameworkScriptLoaded(fileref);};
   }
   {
     const fileref = document.createElement('script');
@@ -90,7 +97,7 @@ const loadScriptOfApp = () => {
     fileref.setAttribute('crossorigin', 'anonymous');
     document.getElementsByTagName('body')[0].appendChild(fileref);
     window.frameworkScriptLoadCountUp++;
-    fileref.onload = () => {onFrameworkScriptLoaded();};
+    fileref.onload = () => {onFrameworkScriptLoaded(fileref);};
   }
   {
     const fileref = document.createElement('script');
@@ -100,7 +107,7 @@ const loadScriptOfApp = () => {
     fileref.setAttribute('crossorigin', 'anonymous');
     document.getElementsByTagName('body')[0].appendChild(fileref);
     window.frameworkScriptLoadCountUp++;
-    fileref.onload = () => {onFrameworkScriptLoaded();};
+    fileref.onload = () => {onFrameworkScriptLoaded(fileref);};
   }
   {
     const fileref = document.createElement('script');
@@ -110,7 +117,7 @@ const loadScriptOfApp = () => {
     fileref.setAttribute('crossorigin', 'anonymous');
     document.getElementsByTagName('body')[0].appendChild(fileref);
     window.frameworkScriptLoadCountUp++;
-    fileref.onload = () => {onFrameworkScriptLoaded();};
+    fileref.onload = () => {onFrameworkScriptLoaded(fileref);};
   }
   {
     const fileref = document.createElement('script');
@@ -120,7 +127,7 @@ const loadScriptOfApp = () => {
     fileref.setAttribute('crossorigin', 'anonymous');
     document.getElementsByTagName('body')[0].appendChild(fileref);
     window.frameworkScriptLoadCountUp++;
-    fileref.onload = () => {onFrameworkScriptLoaded();};
+    fileref.onload = () => {onFrameworkScriptLoaded(fileref);};
   }
   
   {
@@ -131,7 +138,7 @@ const loadScriptOfApp = () => {
     fileref.setAttribute('crossorigin', 'anonymous');
     document.getElementsByTagName('body')[0].appendChild(fileref);
     window.frameworkScriptLoadCountUp++;
-    fileref.onload = () => {onFrameworkScriptLoaded();};
+    fileref.onload = () => {onFrameworkScriptLoaded(fileref);};
   }  
   
   {
@@ -140,7 +147,7 @@ const loadScriptOfApp = () => {
     fileref.setAttribute('src', `${appPrefix}/asset/js/ga.js`);
     document.getElementsByTagName('body')[0].appendChild(fileref);
     window.frameworkScriptLoadCountUp++;
-    fileref.onload = () => {onFrameworkScriptLoaded();};
+    fileref.onload = () => {onFrameworkScriptLoaded(fileref);};
   }
   {
     const fileref = document.createElement('script');
@@ -148,7 +155,7 @@ const loadScriptOfApp = () => {
     fileref.setAttribute('src', `${appPrefix}/asset/js/lang.js`);
     document.getElementsByTagName('body')[0].appendChild(fileref);
     window.frameworkScriptLoadCountUp++;
-    fileref.onload = () => {onFrameworkScriptLoaded();};
+    fileref.onload = () => {onFrameworkScriptLoaded(fileref);};
   }
   {
     const fileref = document.createElement('script');
@@ -156,15 +163,22 @@ const loadScriptOfApp = () => {
     fileref.setAttribute('src', `${appPrefix}/layout/navbar.js`);
     document.getElementsByTagName('body')[0].appendChild(fileref);
     window.frameworkScriptLoadCountUp++;
-    fileref.onload = () => {onFrameworkScriptLoaded();};
+    fileref.onload = () => {onFrameworkScriptLoaded(fileref);};
   }
 }
-const onFrameworkScriptLoaded = ()=> {
-  //console.log('onFrameworkScriptLoaded::window.frameworkScriptLoadCountUp=<',window.frameworkScriptLoadCountUp,'>');
+const onFrameworkScriptLoaded = (ref)=> {
+  if(APP_LOCAL.debug) {
+    console.log('onFrameworkScriptLoaded::ref=<',ref,'>');
+  }
+  if(APP_LOCAL.debug) {
+    console.log('onFrameworkScriptLoaded::window.frameworkScriptLoadCountUp=<',window.frameworkScriptLoadCountUp,'>');
+  }
   window.frameworkScriptLoadCountUpDown++;
-  //console.log('onFrameworkScriptLoaded::window.frameworkScriptLoadCountUpDown=<',window.frameworkScriptLoadCountUpDown,'>');
+  if(APP_LOCAL.debug) {
+    console.log('onFrameworkScriptLoaded::window.frameworkScriptLoadCountUpDown=<',window.frameworkScriptLoadCountUpDown,'>');
+  }
   if(window.frameworkScriptLoadCountUpDown === window.frameworkScriptLoadCountUp) {
-    appConf.script_ready = true;
+    APP_LOCAL.script_ready = true;
     const evt = document.createEvent('Event');
     evt.initEvent('AppScriptLoaded', true, true);
     document.dispatchEvent(evt);

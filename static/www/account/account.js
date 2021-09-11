@@ -1,7 +1,7 @@
 let gVMKeyImport = false;
 let gVMToken = false;
 let gVMKeyExport = false;
-let graviton = false;
+let edAuth = false;
 /*
 document.addEventListener('DOMContentLoaded', async (evt) => {
   console.log('DOMContentLoaded::evt=<',evt,'>');
@@ -21,47 +21,47 @@ document.addEventListener('load', async (evt) => {
 */
 
 const createAccountApp_ = async ()=> {
-  const Graviton = await import(`${appPrefix}/asset/js/graviton.js`);
-  //console.log('createAccountApp_::Graviton=<',Graviton,'>');
-  graviton = new Graviton.Graviton();
+  const EDAUTH = await import(`${appPrefix}/asset/js/edauth.js`);
+  console.log('createAccountApp_::EDAUTH=<',EDAUTH,'>');
+  edAuth = new EDAUTH.EDAuth();
   const appImport = Vue.createApp({
     data() {
       return {
-        graviton:{
+        edAuth:{
           secret:'',
           secretQR:''
         }
       };
     }
   });
-  gVMKeyImport = appImport.mount('#vue-ui-graviton-import');
+  gVMKeyImport = appImport.mount('#vue-ui-edAuth-import');
   //console.log('createAccountApp_::gVMKeyImport=<',gVMKeyImport,'>');
-  //console.log('createAccountApp_::gVMKeyImport.graviton=<',gVMKeyImport.graviton,'>');
+  //console.log('createAccountApp_::gVMKeyImport.edAuth=<',gVMKeyImport.edAuth,'>');
   const appToken = Vue.createApp({
     data() {
       return {
-        graviton:{
-          id:graviton.address(),
-          name:graviton.name()
+        edAuth:{
+          id:edAuth.address(),
+          name:edAuth.name()
         }
       };
     }
   });
-  gVMToken = appToken.mount('#vue-ui-graviton-token');
+  gVMToken = appToken.mount('#vue-ui-edAuth-token');
   //console.log('createAccountApp_::QRCode=<',QRCode,'>');
-  const qrcode = await new QRCode.toDataURL(graviton.secret());
+  const qrcode = await new QRCode.toDataURL(edAuth.secret());
   //console.log('createAccountApp_::qrcode=<',qrcode,'>');
   const appExport = Vue.createApp({
     data() {
       return {
-        graviton:{
-          secret:graviton.secret(),
+        edAuth:{
+          secret:edAuth.secret(),
           secretQR:qrcode
         }
       };
     }
   });
-  gVMKeyExport = appExport.mount('#vue-ui-graviton-export');   
+  gVMKeyExport = appExport.mount('#vue-ui-edAuth-export');   
 }
 
 window.onUIClickApplyGravitionTokenName = (elem) => {
@@ -73,7 +73,7 @@ window.onUIClickApplyGravitionTokenName = (elem) => {
   const value = valueElem.value.trim();
   //console.log('onUIClickApplyGravitionTokenName::value=<',value,'>');
   if(value) {
-    graviton.storeName(value);
+    edAuth.storeName(value);
   }
 }
 
@@ -94,15 +94,15 @@ const readQRCodeFromFile = (fileName) => {
   const fileReader = new FileReader();
   fileReader.onload = () => {
     //console.log('readQRCodeFromFile::fileReader.result=<',fileReader.result,'>');
-    gVMKeyImport.graviton.secretQR = fileReader.result;
+    gVMKeyImport.edAuth.secretQR = fileReader.result;
   }
   fileReader.readAsDataURL( fileName );
 }
 
 window.onQRCodeResult = (secretKey) => {
-  gVMKeyImport.graviton.secret = secretKey;
-  if(graviton && secretKey) {
-    const result = graviton.verifySecretKey(secretKey.trim());
+  gVMKeyImport.edAuth.secret = secretKey;
+  if(edAuth && secretKey) {
+    const result = edAuth.verifySecretKey(secretKey.trim());
     console.log('onUIQRCodeLoaded::result=<',result,'>');
     if(result) {
       enableImportKey();
@@ -131,10 +131,10 @@ window.onUIQRCodeLoaded = (img) => {
 /*
 window.onUIClickVerifyGravitionSecret = (elem) => {
   console.log('onUIClickVerifyGravitionSecret::elem=<',elem,'>');
-  const secretKey = gVMKeyImport.graviton.secret;
+  const secretKey = gVMKeyImport.edAuth.secret;
   console.log('onUIClickVerifyGravitionSecret::secretKey=<',secretKey,'>');
-  if(graviton && secretKey) {
-    graviton.verifySecretKey(secretKey.trim());
+  if(edAuth && secretKey) {
+    edAuth.verifySecretKey(secretKey.trim());
   }
 }
 */
@@ -214,8 +214,8 @@ window.onUIChangeTextSecretKey = async (elem) => {
   console.log('onUIChangeTextSecretKey::elem=<',elem,'>');
   const keyText = elem.textContent.trim(); 
   console.log('onUIChangeTextSecretKey::keyText=<',keyText,'>');
-  if(graviton) {
-    const goodKey = graviton.verifySecretKey(keyText);
+  if(edAuth) {
+    const goodKey = edAuth.verifySecretKey(keyText);
     console.log('onUIChangeTextSecretKey::goodKey=<',goodKey,'>');
     if(goodKey) {
       enableImportKey();
@@ -235,11 +235,11 @@ const enableImportKey = ()=> {
 window.onUIClickImportGravitionSecret = async (elem) => {
   console.log('onUIClickImportGravitionSecret::elem=<',elem,'>');
   const keyTextArea = elem.parentElement.parentElement.getElementsByTagName('textarea')[0];
-  if(keyTextArea && graviton) {
+  if(keyTextArea && edAuth) {
     console.log('onUIClickImportGravitionSecret::keyTextArea=<',keyTextArea,'>');
     const keyText = keyTextArea.textContent.trim();
     console.log('onUIClickImportGravitionSecret::keyText=<',keyText,'>');
-    const isImported = graviton.importSecretKey(keyText);
+    const isImported = edAuth.importSecretKey(keyText);
     console.log('onUIClickImportGravitionSecret::isImported=<',isImported,'>');
   }
 }

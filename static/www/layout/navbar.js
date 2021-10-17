@@ -72,7 +72,7 @@ window.addEventListener('AppScriptLoaded', async (evt) => {
 
 const createTopNavBar_ = async ()=> {
   const EDAUTH = await import(`${appPrefix}/asset/js/edauth.js`);
-  //console.log('w-navbar::createTopNavBar_::EDAUTH=<',EDAUTH,'>');
+  console.log('w-navbar::createTopNavBar_::EDAUTH=<',EDAUTH,'>');
   const edAuth = new EDAUTH.EDAuth();
   const topNaveBar = Vue.createApp({});
   topNaveBar.component('w-navbar', {
@@ -87,5 +87,8 @@ const createTopNavBar_ = async ()=> {
     }    
   });
   //console.log('w-navbar::createTopNavBar_::topNaveBar=<',topNaveBar,'>');
-  topNaveBar.mount('#vue-navbar-top');  
+  topNaveBar.mount('#vue-navbar-top');
+  const evt = document.createEvent('Event');
+  evt.initEvent('TopMenuBarLoaded', true, true);
+  document.dispatchEvent(evt);
 }

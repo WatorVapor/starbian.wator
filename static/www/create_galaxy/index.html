@@ -25,7 +25,9 @@
       <div class="row justify-content-md-center">
         <div class="col-8">
           <div class="d-grid gap-2">
-            <button type="button" class="btn btn-success vue-lang" @click="onGalaxyCreateBtn">{% galaxy.create_galaxy %}</button>
+            <button type="button" class="btn btn-success" @click="onGalaxyCreateBtn">
+              <span class="vue-lang">{% galaxy.create_galaxy %}</span>
+            </button>
           </div>
          </div>
       </div>

@@ -7,10 +7,17 @@ document.addEventListener('DOMContentLoaded', (evt) => {
   createMultiLanguage_();
 });
 */
+/*
 document.addEventListener('AppScriptLoaded', (evt) => {
+  //createMultiLanguage_();
+});
+*/
+
+document.addEventListener('TopMenuBarLoaded', (evt) => {
   createMultiLanguage_();
 });
 
+const appLangList = [];
 const createMultiLanguage_ = async () => {
   let lang = localStorage.getItem(constKeyLanguangeCode);
   if(!lang) {
@@ -31,14 +38,18 @@ const createMultiLanguage_ = async () => {
   const allData = {...langModule.data, ...langCommonModule.data}
   //console.log('::allData=<',allData,'>');
   const langElem = document.querySelectorAll('.vue-lang');
+  //console.log('createMultiLanguage_::langElem=<',langElem,'>');
   langElem.forEach((el, i) => {
+    //console.log('createMultiLanguage_::el=<',el,'>');
+    //console.log('createMultiLanguage_::allData=<',allData,'>');
     const app = Vue.createApp({
       data() {
         return allData;
       },
       delimiters:['{%', '%}']
     });
-    app.mount(el);
+    const vm = app.mount(el);
+    appLangList.push(vm);
   });  
 }
 

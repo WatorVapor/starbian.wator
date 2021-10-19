@@ -144,7 +144,7 @@ const loadScriptOfApp = () => {
   {
     const fileref = document.createElement('script');
     fileref.setAttribute('type', 'text/javascript');
-    fileref.setAttribute('src', `${appPrefix}/asset/js/ga.js`);
+    fileref.setAttribute('src', `${appPrefix}/assets/js/ga.js`);
     document.getElementsByTagName('body')[0].appendChild(fileref);
     window.frameworkScriptLoadCountUp++;
     fileref.onload = () => {onFrameworkScriptLoaded(fileref);};
@@ -152,7 +152,7 @@ const loadScriptOfApp = () => {
   {
     const fileref = document.createElement('script');
     fileref.setAttribute('type', 'module');
-    fileref.setAttribute('src', `${appPrefix}/asset/js/lang.js`);
+    fileref.setAttribute('src', `${appPrefix}/assets/js/lang.js`);
     document.getElementsByTagName('body')[0].appendChild(fileref);
     window.frameworkScriptLoadCountUp++;
     fileref.onload = () => {onFrameworkScriptLoaded(fileref);};

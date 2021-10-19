@@ -5,7 +5,7 @@ document.addEventListener('AppScriptLoaded', async (evt) => {
 
 let gVMCreateGalaxy = false;
 const createGalaxyApp_ = async ()=> {
-  const GLXY = await import(`${appPrefix}/asset/js/galaxy.js`);
+  const GLXY = await import(`${appPrefix}/assets/js/galaxy.js`);
   console.log('createGalaxyApp_::GLXY=<',GLXY,'>');
   const galaxy = new GLXY.Galaxy();
   console.log('createGalaxyApp_::galaxy=<',galaxy,'>');

@@ -21,7 +21,7 @@ document.addEventListener('load', async (evt) => {
 */
 
 const createAccountApp_ = async ()=> {
-  const EDAUTH = await import(`${appPrefix}/asset/js/edauth.js`);
+  const EDAUTH = await import(`${appPrefix}/assets/js/edauth.js`);
   console.log('createAccountApp_::EDAUTH=<',EDAUTH,'>');
   edAuth = new EDAUTH.EDAuth();
   const appImport = Vue.createApp({

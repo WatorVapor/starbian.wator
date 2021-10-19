@@ -71,7 +71,7 @@ window.addEventListener('AppScriptLoaded', async (evt) => {
 
 
 const createTopNavBar_ = async ()=> {
-  const EDAUTH = await import(`${appPrefix}/asset/js/edauth.js`);
+  const EDAUTH = await import(`${appPrefix}/assets/js/edauth.js`);
   console.log('w-navbar::createTopNavBar_::EDAUTH=<',EDAUTH,'>');
   const edAuth = new EDAUTH.EDAuth();
   const topNaveBar = Vue.createApp({});

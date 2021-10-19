@@ -1,7 +1,7 @@
 version: '3'
 services:
   mqtt:
-    image: emqx/emqx:4.3.1
+    image: emqx/emqx:4.3.8
     ports:
       - 8083:8083
       - 18083:18083

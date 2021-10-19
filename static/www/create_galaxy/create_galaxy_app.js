@@ -3,7 +3,6 @@ document.addEventListener('AppScriptLoaded', async (evt) => {
   createGalaxyApp_();
 });
 
-let gVMCreateGalaxy = false;
 const createGalaxyApp_ = async ()=> {
   const GLXY = await import(`${appPrefix}/assets/js/galaxy.js`);
   console.log('createGalaxyApp_::GLXY=<',GLXY,'>');
@@ -37,5 +36,5 @@ const createGalaxyApp_ = async ()=> {
       }
     }
   });
-  gVMCreateGalaxy = appGalaxy.mount('#vue-ui-create-galaxy');
+  const galaxyVM = appGalaxy.mount('#vue-ui-create-galaxy');
 }

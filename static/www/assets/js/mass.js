@@ -12,7 +12,7 @@ export class Mass {
     if(!result) {
       this.createMassKey_();
       this.loadMassKey_();
-    }      
+    }
   }
   pub() {
     return this.pubKeyB64_;

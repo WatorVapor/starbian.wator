@@ -1,8 +1,15 @@
-
+const Mass = await import(`${appPrefix}/assets/js/mass.js`);
 export class Galaxy {
   static debug = true;
   constructor() {
   }
+  create() {
+    if(Galaxy.debug) {
+      console.log('Galaxy::create::Mass=<',Mass,'>');
+    }
+  }
+
+  /*
   create() {
     const keyPair = nacl.sign.keyPair();
     if(Galaxy.debug) {
@@ -33,6 +40,8 @@ export class Galaxy {
     }
     this.address_ = address;
   }
+  */
+  
   address() {
     return 'WG' + this.address_;
   }

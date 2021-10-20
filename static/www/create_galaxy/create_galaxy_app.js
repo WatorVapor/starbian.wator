@@ -36,6 +36,7 @@ const createGalaxyApp_ = async ()=> {
           }
         };
         gf.save2Storage(galaxyObj);
+        location.reload();
       }
     }
   });

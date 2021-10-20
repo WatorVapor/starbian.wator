@@ -1,9 +1,5 @@
-/*
-const constEdAuthPriKey = 'starbian/Mass/priKey';
-const constGravitonPubKey = 'starbian/Mass/pubKey';
-const constGravitonMassAddress = 'starbian/Mass/mass/address';
-*/
 export class Mass {
+  static debug = false;
   constructor(storePrefix) {
     this.priKeyPath_ = `${storePrefix}/priKey`;
     this.pubKeyPath_ = `${storePrefix}/pubKey`;
@@ -40,7 +36,6 @@ export class Mass {
     }
     return false;
   }
-
   importSecretKey(secretKey) {
     if(Mass.debug) {
       console.log('importSecretKey::secretKey=<',secretKey,'>');
@@ -60,8 +55,6 @@ export class Mass {
     }
     return false;
   }
-
-
   createMassKey_(){
     const keyPair = nacl.sign.keyPair();
     if(Mass.debug) {
@@ -69,14 +62,12 @@ export class Mass {
     }
     this.save2Storage_(keyPair);
   }
-
   save2Storage_(keyPair){
     const b64Pri = nacl.util.encodeBase64(keyPair.secretKey);
     if(Mass.debug) {
       console.log('Mass::save2Storage_:b64Pri=<',b64Pri,'>');
     }
-    localStorage.setItem(this.priKeyPath_,b64Pri);
-    
+    localStorage.setItem(this.priKeyPath_,b64Pri);    
     const b64Pub = nacl.util.encodeBase64(keyPair.publicKey);
     if(Mass.debug) {
       console.log('Mass::save2Storage_:b64Pub=<',b64Pub,'>');
@@ -96,8 +87,6 @@ export class Mass {
     }
     localStorage.setItem(this.addressPath_,address);  
   }
-
-
   loadMassKey_() {
     try {
       const address = localStorage.getItem(this.addressPath_);
@@ -105,8 +94,6 @@ export class Mass {
         console.log('Mass::loadMassKey_:address=<',address,'>');
       }
       this.address_ = address;
-
-
       const PriKey = localStorage.getItem(this.priKeyPath_);
       if(Mass.debug) {
         console.log('Mass::loadMassKey_:PriKey=<',PriKey,'>');
@@ -132,14 +119,6 @@ export class Mass {
     }
     return true;
   }
-  static debug = false;
-  /*
-  static priKeyB64_ = null;
-  static pubKeyB64_ = null;
-  static priKey_ = null;
-  static pubKey_ = null;
-  static address_ = null;
-  */
 }
 
 

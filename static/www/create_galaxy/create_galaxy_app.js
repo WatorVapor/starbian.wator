@@ -25,12 +25,15 @@ const createGalaxyApp_ = async ()=> {
       onGalaxyCreateBtn(event) {
         //console.log('createGalaxyApp_::event=<',event,'>');
         //console.log('createGalaxyApp_::this.galaxy=<',this.galaxy,'>');
-        console.log('createGalaxyApp_::this.galaxy.address=<',this.galaxy.address,'>');
         //console.log('createGalaxyApp_::this.galaxy.name=<',this.galaxy.name,'>');
         const gf = new GLXY.GalaxyFactory();
         const galaxyObj = {
           name:this.galaxy.name,
-          core:galaxy
+          core:{
+            address:galaxy.mass.address_,
+            priKey:galaxy.mass.priKeyB64_,
+            pubKey:galaxy.mass.pubKeyB64_,
+          }
         };
         gf.save2Storage(galaxyObj);
       }

@@ -19,6 +19,11 @@ export class Mass {
   address() {
     return this.address_;
   }
+  destory() {
+    localStorage.removeItem(this.priKeyPath_);
+    localStorage.removeItem(this.pubKeyPath_);
+    localStorage.removeItem(this.addressPath_);
+  }
   verifySecretKey(secretKey) {
     if(Mass.debug) {
       console.log('verifySecretKey::secretKey=<',secretKey,'>');

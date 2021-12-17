@@ -52,8 +52,8 @@ const loadHeaderOfApp = ()=> {
     fileref.setAttribute('rel', 'stylesheet');
     fileref.setAttribute('type', 'text/css');
     fileref.setAttribute('crossorigin', 'anonymous');
-    fileref.setAttribute('href', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css');
-    fileref.setAttribute('integrity', 'sha256-z8OR40MowJ8GgK6P89Y+hiJK5+cclzFHzLhFQLL92bg=');
+    fileref.setAttribute('href', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css');
+    fileref.setAttribute('integrity', 'sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3');
     document.getElementsByTagName('head')[0].appendChild(fileref);
   }
   {
@@ -81,9 +81,9 @@ window.frameworkScriptLoadCountUpDown = 0;
 const loadScriptOfApp = () => {
   {
     const fileref = document.createElement('script');
-    fileref.setAttribute('type', 'text/javascript');
-    fileref.setAttribute('src', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js');
-    fileref.setAttribute('integrity', 'sha256-KuvCVS19rfTjoLgMyDDCdOkRRlhNrY4psEM4uezts2M=');
+    fileref.setAttribute('type', 'text/javascript');    
+    fileref.setAttribute('src', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js');
+    fileref.setAttribute('integrity', 'sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p');
     fileref.setAttribute('crossorigin', 'anonymous');
     document.getElementsByTagName('body')[0].appendChild(fileref);
     window.frameworkScriptLoadCountUp++;

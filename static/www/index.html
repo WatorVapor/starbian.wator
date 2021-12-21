@@ -8,11 +8,17 @@
       <w-navbar></w-navbar>
     </nav>
     <div class="container-fluid mt-5 pt-4" id="vue-ui-galaxy-dashboard">
-      <div class="row">
-        <div class="col">
+      <div class="row mb-2" v-for="rowOfGalaxy in galaxys" >
+        <div class="col-4" v-for="galaxy in rowOfGalaxy">
+          <div class="card">
+            <div class="card-header">
+              <span class="badge bg-success">{{galaxy.name}}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+    <script src="./dashboard.js" type="module"></script>
   </body>
 </html>
 

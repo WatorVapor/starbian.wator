@@ -48,4 +48,7 @@ export class GalaxyFactory {
     const mass = new Mass.Mass(keyGalaxyCreated);
     mass.destory();
   }
+  loadGalaxyCollection() {
+    return this.collection;
+  }
 }

@@ -1,9 +1,0 @@
-{
-   "mqtt":{
-    "TCP_URL":"mqtt://118.27.16.248:1883",
-    "TCP_TLS_URL":"mqtts://118.27.16.248:8883",
-    "WSS_URL":"wss://118.27.14.77/wss/mqtt",
-    "username":"vsido_robot",
-    "password":"k8m3EE1F"
-   }
-}

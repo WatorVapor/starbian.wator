@@ -4,7 +4,7 @@ star edge of wator
 星边/星缘
 
 # demo.  
-  https://www.wator.xyz/starbian
+  https://www.wator.xyz/starbian/
 
 #howto  
  npm i starbian
